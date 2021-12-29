@@ -10,6 +10,10 @@ public class PlayerMove : MonoBehaviour
 
     float rotateEndVal = 0;
     float moveDelay = 0.25f;
+    int dur = 0;
+
+    // 레이캐스트 관련
+    private RaycastHit hit;
 
     private Dictionary<KeyCode, float> PlayerMoveAmount = new Dictionary<KeyCode, float>()
     {
@@ -41,6 +45,8 @@ public class PlayerMove : MonoBehaviour
                         }
                         else
                         {
+                            // 레이캐스트 쏴줘서 충돌체 있나 확인
+                            if(IsCanMove())
                             Straight(dic.Value);
                         }
                     }
@@ -103,5 +109,12 @@ public class PlayerMove : MonoBehaviour
             isMove = false;
             print("rotateEnd");
         });
+    }
+
+    private bool IsCanMove() // 레이캐스트
+    {
+        if(Physics.Raycast(transform.position, ))
+
+        return false;
     }
 }
