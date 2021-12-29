@@ -10,10 +10,11 @@ public class PlayerMove : MonoBehaviour
 
     float rotateEndVal = 0;
     float moveDelay = 0.25f;
-    int dur = 0;
+    int dur;
 
     // 레이캐스트 관련
     private RaycastHit hit;
+    private float MaxDistance = 3f;
 
     private Dictionary<KeyCode, float> PlayerMoveAmount = new Dictionary<KeyCode, float>()
     {
@@ -45,9 +46,9 @@ public class PlayerMove : MonoBehaviour
                         }
                         else
                         {
+                            bool isForward = (dic.Value > 0) ? true : false; 
                             // 레이캐스트 쏴줘서 충돌체 있나 확인
-                            dur = (int)rotateEndVal / 90;
-                            if(IsCanMove())
+                            if(IsCanMove(isForward))
                             Straight(dic.Value);
                         }
                     }
@@ -60,7 +61,7 @@ public class PlayerMove : MonoBehaviour
     {
         print("move");
         isMove = true;
-
+        dur = (int)rotateEndVal / 90;
         switch(dur)
         {
             case 0:
@@ -111,34 +112,16 @@ public class PlayerMove : MonoBehaviour
         });
     }
 
-    private bool IsCanMove() // 레이캐스트
+    private bool IsCanMove(bool _isForward) // 레이캐스트
     {
-        switch(dur)
+        Vector3 moveDur = (_isForward) ? transform.forward : -transform.forward;
+
+        Debug.DrawRay(transform.position, moveDur, Color.red, 1f);
+        if(Physics.Raycast(transform.position, moveDur, out hit, MaxDistance))
         {
-            case 0:
-            break;
-
-            case 1:
-            case -3:
-            break;
-
-            case -1:
-            case 3:
-            break;
-
-            case 2:
-            case -2:
-            break;
-
-            default:
-            break;
+            return false;
         }
 
-        if(Physics.Raycast(transform.position, ))
-        {
-
-        }
-
-        return false;
+        return true;
     }
 }
