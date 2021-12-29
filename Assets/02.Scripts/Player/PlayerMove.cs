@@ -46,6 +46,7 @@ public class PlayerMove : MonoBehaviour
                         else
                         {
                             // 레이캐스트 쏴줘서 충돌체 있나 확인
+                            dur = (int)rotateEndVal / 90;
                             if(IsCanMove())
                             Straight(dic.Value);
                         }
@@ -59,9 +60,8 @@ public class PlayerMove : MonoBehaviour
     {
         print("move");
         isMove = true;
-        int index = (int)rotateEndVal / 90;
 
-        switch(index)
+        switch(dur)
         {
             case 0:
             // z좌표 +
@@ -113,7 +113,31 @@ public class PlayerMove : MonoBehaviour
 
     private bool IsCanMove() // 레이캐스트
     {
+        switch(dur)
+        {
+            case 0:
+            break;
+
+            case 1:
+            case -3:
+            break;
+
+            case -1:
+            case 3:
+            break;
+
+            case 2:
+            case -2:
+            break;
+
+            default:
+            break;
+        }
+
         if(Physics.Raycast(transform.position, ))
+        {
+
+        }
 
         return false;
     }
