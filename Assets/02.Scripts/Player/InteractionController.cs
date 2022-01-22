@@ -34,7 +34,6 @@ public class InteractionController : MonoBehaviour
         Vector3 t_MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
         if(Physics.Raycast(cam.ScreenPointToRay(t_MousePos), out hitInfo, 100))
         {
-            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
             Contact();
         }
         else
@@ -48,6 +47,7 @@ public class InteractionController : MonoBehaviour
     {
         if(hitInfo.transform.CompareTag("Interaction"))
         {
+            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
             if (Input.GetMouseButtonDown(0))
             {
                 // 여기다가 할일 실행

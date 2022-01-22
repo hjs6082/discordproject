@@ -20,33 +20,63 @@ public class UIManager : MonoBehaviour
     Texture2D standardCursorImg;
 
     public bool searchVisionActive = false;
-    // Start is called before the first frame update
+    public bool canSearchVisionActive = false;
+
+    public GameObject[] interactionObjs;
+
+    [SerializeField]
+    Material interactMaterial;
+    [SerializeField]
+    Material standardMaterial;
+
     void Start()
     {
         searchVisionOverlay.gameObject.SetActive(false);
         instance = this;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-
+        //조사모드 돌입
         if (Input.GetKeyDown("n"))
         {
             if (searchVisionActive == false)
             {
-                pPVol.profile = searchVision;
-                searchVisionActive = true;
                 searchVisionOverlay.gameObject.SetActive(true);
                 Cursor.SetCursor(searchCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                searchVisionActive = true;
+            }
+            else
+            {
+                searchVisionOverlay.gameObject.SetActive(false);
+                Cursor.SetCursor(standardCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                searchVisionActive = false;
+            }
+        }
+        //조사가능 대상찾기
+        if(Input.GetKeyDown("e"))
+        {
+            if (canSearchVisionActive == false)
+            {
+                pPVol.profile = searchVision;
+                canSearchVisionActive = true;
+                for(int i = 0; i < 4; i++)
+                {
+                    interactionObjs[i].GetComponent<MeshRenderer>().material = interactMaterial;
+                }
             }
             else
             {
                 pPVol.profile = standard;
-                searchVisionActive = false;
-                searchVisionOverlay.gameObject.SetActive(false);
-                Cursor.SetCursor(standardCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                canSearchVisionActive = false;
+                for (int i = 0; i < 4; i++)
+                {
+                    interactionObjs[i].GetComponent<MeshRenderer>().material = standardMaterial;
+                }
             }
         }
     }
+
+    
 }
