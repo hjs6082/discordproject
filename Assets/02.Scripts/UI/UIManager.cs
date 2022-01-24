@@ -23,6 +23,7 @@ public class UIManager : MonoBehaviour
     public bool canSearchVisionActive = false;
 
     public GameObject[] interactionObjs;
+    public GameObject[] notinteractobjs;
 
     [SerializeField]
     Material interactMaterial;
@@ -61,18 +62,22 @@ public class UIManager : MonoBehaviour
             {
                 pPVol.profile = searchVision;
                 canSearchVisionActive = true;
-                for(int i = 0; i < 4; i++)
+                for(int i = 0; i < interactionObjs.Length; i++)
                 {
                     interactionObjs[i].GetComponent<MeshRenderer>().material = interactMaterial;
+                }
+                for (int i = 0; i < notinteractobjs.Length; i++)
+                {
+                    notinteractobjs[i].GetComponent<MeshRenderer>().material = standardMaterial;
                 }
             }
             else
             {
                 pPVol.profile = standard;
                 canSearchVisionActive = false;
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < notinteractobjs.Length; i++)
                 {
-                    interactionObjs[i].GetComponent<MeshRenderer>().material = standardMaterial;
+                    notinteractobjs[i].GetComponent<MeshRenderer>().material = interactMaterial;
                 }
             }
         }
