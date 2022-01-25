@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractionController : MonoBehaviour
 {
@@ -55,7 +56,42 @@ public class InteractionController : MonoBehaviour
             }
             if (!isContact)
             {
+                isContact = true;
+            }
+        }
+        else
+        {
+            NotContact();
+        }
+        if(hitInfo.transform.CompareTag("ChessPuzzle"))
+        {
+            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+            if (Input.GetMouseButtonDown(0))
+            {
+                UIManager.instance.ResetCursor();
+                SceneManager.LoadScene("ChessPuzzle");
 
+            }
+            if (!isContact)
+            {
+                isContact = true;
+            }
+        }
+        else
+        {
+            NotContact();
+        }
+        if (hitInfo.transform.CompareTag("MovePuzzle"))
+        {
+            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+            if (Input.GetMouseButtonDown(0))
+            {
+                UIManager.instance.ResetCursor();
+                SceneManager.LoadScene("MovePuzzle");
+
+            }
+            if (!isContact)
+            {
                 isContact = true;
             }
         }

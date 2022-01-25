@@ -24,11 +24,18 @@ public class UIManager : MonoBehaviour
 
     public GameObject[] interactionObjs;
     public GameObject[] notinteractobjs;
+    public GameObject MovePuzzle;
+
+    public GameObject searchModeUI;
 
     [SerializeField]
     Material interactMaterial;
     [SerializeField]
     Material standardMaterial;
+    [SerializeField]
+    Material returnMaterial;
+    [SerializeField]
+    Material deskMaterial;
 
     void Start()
     {
@@ -70,6 +77,7 @@ public class UIManager : MonoBehaviour
                 {
                     notinteractobjs[i].GetComponent<MeshRenderer>().material = standardMaterial;
                 }
+                MovePuzzle.GetComponent<MeshRenderer>().material = interactMaterial;
             }
             else
             {
@@ -77,11 +85,22 @@ public class UIManager : MonoBehaviour
                 canSearchVisionActive = false;
                 for (int i = 0; i < notinteractobjs.Length; i++)
                 {
-                    notinteractobjs[i].GetComponent<MeshRenderer>().material = interactMaterial;
+                    notinteractobjs[i].GetComponent<MeshRenderer>().material = returnMaterial;
                 }
+                for (int i = 0; i < interactionObjs.Length; i++)
+                {
+                    interactionObjs[i].GetComponent<MeshRenderer>().material = returnMaterial;
+                }
+                MovePuzzle.GetComponent<MeshRenderer>().material = deskMaterial;
             }
         }
     }
 
+    public void ResetCursor()
+    {
+        searchVisionOverlay.gameObject.SetActive(false);
+        Cursor.SetCursor(standardCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+        searchVisionActive = false;
+    }
     
 }

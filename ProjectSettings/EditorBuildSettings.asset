@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/00.Scenes/Lobby.unity
+    guid: fca86c84145656747b375347511d7121
+  - enabled: 1
+    path: Assets/00.Scenes/MoveScene.unity
+    guid: a2111a4a935361b488db013bfcaa053c
+  - enabled: 1
+    path: Assets/00.Scenes/ChessPuzzle.unity
+    guid: bf8e08d5dfda45648aeffbe39edd5ca2
+  - enabled: 1
+    path: Assets/00.Scenes/MovePuzzle.unity
+    guid: 30f827dadbc8d7643a552c081792893a
   m_configObjects: {}

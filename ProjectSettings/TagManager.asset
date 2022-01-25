@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Interaction
   - QUEEN
+  - BOARD
+  - ChessPuzzle
+  - MovePuzzle
   layers:
   - Default
   - TransparentFX
