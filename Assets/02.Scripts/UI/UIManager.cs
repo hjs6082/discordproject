@@ -24,7 +24,9 @@ public class UIManager : MonoBehaviour
 
     public GameObject[] interactionObjs;
     public GameObject[] notinteractobjs;
-    public GameObject MovePuzzle;
+    public GameObject movePuzzle;
+    public GameObject chessPuzzleBlack;
+    public GameObject chessPuzzleWhite;
 
     public GameObject searchModeUI;
     public GameObject scanModeUI;
@@ -38,6 +40,10 @@ public class UIManager : MonoBehaviour
     Material returnMaterial;
     [SerializeField]
     Material deskMaterial;
+    [SerializeField]
+    Material chessWhiteMaterial;
+    [SerializeField]
+    Material chessBlackMaterial;
 
     void Start()
     {
@@ -81,7 +87,7 @@ public class UIManager : MonoBehaviour
                 {
                     notinteractobjs[i].GetComponent<MeshRenderer>().material = standardMaterial;
                 }
-                MovePuzzle.GetComponent<MeshRenderer>().material = interactMaterial;
+                movePuzzle.GetComponent<MeshRenderer>().material = interactMaterial;
                 clearUI();
                 scanModeUI.SetActive(true);
             }
@@ -97,7 +103,9 @@ public class UIManager : MonoBehaviour
                 {
                     interactionObjs[i].GetComponent<MeshRenderer>().material = returnMaterial;
                 }
-                MovePuzzle.GetComponent<MeshRenderer>().material = deskMaterial;
+                movePuzzle.GetComponent<MeshRenderer>().material = deskMaterial;
+                chessPuzzleWhite.GetComponent<MeshRenderer>().material = chessWhiteMaterial;
+                chessPuzzleBlack.GetComponent<MeshRenderer>().material = chessBlackMaterial;
                 clearUI();
                 moveModeUI.SetActive(true);
             }

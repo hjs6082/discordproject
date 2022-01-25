@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace QueenPuzzle
 {
@@ -83,8 +84,7 @@ namespace QueenPuzzle
         {
             if (_bClear)
             {
-                Debug.Log("Clear");
-                // 클리어 때 실행
+                SceneManager.LoadScene("MoveScene");
             }
             else Debug.Log("No");
         }
