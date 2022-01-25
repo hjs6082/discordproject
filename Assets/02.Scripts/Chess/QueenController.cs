@@ -29,17 +29,20 @@ namespace QueenPuzzle
                     ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                     Physics.Raycast(ray, out hit, 30f);
 
-                    if (hit.transform.CompareTag("QUEEN"))
+                    if (hit.transform != null)
                     {
-                        if (queen == null)
+                        if (hit.transform.CompareTag("QUEEN"))
                         {
-                            queen = hit.transform.gameObject;
-                            dropQueen = queen.GetComponent<AudioSource>();
-                            if (dropQueen.isPlaying) dropQueen.Stop();
+                            if (queen == null)
+                            {
+                                queen = hit.transform.gameObject;
+                                dropQueen = queen.GetComponent<AudioSource>();
+                                if (dropQueen.isPlaying) dropQueen.Stop();
+                            }
+                            beforePos = hit.transform.position;
+                            //Debug.Log(string.Format("{0}, {1}, {2}", beforePos.x, beforePos.y, beforePos.z));
+                            isClicked = true;
                         }
-                        beforePos = hit.transform.position;
-                        //Debug.Log(string.Format("{0}, {1}, {2}", beforePos.x, beforePos.y, beforePos.z));
-                        isClicked = true;
                     }
                 }
 
@@ -68,7 +71,7 @@ namespace QueenPuzzle
 
                     queen.transform.position = (queen.GetComponent<Queen>().bQueenOn) ? beforePos : new Vector3(boardHitPos.x, 0, boardHitPos.z);
                     dropQueen.Play();
-                    if(!bChecking) StartCoroutine(ClearCheck());
+                    if (!bChecking) StartCoroutine(ClearCheck());
 
                     queen = null;
                 }
