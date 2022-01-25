@@ -7,7 +7,7 @@ namespace Dialog
 {
     public class DialogManager : MonoBehaviour
     {
-        private DialogControll dialogControll;
+        private DialogControll dialogCtrl;
 
         public GameObject dialogButtonPrefab;
         public Transform btnParent;
@@ -15,7 +15,7 @@ namespace Dialog
 
         private void Awake()
         {
-            dialogControll = GetComponent<DialogControll>();
+            dialogCtrl = GetComponent<DialogControll>();
 
             for(int i = 0; i < 4; i++)
             {
@@ -30,8 +30,11 @@ namespace Dialog
 
             button.GetComponent<Button>().onClick.AddListener(() => 
             {
-                if(!dialogControll.bTalking)
-                dialogControll.Talking(0, order);
+                if(!dialogCtrl.isTalking && dialogCtrl.isPlayer)
+                {
+                    eIndex type = eIndex.MAN;
+                    dialogCtrl.Next(type, order);
+                }
             });
         }
     }

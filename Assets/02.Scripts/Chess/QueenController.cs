@@ -16,8 +16,9 @@ namespace QueenPuzzle
 
         private Vector3 beforePos;
 
-        bool isClicked = false;
-        bool bClear = false;
+        bool isClicked = false; // 누르고 있는지
+        bool bClear = false; // 클리어했는지
+        bool bChecking = false; // 체크 중 인지
 
         private void Update()
         {
@@ -67,7 +68,8 @@ namespace QueenPuzzle
 
                     queen.transform.position = (queen.GetComponent<Queen>().bQueenOn) ? beforePos : new Vector3(boardHitPos.x, 0, boardHitPos.z);
                     dropQueen.Play();
-                    StartCoroutine(ClearCheck());
+                    if(!bChecking) StartCoroutine(ClearCheck());
+
                     queen = null;
                 }
                 isClicked = false;
@@ -86,15 +88,17 @@ namespace QueenPuzzle
 
         IEnumerator ClearCheck()
         {
+            bChecking = true;
             yield return new WaitForSeconds(0.1f);
 
             for (int i = 0; i < queensArr.Length; i++)
             {
                 bClear = queensArr[i].CheckQueen();
-                Debug.Log(i + " " + queensArr[i].CheckQueen());
+                //Debug.Log(i + " " + queensArr[i].CheckQueen());
                 if (!bClear) break;
             }
             Clear(bClear);
+            bChecking = false;
         }
     }
 }

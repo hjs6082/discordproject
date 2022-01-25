@@ -11,6 +11,7 @@ namespace QueenPuzzle
         private List<Vector3> dirs;
 
         public bool bQueenOn = false;
+        public bool bClick = false;
 
         private void Awake()
         {
