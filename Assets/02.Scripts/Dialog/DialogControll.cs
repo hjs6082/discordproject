@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 namespace Dialog
 {
@@ -259,17 +260,7 @@ namespace Dialog
                 else if (str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
                     bLoadScene = true;
-
-                    foreach(var item in SpeechArrowDic)
-                    {
-                        Destroy(item.Value);
-                    }
-
-                    for(int i = 0; i < CharacterImages.Length; i++)
-                    {
-                        Destroy(CharacterImages[i].gameObject);
-                    }
-
+                    DOTween.Clear(true);
                     LoadScene.LoadingScene("MoveScene");
                     return;
                 }
