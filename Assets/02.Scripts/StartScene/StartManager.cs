@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class StartManager : MonoBehaviour
 {
+    private enum eCanvas
+    {
+        START,
+        NICKNAME,
+        OPTION,
+        CREDIT
+    };
+
     public GameObject[] CanvasArr;
 
     public InputField ManInput;
@@ -23,16 +31,31 @@ public class StartManager : MonoBehaviour
         }
     }
 
+    private void ChangeCanvas(eCanvas _eCanvas)
+    {
+        int canvas = (int)_eCanvas;
+        ClearCanvas();
+        CanvasArr[canvas].SetActive(true);
+    }
+
     public void StartCanvas()
     {
-        ClearCanvas();
-        CanvasArr[0].SetActive(true);
+        ChangeCanvas(eCanvas.START);
     }
 
     public void NickNameCanvas()
     {
-        ClearCanvas();
-        CanvasArr[1].SetActive(true);
+        ChangeCanvas(eCanvas.NICKNAME);
+    }
+
+    public void OptionCanvas()
+    {
+        ChangeCanvas(eCanvas.OPTION);
+    }
+
+    public void CreditCanvas()
+    {
+        ChangeCanvas(eCanvas.CREDIT);
     }
 
     public void StartGame()

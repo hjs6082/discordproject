@@ -9,6 +9,9 @@ public class GameManager : MonoBehaviour
     public string ManName = "";
     public string WomanName = "";
 
+    public AudioClip[] BGM_Arr;
+    private AudioSource bgmAudio;
+
     private void Awake()
     {
         if(Instance == null)
@@ -20,5 +23,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    public void ChangeBGM(int index)
+    {
+        bgmAudio.Stop();
+        bgmAudio.clip = BGM_Arr[index];
+        bgmAudio.Play();
     }
 }

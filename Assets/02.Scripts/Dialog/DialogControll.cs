@@ -35,7 +35,13 @@ namespace Dialog
         public Image[] CharacterImages; // 캐릭터 이미지
         public RectTransform[] ManGuage; // 남자쪽 말싸움 수치 (화해 - 파국)
         public RectTransform[] WomanGuage; // 여자쪽 말싸움 수치 (화해 - 파국)
+        public Text FairyNameText; // 요정 이름
         private Dictionary<GameObject, GameObject> SpeechArrowDic = new Dictionary<GameObject, GameObject>();
+
+        [Header("화면 전환 관련")]
+        public GameObject BackgroundPanel; // 배경화면
+        public GameObject FadePanel; // 화면전환하기 전 Fade해줄 패널
+        public Sprite InGameImage; // Fade하고나서 바꿔줄 Background이미지
 
         [Header("대사 리스트")]
         public List<string> manStrList = new List<string>();
@@ -171,12 +177,18 @@ namespace Dialog
             GameObject dialog = InitDialog(iType);
             string str = charStrsDic[type][talkVal];
             this.talkVal[iType]++;
+            if(OrderList[curOrder] == eIndex.MAN)
+            {
+                this.talkVal[iType]--;
+            }
 
             Talking(dialog, str);
         }
 
         public void Talking(GameObject dialog, string str) // 대화
         {
+            eIndex CurrentOrder = OrderList[curOrder];
+
             Text dialogText = dialog.GetComponentInChildren<Text>();
             float duration = (float)str.Length / 7.0f; 
 
@@ -185,49 +197,75 @@ namespace Dialog
 
             if(str == "외딴 섬에나 떨어져!")
             {
-                duration = 6.6f;
+                duration = 5.5f;
+            }
+            else if(str == "뭐야, 넌")
+            {
+                FairyNameText.text = "요정";
             }
 
             dialogText.DOText(str, duration)
             .OnComplete(() => 
             {
-                eIndex CurrentOrder = OrderList[curOrder];
-                eIndex NextOrder = OrderList[curOrder + 1];
+                eIndex NextOrder;
+                if(curOrder + 1 < OrderList.Length)
+                {
+                    NextOrder = OrderList[curOrder + 1];
+                    if (NextOrder == eIndex.MAN) { isPlayer = true; }
+                    else { isPlayer = false; }
+                }
 
-                if(NextOrder == eIndex.MAN) { isPlayer = true; } 
-                else { isPlayer = false; } 
-
-                if(CurrentOrder == eIndex.MAN)
+                if (CurrentOrder == eIndex.MAN)
                 {
                     int randomGuage = UnityEngine.Random.Range(0, WomanGuage.Length);
                     float randomSize = UnityEngine.Random.Range(0f, 100f);
 
                     RectTransform guage = WomanGuage[randomGuage];
                     guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
+
+                    CharacterImages[((int)CurrentOrder)].GetComponent<AttackTween>().Attack();
                 }
-                else if(CurrentOrder == eIndex.WOMAN)
+                else if (CurrentOrder == eIndex.WOMAN)
                 {
                     int randomGuage = UnityEngine.Random.Range(0, ManGuage.Length);
                     float randomSize = UnityEngine.Random.Range(0f, 100f);
-                    
+
                     RectTransform guage = ManGuage[randomGuage];
                     guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
+                    CharacterImages[((int)CurrentOrder)].GetComponent<AttackTween>().Attack();
                 }
 
-                if(str == "외딴 섬에나 떨어져!")
+                if (str == "외딴 섬에나 떨어져!")
                 {
                     // TODO : 씬 변경 혹은 화면 전환
                     Debug.Log("화면 전환 ~~");
+                    Image fadePanel = FadePanel.GetComponent<Image>();
+                    fadePanel.DOFade(1.0f, 0.5f).OnComplete(() =>
+                    {
+                        Dialogs[(int)eIndex.WOMAN].transform.parent.gameObject.SetActive(false);
+                        BackgroundPanel.GetComponent<Image>().sprite = InGameImage;
+                        fadePanel.DOFade(0.0f, 0.5f).OnComplete(() =>
+                        {
+                            eIndex type = OrderList[curOrder];
+                            int iType = (int)type % 3;
+
+                            Next(type, talkVal[iType]);
+                        });
+                    });
+                }
+                else if(str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
+                {
+                    LoadScene.LoadingScene("MoveScene");
                 }
 
-                if(NextOrder == eIndex.MAN)
+                if(isPlayer)
                 {
                     foreach(var item in SpeechArrowDic)
                     {
                         item.Value.GetComponent<Text>().text = "QWER 중 하나를 눌러 공격하기 ->    ";
                     }
                 }
-                else 
+                else
                 {
                     foreach(var item in SpeechArrowDic)
                     {

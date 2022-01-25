@@ -20,8 +20,8 @@ namespace Dialog
         {
             if(GameManager.Instance != null)
             {
-                ManNameText.text = GameManager.Instance.ManName;
-                WomanNameText.text = GameManager.Instance.WomanName;
+                if(ManNameText != null) { ManNameText.text = GameManager.Instance.ManName; }
+                if(WomanNameText != null) { WomanNameText.text = GameManager.Instance.WomanName; }
             }
 
             dialogCtrl = GetComponent<DialogControll>();
