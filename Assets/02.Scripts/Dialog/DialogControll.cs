@@ -78,6 +78,7 @@ namespace Dialog
 
         public bool isPlayer = false; // 플레이어가 조작할 차례인지
         public bool isTalking = false; // 캐릭터가 말하는 중인지
+        private bool bLoadScene = false;
         
         private void Awake()
         {
@@ -128,6 +129,7 @@ namespace Dialog
                             {
                                 eIndex type = OrderList[curOrder];
                                 Next(type, key.Value);
+                                return;
                             }
                         }
                     }
@@ -142,6 +144,7 @@ namespace Dialog
                         Debug.Log($"{type}, {iType}");
 
                         Next(type, talkVal[iType]);
+                        return;
                     }
                 }
             }
@@ -255,10 +258,12 @@ namespace Dialog
                 }
                 else if(str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
+                    bLoadScene = true;
                     LoadScene.LoadingScene("MoveScene");
+                    return;
                 }
 
-                if(isPlayer)
+                if(isPlayer && !bLoadScene)
                 {
                     foreach(var item in SpeechArrowDic)
                     {
@@ -273,9 +278,12 @@ namespace Dialog
                     }
                 }
 
-                isTalking = false;
-                curOrder++;
-                SpeechArrowDic[dialog].SetActive(true);
+                if(isTalking)
+                {
+                    isTalking = false;
+                    curOrder++;
+                    SpeechArrowDic[dialog].SetActive(true);
+                }
             });
         }
     }

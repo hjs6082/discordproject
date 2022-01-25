@@ -60,7 +60,9 @@ public class StartManager : MonoBehaviour
 
     public void StartGame()
     {
+        if(ManInput.text != "")
         GameManager.Instance.ManName = ManInput.text;
+        if(WomanInput.text != "")
         GameManager.Instance.WomanName = WomanInput.text;
 
         LoadScene.LoadingScene("DialogScene");

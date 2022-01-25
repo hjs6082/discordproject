@@ -85,6 +85,8 @@ namespace QueenPuzzle
             if (_bClear)
             {
                 SceneManager.LoadScene("MoveScene");
+                GameManager.Instance.bChessClear = true;
+                GameManager.Instance.SavePuzzle();
             }
             else Debug.Log("No");
         }
