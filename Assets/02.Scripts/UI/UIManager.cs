@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     public GameObject MovePuzzle;
 
     public GameObject searchModeUI;
+    public GameObject scanModeUI;
+    public GameObject moveModeUI;
 
     [SerializeField]
     Material interactMaterial;
@@ -51,15 +53,17 @@ public class UIManager : MonoBehaviour
         {
             if (searchVisionActive == false)
             {
+                clearUI();
                 searchVisionOverlay.gameObject.SetActive(true);
                 Cursor.SetCursor(searchCursorImg, Vector2.zero, CursorMode.ForceSoftware);
                 searchVisionActive = true;
             }
             else
             {
-                searchVisionOverlay.gameObject.SetActive(false);
+                clearUI();
                 Cursor.SetCursor(standardCursorImg, Vector2.zero, CursorMode.ForceSoftware);
                 searchVisionActive = false;
+                moveModeUI.SetActive(true);
             }
         }
         //조사가능 대상찾기
@@ -78,6 +82,8 @@ public class UIManager : MonoBehaviour
                     notinteractobjs[i].GetComponent<MeshRenderer>().material = standardMaterial;
                 }
                 MovePuzzle.GetComponent<MeshRenderer>().material = interactMaterial;
+                clearUI();
+                scanModeUI.SetActive(true);
             }
             else
             {
@@ -92,8 +98,17 @@ public class UIManager : MonoBehaviour
                     interactionObjs[i].GetComponent<MeshRenderer>().material = returnMaterial;
                 }
                 MovePuzzle.GetComponent<MeshRenderer>().material = deskMaterial;
+                clearUI();
+                moveModeUI.SetActive(true);
             }
         }
+    }
+
+    public void clearUI()
+    {
+        searchModeUI.SetActive(false);
+        scanModeUI.SetActive(false);
+        moveModeUI.SetActive(false);
     }
 
     public void ResetCursor()
