@@ -28,7 +28,7 @@ namespace Dialog
 
         private Color SetColor(float r, float g, float b, float a)
         {
-            return new Color(r/255f, g/255f, b/255f, a/255f);
+            return new Color(r / 255f, g / 255f, b / 255f, a / 255f);
         }
 
         public GameObject[] Dialogs; // 다이얼로그
@@ -79,10 +79,10 @@ namespace Dialog
         public bool isPlayer = false; // 플레이어가 조작할 차례인지
         public bool isTalking = false; // 캐릭터가 말하는 중인지
         private bool bLoadScene = false;
-        
+
         private void Awake()
         {
-            for(int i = 0; i < ManGuage.Length; i++)
+            for (int i = 0; i < ManGuage.Length; i++)
             {
                 ManGuage[i].sizeDelta = new Vector2(0f, 100f);
                 WomanGuage[i].sizeDelta = new Vector2(0f, 100f);
@@ -90,7 +90,7 @@ namespace Dialog
 
             // 대사 리스트에 대사 추가
             manStrList = DialogStrs.manStrsArr.ToList();
-            for(int i = 0; i < 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 string str = DialogStrs.womanStrsArr[i];
                 womanStrList.Add(str);
@@ -117,15 +117,15 @@ namespace Dialog
 
         private void Update()
         {
-            if(!isTalking)
+            if (!isTalking)
             {
-                if(isPlayer) // 플레이어 조작
+                if (isPlayer) // 플레이어 조작
                 {
-                    if(Input.anyKey)
+                    if (Input.anyKey)
                     {
-                        foreach(var key in KeyMapDic)
+                        foreach (var key in KeyMapDic)
                         {
-                            if(Input.GetKeyDown(key.Key))
+                            if (Input.GetKeyDown(key.Key))
                             {
                                 eIndex type = OrderList[curOrder];
                                 Next(type, key.Value);
@@ -136,7 +136,7 @@ namespace Dialog
                 }
                 else // NPC 조작
                 {
-                    if(Input.GetKeyDown(KeyCode.Space))
+                    if (Input.GetKeyDown(KeyCode.Space))
                     {
                         eIndex type = OrderList[curOrder];
                         int iType = (int)type % 3;
@@ -154,15 +154,15 @@ namespace Dialog
         {
             GameObject dialog = null;
 
-            for(int i = 0; i < Dialogs.Length; i++)
+            for (int i = 0; i < Dialogs.Length; i++)
             {
                 bool IsOn = (type == i) ? true : false;
                 Dialogs[i].SetActive(IsOn);
 
                 CharacterImages[i].color = (IsOn) ? SetColor(255f, 255f, 255f, 255f) : SetColor(120f, 120f, 120f, 255f);
                 Debug.Log(CharacterImages[i].color);
-                
-                if(dialog == null)
+
+                if (dialog == null)
                 {
                     dialog = (IsOn) ? Dialogs[i] : null;
                 }
@@ -180,7 +180,7 @@ namespace Dialog
             GameObject dialog = InitDialog(iType);
             string str = charStrsDic[type][talkVal];
             this.talkVal[iType]++;
-            if(OrderList[curOrder] == eIndex.MAN)
+            if (OrderList[curOrder] == eIndex.MAN)
             {
                 this.talkVal[iType]--;
             }
@@ -193,25 +193,25 @@ namespace Dialog
             eIndex CurrentOrder = OrderList[curOrder];
 
             Text dialogText = dialog.GetComponentInChildren<Text>();
-            float duration = (float)str.Length / 7.0f; 
+            float duration = (float)str.Length / 7.0f;
 
             SpeechArrowDic[dialog].SetActive(false);
             dialogText.text = "";
 
-            if(str == "외딴 섬에나 떨어져!")
+            if (str == "외딴 섬에나 떨어져!")
             {
                 duration = 5.5f;
             }
-            else if(str == "뭐야, 넌")
+            else if (str == "뭐야, 넌")
             {
                 FairyNameText.text = "요정";
             }
 
             dialogText.DOText(str, duration)
-            .OnComplete(() => 
+            .OnComplete(() =>
             {
                 eIndex NextOrder;
-                if(curOrder + 1 < OrderList.Length)
+                if (curOrder + 1 < OrderList.Length)
                 {
                     NextOrder = OrderList[curOrder + 1];
                     if (NextOrder == eIndex.MAN) { isPlayer = true; }
@@ -256,33 +256,47 @@ namespace Dialog
                         });
                     });
                 }
-                else if(str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
+                else if (str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
                     bLoadScene = true;
+
+                    foreach(var item in SpeechArrowDic)
+                    {
+                        Destroy(item.Value);
+                    }
+
+                    for(int i = 0; i < CharacterImages.Length; i++)
+                    {
+                        Destroy(CharacterImages[i].gameObject);
+                    }
+
                     LoadScene.LoadingScene("MoveScene");
                     return;
                 }
 
-                if(isPlayer && !bLoadScene)
+                if (!bLoadScene)
                 {
-                    foreach(var item in SpeechArrowDic)
+                    if (isPlayer)
                     {
-                        item.Value.GetComponent<Text>().text = "QWER 중 하나를 눌러 공격하기 ->    ";
+                        foreach (var item in SpeechArrowDic)
+                        {
+                            item.Value.GetComponent<Text>().text = "QWER 중 하나를 눌러 공격하기 ->    ";
+                        }
                     }
-                }
-                else
-                {
-                    foreach(var item in SpeechArrowDic)
+                    else
                     {
-                        item.Value.GetComponent<Text>().text = "Space바를 눌러 넘기기 ->    ";
+                        foreach (var item in SpeechArrowDic)
+                        {
+                            item.Value.GetComponent<Text>().text = "Space바를 눌러 넘기기 ->    ";
+                        }
                     }
-                }
 
-                if(isTalking)
-                {
-                    isTalking = false;
-                    curOrder++;
-                    SpeechArrowDic[dialog].SetActive(true);
+                    if (isTalking)
+                    {
+                        isTalking = false;
+                        curOrder++;
+                        SpeechArrowDic[dialog].SetActive(true);
+                    }
                 }
             });
         }

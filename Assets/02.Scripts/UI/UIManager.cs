@@ -54,7 +54,7 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        //Á¶»ç¸ðµå µ¹ÀÔ
+        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         if (Input.GetKeyDown("n"))
         {
             if (searchVisionActive == false)
@@ -72,7 +72,7 @@ public class UIManager : MonoBehaviour
                 moveModeUI.SetActive(true);
             }
         }
-        //Á¶»ç°¡´É ´ë»óÃ£±â
+        //ï¿½ï¿½ï¿½ç°¡ï¿½ï¿½ ï¿½ï¿½ï¿½Ã£ï¿½ï¿½
         if(Input.GetKeyDown("e"))
         {
             if (canSearchVisionActive == false)
@@ -122,7 +122,8 @@ public class UIManager : MonoBehaviour
     public void ResetCursor()
     {
         searchVisionOverlay.gameObject.SetActive(false);
-        Cursor.SetCursor(standardCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+        Vector2 cursorHotspot = new Vector2 (standardCursorImg.width / 2, standardCursorImg.height / 2);
+        Cursor.SetCursor(standardCursorImg, cursorHotspot, CursorMode.ForceSoftware);
         searchVisionActive = false;
     }
     
