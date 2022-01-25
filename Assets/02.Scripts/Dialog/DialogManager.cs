@@ -8,23 +8,32 @@ namespace Dialog
     public class DialogManager : MonoBehaviour
     {
         private DialogControll dialogCtrl;
+        private string KeyName = "QWER";
 
         public GameObject dialogButtonPrefab;
         public Transform btnParent;
 
+        public Text ManNameText;
+        public Text WomanNameText;
 
         private void Awake()
         {
+            if(GameManager.Instance != null)
+            {
+                ManNameText.text = GameManager.Instance.ManName;
+                WomanNameText.text = GameManager.Instance.WomanName;
+            }
+
             dialogCtrl = GetComponent<DialogControll>();
 
             for(int i = 0; i < 4; i++)
             {
                 int order = i;
-                InitButton(dialogButtonPrefab, order);
+                InitButton(dialogButtonPrefab, order, KeyName[i]);
             }
         }
 
-        private void InitButton(GameObject buttonPrefab, int order)
+        private void InitButton(GameObject buttonPrefab, int order, char keyName)
         {
             GameObject button = Instantiate(buttonPrefab, btnParent);
 
@@ -36,6 +45,7 @@ namespace Dialog
                     dialogCtrl.Next(type, order);
                 }
             });
+            button.GetComponentInChildren<Text>().text = keyName.ToString();
         }
     }
 }

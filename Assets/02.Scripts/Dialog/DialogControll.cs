@@ -33,6 +33,8 @@ namespace Dialog
 
         public GameObject[] Dialogs; // 다이얼로그
         public Image[] CharacterImages; // 캐릭터 이미지
+        public RectTransform[] ManGuage; // 남자쪽 말싸움 수치 (화해 - 파국)
+        public RectTransform[] WomanGuage; // 여자쪽 말싸움 수치 (화해 - 파국)
         private Dictionary<GameObject, GameObject> SpeechArrowDic = new Dictionary<GameObject, GameObject>();
 
         [Header("대사 리스트")]
@@ -73,6 +75,12 @@ namespace Dialog
         
         private void Awake()
         {
+            for(int i = 0; i < ManGuage.Length; i++)
+            {
+                ManGuage[i].sizeDelta = new Vector2(0f, 100f);
+                WomanGuage[i].sizeDelta = new Vector2(0f, 100f);
+            }
+
             // 대사 리스트에 대사 추가
             manStrList = DialogStrs.manStrsArr.ToList();
             for(int i = 0; i < 4; i++)
@@ -170,21 +178,61 @@ namespace Dialog
         public void Talking(GameObject dialog, string str) // 대화
         {
             Text dialogText = dialog.GetComponentInChildren<Text>();
-            float duration = (float)str.Length / 6.0f; 
+            float duration = (float)str.Length / 7.0f; 
 
             SpeechArrowDic[dialog].SetActive(false);
             dialogText.text = "";
 
+            if(str == "외딴 섬에나 떨어져!")
+            {
+                duration = 6.6f;
+            }
+
             dialogText.DOText(str, duration)
             .OnComplete(() => 
             {
-                if(OrderList[curOrder + 1] == eIndex.MAN) { isPlayer = true; } 
-                else { isPlayer = false; }
+                eIndex CurrentOrder = OrderList[curOrder];
+                eIndex NextOrder = OrderList[curOrder + 1];
+
+                if(NextOrder == eIndex.MAN) { isPlayer = true; } 
+                else { isPlayer = false; } 
+
+                if(CurrentOrder == eIndex.MAN)
+                {
+                    int randomGuage = UnityEngine.Random.Range(0, WomanGuage.Length);
+                    float randomSize = UnityEngine.Random.Range(0f, 100f);
+
+                    RectTransform guage = WomanGuage[randomGuage];
+                    guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
+                }
+                else if(CurrentOrder == eIndex.WOMAN)
+                {
+                    int randomGuage = UnityEngine.Random.Range(0, ManGuage.Length);
+                    float randomSize = UnityEngine.Random.Range(0f, 100f);
+                    
+                    RectTransform guage = ManGuage[randomGuage];
+                    guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
+                }
 
                 if(str == "외딴 섬에나 떨어져!")
                 {
                     // TODO : 씬 변경 혹은 화면 전환
                     Debug.Log("화면 전환 ~~");
+                }
+
+                if(NextOrder == eIndex.MAN)
+                {
+                    foreach(var item in SpeechArrowDic)
+                    {
+                        item.Value.GetComponent<Text>().text = "QWER 중 하나를 눌러 공격하기 ->    ";
+                    }
+                }
+                else 
+                {
+                    foreach(var item in SpeechArrowDic)
+                    {
+                        item.Value.GetComponent<Text>().text = "Space바를 눌러 넘기기 ->    ";
+                    }
                 }
 
                 isTalking = false;
