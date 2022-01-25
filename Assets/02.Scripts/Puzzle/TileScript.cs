@@ -20,15 +20,6 @@ public class TileScript : MonoBehaviour
     void Update()
     {
         transform.position = Vector3.Lerp(a: transform.position, b: targetPosition, 0.05f);
-        /*      //맞으면 색바꾸는 기능인데 딱히 필요할지는 모르겠음.
-         *      if(targetPosition == correctPosition)
-                {
-                    sr.color = Color.green;
-                }
-                else
-                {
-                    sr.color = Color.white;
-                }*/
         if (targetPosition == correctPosition)
         {
             inRightPlace = true;
@@ -37,5 +28,14 @@ public class TileScript : MonoBehaviour
         {
             inRightPlace = false;
         }
+        /*      //맞으면 색바꾸는 기능인데 딱히 필요할지는 모르겠음.
+ *      if(targetPosition == correctPosition)
+        {
+            sr.color = Color.green;
+        }
+        else
+        {
+            sr.color = Color.white;
+        }*/
     }
 }

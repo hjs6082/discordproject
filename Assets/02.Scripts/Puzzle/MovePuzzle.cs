@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class MovePuzzle : MonoBehaviour
 {
@@ -12,16 +11,20 @@ public class MovePuzzle : MonoBehaviour
 
     RaycastHit hitInfo;
 
-    void Start()
+    public bool puzzleStart;
+    public bool isWrong;
+    public bool isClear;
+
+    void Awake()
     {
         _camera = Camera.main;
-        Shuffle();
+        //Shuffle();
     }
 
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && puzzleStart == true)
         {
             Vector3 t_MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
             if (Physics.Raycast(_camera.ScreenPointToRay(t_MousePos), out hitInfo, 100))
@@ -39,6 +42,8 @@ public class MovePuzzle : MonoBehaviour
                 }
             }
         }
+
+
         int correctTiles = 0;
         foreach (var a in tiles)
         {
@@ -52,12 +57,31 @@ public class MovePuzzle : MonoBehaviour
             }
             if (correctTiles == tiles.Length - 1)
             {
-               // SceneManager.LoadScene("MoveScene");
+                
             }
         }
     }
 
 
+
+    public void ClearCheck()
+    {
+        if (puzzleStart == true)
+        {
+            if (tiles[0].name == "Map_0" && tiles[1].name == "Map_1" && tiles[2].name == "Map_2"
+              && tiles[3].name == "Map_3" && tiles[4].name == "Map_4" && tiles[5].name == "Map_5"
+              && tiles[6].name == "Map_6" && tiles[7].name == "Map_7" && tiles[8].name == "Map_8"
+              && tiles[9].name == "Map_9" && tiles[10].name == "Map_10" && tiles[11].name == "Map_11"
+              && tiles[12].name == "Map_12" && tiles[13].name == "Map_13" && tiles[14].name == "Map_14")
+            {
+                isClear = true;
+            }
+           else
+            {
+                isWrong = true;
+            }
+        }
+    }
 
     public void Shuffle()
     {
