@@ -65,6 +65,8 @@ public class StartManager : MonoBehaviour
         if(WomanInput.text != "")
         GameManager.Instance.WomanName = WomanInput.text;
 
+        GameManager.Instance.ResetVolumeController();
+
         LoadScene.LoadingScene("DialogScene");
     }
 }

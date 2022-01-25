@@ -5,17 +5,22 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    public AudioSource BGM_Source;
+    public  AudioSource BGM_Source;
     public  GameObject  BGM_Volume;
     private Slider      BGM_Slider;
     private Toggle      BGM_Toggle;
 
-    public AudioSource EFFECT_Source;
+    public  AudioSource EFFECT_Source;
     public  GameObject  EFFECT_Volume;
     private Slider      EFFECT_Slider;
     private Toggle      EFFECT_Toggle;
 
     private void Awake()
+    {
+        InitVolumeSettings();
+    }
+
+    public void InitVolumeSettings()
     {
         EFFECT_Source = GetComponent<AudioSource>();
 
@@ -24,6 +29,12 @@ public class AudioManager : MonoBehaviour
 
         EFFECT_Slider = EFFECT_Volume.GetComponentInChildren<Slider>();
         EFFECT_Toggle = EFFECT_Volume.GetComponentInChildren<Toggle>();
+
+        BGM_Slider.value = BGM_Source.volume;
+        BGM_Toggle.isOn = BGM_Source.mute;
+
+        EFFECT_Slider.value = EFFECT_Source.volume;
+        EFFECT_Toggle.isOn = EFFECT_Source.mute;
     }
 
     private void Update()

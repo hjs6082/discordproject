@@ -118,34 +118,37 @@ namespace Dialog
 
         private void Update()
         {
-            if (!isTalking)
+            if (!GameManager.Instance.bPause)
             {
-                if (isPlayer) // 플레이어 조작
+                if (!isTalking)
                 {
-                    if (Input.anyKey)
+                    if (isPlayer) // 플레이어 조작
                     {
-                        foreach (var key in KeyMapDic)
+                        if (Input.anyKey)
                         {
-                            if (Input.GetKeyDown(key.Key))
+                            foreach (var key in KeyMapDic)
                             {
-                                eIndex type = OrderList[curOrder];
-                                Next(type, key.Value);
-                                return;
+                                if (Input.GetKeyDown(key.Key))
+                                {
+                                    eIndex type = OrderList[curOrder];
+                                    Next(type, key.Value);
+                                    return;
+                                }
                             }
                         }
                     }
-                }
-                else // NPC 조작
-                {
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    else // NPC 조작
                     {
-                        eIndex type = OrderList[curOrder];
-                        int iType = (int)type % 3;
+                        if (Input.GetKeyDown(KeyCode.Space))
+                        {
+                            eIndex type = OrderList[curOrder];
+                            int iType = (int)type % 3;
 
-                        Debug.Log($"{type}, {iType}");
+                            Debug.Log($"{type}, {iType}");
 
-                        Next(type, talkVal[iType]);
-                        return;
+                            Next(type, talkVal[iType]);
+                            return;
+                        }
                     }
                 }
             }
@@ -260,7 +263,6 @@ namespace Dialog
                 else if (str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
                     bLoadScene = true;
-                    DOTween.Clear(true);
                     LoadScene.LoadingScene("MoveScene");
                     return;
                 }
