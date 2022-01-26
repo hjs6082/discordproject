@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     bool isMove = false;
 
     float rotateEndVal = 0;
-    float moveDelay = 0.6f;
+    float moveDelay = 0.1f;
     int dur;
 
     // 레이캐스트 관련
