@@ -1353,10 +1353,7 @@ MonoBehaviour:
   OptionBGM_Volume: {fileID: 1347202054}
   OptionEFFECT_Volume: {fileID: 1208361863}
   bPause: 0
-  BGM_Arr:
-  - {fileID: 8300000, guid: 4e9b402752f82c3478eaf5262eff04d2, type: 3}
-  - {fileID: 0}
-  - {fileID: 8300000, guid: b89016778962ae5479a3673ef50a37a4, type: 3}
+  BGM_Arr: []
   bChessClear: 0
   bMovePuzzleClear: 0
   bOnIsland: 0
