@@ -26,6 +26,8 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        this.gameObject.transform.position = GameManager.Instance.curPlayerPos;
+
         isMove = false;
         rotateEndVal = Quaternion.identity.y;
     }

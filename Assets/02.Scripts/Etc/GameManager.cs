@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
@@ -13,9 +15,13 @@ public class GameManager : MonoBehaviour
     public string ManName = "";
     public string WomanName = "";
 
+    public GameObject FadePanel;
+    public bool isOnLoad;
+
     public GameObject PauseCanvas;
     public GameObject PausePanel;
     public GameObject OptionPanel;
+    public GameObject CreditPanel;
     public GameObject OptionBGM_Volume;
     public GameObject OptionEFFECT_Volume;
     public bool bPause = false;
@@ -28,6 +34,8 @@ public class GameManager : MonoBehaviour
     public bool bMovePuzzleClear = false;
     public bool bOnIsland = false;
 
+    public Vector3 curPlayerPos = new Vector3(-25f, 16f, 10f);
+
     private void Awake()
     {
         if (Instance == null)
@@ -39,6 +47,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        FadePanel.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        FadePanel.SetActive(false);
 
         SaveData savePuzzle = SaveSystem.Load(fileName);
 
@@ -96,16 +107,29 @@ public class GameManager : MonoBehaviour
         OptionPanel.SetActive(false);
     }
 
+    private void ClearPanel()
+    {
+        PausePanel.SetActive(false);
+        PausePanel.SetActive(false);
+        CreditPanel.SetActive(false);
+    }
+
     public void Pause()
     {
+        ClearPanel();
         PausePanel.SetActive(true);
-        OptionPanel.SetActive(false);
     }
 
     public void Option()
     {
-        PausePanel.SetActive(false);
+        ClearPanel();
         OptionPanel.SetActive(true);
+    }
+
+    public void Credit()
+    {
+        ClearPanel();
+        CreditPanel.SetActive(true);
     }
 
     public void Main()

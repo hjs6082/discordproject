@@ -44,14 +44,14 @@ public class InteractionController : MonoBehaviour
         }
     }
 
-    void Contact() //¿ÀºêÁ§Æ®°¡ Á¶»ç °¡´ÉÇÑ °æ¿ì
+    void Contact() //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
         if(hitInfo.transform.CompareTag("Interaction"))
         {
             Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
             if (Input.GetMouseButtonDown(0))
             {
-                // ¿©±â´Ù°¡ ÇÒÀÏ ½ÇÇà
+                // ï¿½ï¿½ï¿½ï¿½Ù°ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
                 Debug.Log("Click");
             }
             if (!isContact)
@@ -69,7 +69,8 @@ public class InteractionController : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 UIManager.instance.ResetCursor();
-                SceneManager.LoadScene("ChessPuzzle");
+                GameManager.Instance.curPlayerPos = Camera.main.transform.parent.position;
+                LoadScene.LoadingScene("ChessPuzzle");
 
             }
             if (!isContact)
@@ -101,7 +102,7 @@ public class InteractionController : MonoBehaviour
         }
     }
 
-    void NotContact() // ¿ÀºêÁ§Æ®°¡ Á¶»ç ºÒ°¡´ÉÇÑ °æ¿ì
+    void NotContact() // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
     {
         if(isContact)
         {

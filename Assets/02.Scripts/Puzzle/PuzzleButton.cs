@@ -65,6 +65,8 @@ public class PuzzleButton : MonoBehaviour
     IEnumerator OK(float second)
     {
         okText.gameObject.SetActive(true);
+        GameManager.Instance.bMovePuzzleClear = true;
+        GameManager.Instance.SavePuzzle();
         yield return new WaitForSeconds(second);
         okText.gameObject.SetActive(false);
         SceneManager.LoadScene("MoveScene");

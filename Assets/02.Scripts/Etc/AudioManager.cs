@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
+    public static AudioManager Instance { get; private set;}
+
+    public AudioClip buttonEffect;
+    public AudioClip moveEffect;
+
     public  AudioSource BGM_Source;
     public  GameObject  BGM_Volume;
     private Slider      BGM_Slider;
@@ -17,6 +22,15 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+        else 
+        {
+            Destroy(this.gameObject);
+        }
+
         InitVolumeSettings();
     }
 
@@ -44,5 +58,19 @@ public class AudioManager : MonoBehaviour
 
         if(EFFECT_Slider.value != EFFECT_Source.volume) { EFFECT_Source.volume = EFFECT_Slider.value; }
         if(EFFECT_Toggle.isOn != EFFECT_Source.mute) { EFFECT_Source.mute = EFFECT_Toggle.isOn; }
+    }
+
+    public void ButtonClick()
+    {
+        EFFECT_Source.Stop();
+        EFFECT_Source.clip = buttonEffect;
+        EFFECT_Source.Play();
+    }
+
+    public void MoveSound()
+    {
+        EFFECT_Source.Stop();
+        EFFECT_Source.clip = moveEffect;
+        EFFECT_Source.Play();
     }
 }

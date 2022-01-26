@@ -41,7 +41,7 @@ namespace Dialog
 
         [Header("화면 전환 관련")]
         public GameObject BackgroundPanel; // 배경화면
-        public GameObject FadePanel; // 화면전환하기 전 Fade해줄 패널
+        //public GameObject FadePanel; // 화면전환하기 전 Fade해줄 패널
         public Sprite InGameImage; // Fade하고나서 바꿔줄 Background이미지
 
         [Header("대사 리스트")]
@@ -114,6 +114,11 @@ namespace Dialog
         {
             eIndex type = OrderList[curOrder];
             Next(type, talkVal[(int)type]);
+            GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(0.0f, 0.5f).OnComplete(() =>
+            {
+                GameManager.Instance.isOnLoad = false;
+                GameManager.Instance.FadePanel.SetActive(false);
+            });
         }
 
         private void Update()
@@ -245,18 +250,20 @@ namespace Dialog
                 if (str == "외딴 섬에나 떨어져!")
                 {
                     // TODO : 씬 변경 혹은 화면 전환
-                    Debug.Log("화면 전환 ~~");
-                    Image fadePanel = FadePanel.GetComponent<Image>();
-                    fadePanel.DOFade(1.0f, 0.5f).OnComplete(() =>
+                    Debug.Log("화면 전환 ~~"); 
+                    GameManager.Instance.FadePanel.SetActive(true);
+                    GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(1.0f, 0.5f).OnComplete(() =>
                     {
                         Dialogs[(int)eIndex.WOMAN].transform.parent.gameObject.SetActive(false);
                         BackgroundPanel.GetComponent<Image>().sprite = InGameImage;
-                        fadePanel.DOFade(0.0f, 0.5f).OnComplete(() =>
+                        GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(0.0f, 0.5f).OnComplete(() =>
                         {
                             eIndex type = OrderList[curOrder];
                             int iType = (int)type % 3;
 
                             Next(type, talkVal[iType]);
+
+                            GameManager.Instance.FadePanel.SetActive(false);
                         });
                     });
                 }
