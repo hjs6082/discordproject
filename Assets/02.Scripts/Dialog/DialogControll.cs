@@ -114,6 +114,7 @@ namespace Dialog
         {
             eIndex type = OrderList[curOrder];
             Next(type, talkVal[(int)type]);
+            AudioManager.Instance.FairySound();
             GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(0.0f, 0.5f).OnComplete(() =>
             {
                 GameManager.Instance.isOnLoad = false;
@@ -235,7 +236,8 @@ namespace Dialog
                     RectTransform guage = WomanGuage[randomGuage];
                     guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
 
-                    CharacterImages[((int)CurrentOrder)].GetComponent<AttackTween>().Attack();
+                    CharacterImages[(int)CurrentOrder].GetComponent<AttackTween>().Attack();
+                    Damaged(CharacterImages[(int)eIndex.WOMAN]);
                 }
                 else if (CurrentOrder == eIndex.WOMAN)
                 {
@@ -244,13 +246,15 @@ namespace Dialog
 
                     RectTransform guage = ManGuage[randomGuage];
                     guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
+
                     CharacterImages[((int)CurrentOrder)].GetComponent<AttackTween>().Attack();
+                    Damaged(CharacterImages[(int)eIndex.MAN]);
                 }
 
                 if (str == "외딴 섬에나 떨어져!")
                 {
                     // TODO : 씬 변경 혹은 화면 전환
-                    Debug.Log("화면 전환 ~~"); 
+                    Debug.Log("화면 전환 ~~");
                     GameManager.Instance.FadePanel.SetActive(true);
                     GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(1.0f, 0.5f).OnComplete(() =>
                     {
@@ -264,6 +268,7 @@ namespace Dialog
 
                             Next(type, talkVal[iType]);
 
+                            AudioManager.Instance.TeleportSound();
                             GameManager.Instance.FadePanel.SetActive(false);
                         });
                     });
@@ -300,6 +305,11 @@ namespace Dialog
                     }
                 }
             });
+        }
+
+        public void Damaged(Image obj)
+        {
+            obj.rectTransform.DOShakeAnchorPos(0.1f);
         }
     }
 }

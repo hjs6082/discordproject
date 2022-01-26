@@ -65,6 +65,7 @@ public class StartManager : MonoBehaviour
         GameManager.Instance.FadePanel.SetActive(true);
         GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(1.0f, 0.5f).OnComplete(() =>
         {
+            AudioManager.Instance.TeleportSound();
             GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "철수";
             GameManager.Instance.WomanName = (WomanInput.text != "") ? WomanInput.text : "영희";
 

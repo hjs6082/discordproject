@@ -8,7 +8,9 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set;}
 
     public AudioClip buttonEffect;
+    public AudioClip teleportEffect;
     public AudioClip moveEffect;
+    public AudioClip fairyEffect;
     public AudioClip[] attackEffect;
 
     public  AudioSource BGM_Source;
@@ -79,6 +81,11 @@ public class AudioManager : MonoBehaviour
     {
         ChangeSound(buttonEffect);
     }
+    
+    public void TeleportSound()
+    {
+        ChangeSound(teleportEffect);
+    }
 
     public void MoveSound()
     {
@@ -89,5 +96,17 @@ public class AudioManager : MonoBehaviour
     {
         int rand = Random.Range(0, attackEffect.Length);
         ChangeSound(attackEffect[rand]);
+    }
+
+    public void FairySound()
+    {
+        StartCoroutine(FairyEffect());
+    }
+
+    IEnumerator FairyEffect()
+    {
+        ChangeSound(fairyEffect);
+        yield return new WaitForSeconds(1f);
+        EFFECT_Source.Stop();
     }
 }
