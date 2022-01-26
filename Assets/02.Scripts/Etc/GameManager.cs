@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     public bool bMovePuzzleClear = false;
     public bool bOnIsland = false;
 
-    public Vector3 curPlayerPos = new Vector3(-25f, 16f, 10f);
+    public Vector3 curPlayerPos;
 
     private void Awake()
     {
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
+        curPlayerPos = new Vector3(-25f, 16f, 10f);
         FadePanel.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         FadePanel.SetActive(false);
 

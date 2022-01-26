@@ -18,6 +18,7 @@ public class AttackTween : MonoBehaviour
     {
         rectTrm.DORotate(new Vector3(0, 0, attackAngle), 0.1f).OnComplete(() => 
         {
+            AudioManager.Instance.AttackSound();
             rectTrm.DORotate(new Vector3(0, 0, 0), 0.1f).SetEase(Ease.OutQuad);
         });
     }

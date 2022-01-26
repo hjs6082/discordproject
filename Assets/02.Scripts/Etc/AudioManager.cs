@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip buttonEffect;
     public AudioClip moveEffect;
+    public AudioClip[] attackEffect;
 
     public  AudioSource BGM_Source;
     public  GameObject  BGM_Volume;
@@ -60,17 +61,26 @@ public class AudioManager : MonoBehaviour
         if(EFFECT_Toggle.isOn != EFFECT_Source.mute) { EFFECT_Source.mute = EFFECT_Toggle.isOn; }
     }
 
-    public void ButtonClick()
+    private void ChangeSound(AudioClip clip)
     {
         EFFECT_Source.Stop();
-        EFFECT_Source.clip = buttonEffect;
+        EFFECT_Source.clip = clip;
         EFFECT_Source.Play();
+    }
+
+    public void ButtonSound()
+    {
+        ChangeSound(buttonEffect);
     }
 
     public void MoveSound()
     {
-        EFFECT_Source.Stop();
-        EFFECT_Source.clip = moveEffect;
-        EFFECT_Source.Play();
+        ChangeSound(moveEffect);
+    }
+
+    public void AttackSound()
+    {
+        int rand = Random.Range(0, attackEffect.Length);
+        ChangeSound(attackEffect[rand]);
     }
 }
