@@ -218,6 +218,7 @@ namespace Dialog
             Debug.Log(path);
             AudioClip myClip = Resources.Load<AudioClip>(path);
             charVoice.PlayVoice(myClip);
+            AudioManager.Instance.ButtonSound();
             float duration = myClip.length;
 
             SpeechArrowDic[dialog].SetActive(false);

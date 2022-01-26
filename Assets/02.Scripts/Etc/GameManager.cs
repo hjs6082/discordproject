@@ -88,9 +88,21 @@ public class GameManager : MonoBehaviour
             {
                 OnPause();
             }
+            if (bPause)
+            {
+                audioManager.BGM_Source.Pause();
+                audioManager.EFFECT_Source.Pause();
+                CharacterVoice.Instance.audioSource.Pause();
+            }
+            else
+            {
+                audioManager.BGM_Source.UnPause();
+                audioManager.EFFECT_Source.UnPause();
+                CharacterVoice.Instance.audioSource.UnPause();
+            }
+         
+            Time.timeScale = bPause ? 0f : 1f;
         }
-
-        Time.timeScale = bPause ? 0f : 1f;
     }
 
     public void SavePuzzle()
@@ -111,14 +123,14 @@ public class GameManager : MonoBehaviour
     {
         bPause = !bPause;
         PauseCanvas.SetActive(bPause);
+        ClearPanel();
         PausePanel.SetActive(bPause);
-        OptionPanel.SetActive(false);
     }
 
     private void ClearPanel()
     {
         PausePanel.SetActive(false);
-        PausePanel.SetActive(false);
+        OptionPanel.SetActive(false);
         CreditPanel.SetActive(false);
     }
 
@@ -142,8 +154,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeBGM(eScene scene)
     {
-        if(BGM_Arr[(int)scene] != null)
-        audioManager.ChangeBGM(BGM_Arr[(int)scene]);
+        if (BGM_Arr[(int)scene] != null)
+            audioManager.ChangeBGM(BGM_Arr[(int)scene]);
     }
 
     public void Main()
