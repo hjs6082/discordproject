@@ -68,6 +68,13 @@ public class AudioManager : MonoBehaviour
         EFFECT_Source.Play();
     }
 
+    public void ChangeBGM(AudioClip clip)
+    {
+        BGM_Source.Stop();
+        BGM_Source.clip = clip;
+        BGM_Source.Play();
+    }
+
     public void ButtonSound()
     {
         ChangeSound(buttonEffect);

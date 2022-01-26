@@ -256,6 +256,7 @@ namespace Dialog
                     {
                         Dialogs[(int)eIndex.WOMAN].transform.parent.gameObject.SetActive(false);
                         BackgroundPanel.GetComponent<Image>().sprite = InGameImage;
+                        GameManager.Instance.ChangeBGM(GameManager.eScene.GAME3D);
                         GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(0.0f, 0.5f).OnComplete(() =>
                         {
                             eIndex type = OrderList[curOrder];

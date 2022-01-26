@@ -67,11 +67,10 @@ public class StartManager : MonoBehaviour
         {
             GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "철수";
             GameManager.Instance.WomanName = (WomanInput.text != "") ? WomanInput.text : "영희";
-            
-            GameManager.Instance.ResetVolumeController();
-            LoadScene.LoadingScene("DialogScene");
 
-            
+            GameManager.Instance.ResetVolumeController();
+            GameManager.Instance.ChangeBGM(GameManager.eScene.DIALOG);
+            LoadScene.LoadingScene("DialogScene");            
         });
     }
 }

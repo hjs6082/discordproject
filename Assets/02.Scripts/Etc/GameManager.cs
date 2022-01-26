@@ -8,6 +8,13 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
+    public enum eScene
+    {
+        MAIN,
+        DIALOG,
+        GAME3D
+    };
+
     const string fileName = "PuzzleSave";
 
     public static GameManager Instance { get; private set; }
@@ -65,6 +72,11 @@ public class GameManager : MonoBehaviour
         Debug.Log(bChessClear);
     }
 
+    private void Start()
+    {
+        ChangeBGM(eScene.MAIN);
+    }
+
     private void Update()
     {
         if (SceneManager.GetActiveScene().name != "MainScene")
@@ -76,13 +88,6 @@ public class GameManager : MonoBehaviour
         }
 
         Time.timeScale = bPause ? 0f : 1f;
-    }
-
-    public void ChangeBGM(int index)
-    {
-        bgmAudio.Stop();
-        bgmAudio.clip = BGM_Arr[index];
-        bgmAudio.Play();
     }
 
     public void SavePuzzle()
@@ -132,9 +137,16 @@ public class GameManager : MonoBehaviour
         CreditPanel.SetActive(true);
     }
 
+    public void ChangeBGM(eScene scene)
+    {
+        if(BGM_Arr[(int)scene] != null)
+        audioManager.ChangeBGM(BGM_Arr[(int)scene]);
+    }
+
     public void Main()
     {
         OnPause();
+        ChangeBGM(eScene.MAIN);
         LoadScene.LoadingScene("MainScene");
     }
 }
