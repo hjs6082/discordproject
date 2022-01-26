@@ -53,6 +53,7 @@ public class PlayerMove : MonoBehaviour
                             if(IsCanMove(isForward))
                             Straight(dic.Value);
                         }
+                        return;
                     }
                 }
             }
