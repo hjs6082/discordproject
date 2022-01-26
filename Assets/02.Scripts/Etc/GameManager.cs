@@ -95,12 +95,16 @@ public class GameManager : MonoBehaviour
             {
                 audioManager.BGM_Source.Pause();
                 audioManager.EFFECT_Source.Pause();
+
+                if(CharacterVoice.Instance != null)
                 CharacterVoice.Instance.audioSource.Pause();
             }
             else
             {
                 audioManager.BGM_Source.UnPause();
                 audioManager.EFFECT_Source.UnPause();
+
+                if(CharacterVoice.Instance != null)
                 CharacterVoice.Instance.audioSource.UnPause();
             }
          
@@ -168,6 +172,15 @@ public class GameManager : MonoBehaviour
     {
         if (BGM_Arr[(int)scene] != null)
             audioManager.ChangeBGM(BGM_Arr[(int)scene]);
+    }
+
+    public void Clear()
+    {
+        bChessClear = false;
+        bMovePuzzleClear = false;
+        SavePuzzle();
+        ClearPanel.SetActive(false);
+        LoadScene.LoadingScene("MainScene");
     }
 
     public void Main()

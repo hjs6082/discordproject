@@ -87,6 +87,7 @@ public class StartManager : MonoBehaviour
     public void StartGame()
     {
         GameManager.Instance.isOnLoad = true;
+        GameManager.Instance.ClearPanel.SetActive(false);
         GameManager.Instance.FadePanel.SetActive(true);
         GameManager.Instance.FadePanel.GetComponent<Image>().DOFade(1.0f, 0.5f).OnComplete(() =>
         {
