@@ -78,6 +78,7 @@ public class MovePuzzle : MonoBehaviour
               && tiles[12].name == "Map_12" && tiles[13].name == "Map_13" && tiles[14].name == "Map_14")
             {
                 isClear = true;
+                puzzleStart = false;
             }
            else
             {
