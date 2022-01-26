@@ -26,7 +26,7 @@ public class ShakeText : MonoBehaviour, IPointerEnterHandler
 
     private void Update()
     {
-        if (reTime != 0.0f)
+        if (rectTrm.localRotation != Quaternion.Euler(Vector3.zero))
         {
             reTime += Time.deltaTime;
 

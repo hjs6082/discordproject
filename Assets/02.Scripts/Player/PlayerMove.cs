@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     bool isMove = false;
 
     float rotateEndVal = 0;
-    float moveDelay = 1f;
+    float moveDelay = 0.6f;
     int dur;
 
     // 레이캐스트 관련
@@ -26,6 +26,7 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
+        if(GameManager.Instance != null)
         this.gameObject.transform.position = GameManager.Instance.curPlayerPos;
 
         isMove = false;
@@ -65,7 +66,10 @@ public class PlayerMove : MonoBehaviour
         print("move");
         isMove = true;
         dur = (int)rotateEndVal / 90;
+
+        if(AudioManager.Instance != null)
         AudioManager.Instance.MoveSound();
+
         switch(dur)
         {
             case 0:
