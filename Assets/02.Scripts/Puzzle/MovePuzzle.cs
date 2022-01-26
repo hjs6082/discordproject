@@ -14,6 +14,7 @@ public class MovePuzzle : MonoBehaviour
     public bool puzzleStart;
     public bool isWrong;
     public bool isClear;
+    public bool isMove;
 
     void Awake()
     {
@@ -24,8 +25,10 @@ public class MovePuzzle : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && puzzleStart == true)
+        if (Input.GetMouseButtonDown(0) && puzzleStart == true && !isMove)
         {
+            isMove = true;
+            StartCoroutine(WaitForMove(0.4f));
             Vector3 t_MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
             if (Physics.Raycast(_camera.ScreenPointToRay(t_MousePos), out hitInfo, 100))
             {
@@ -146,5 +149,11 @@ public class MovePuzzle : MonoBehaviour
             inversionsSum += thisTileInvertion;
         }
         return inversionsSum;
+    }
+
+    IEnumerator WaitForMove(float second)
+    {
+        yield return new WaitForSeconds(second);
+        isMove = false;
     }
 }
