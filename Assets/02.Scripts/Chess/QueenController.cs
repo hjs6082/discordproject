@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 namespace QueenPuzzle
 {
@@ -14,12 +16,18 @@ namespace QueenPuzzle
         private AudioSource dropQueen;
         private GameObject queen;
         public Queen[] queensArr;
+        public Text clearText;
 
         private Vector3 beforePos;
 
         bool isClicked = false; // 누르고 있는지
         bool bClear = false; // 클리어했는지
         bool bChecking = false; // 체크 중 인지
+
+        private void Awake()
+        {
+            clearText.color = new Color(1, 1, 1, 0);
+        }
 
         private void Update()
         {
@@ -84,9 +92,16 @@ namespace QueenPuzzle
         {
             if (_bClear)
             {
-                SceneManager.LoadScene("MoveScene");
-                GameManager.Instance.bChessClear = true;
-                GameManager.Instance.SavePuzzle();
+                AudioManager.Instance.ClearSound();
+                clearText.DOFade(1f, 1.5f).OnComplete(() =>
+                {
+                    clearText.DOFade(0f, 1.5f).OnComplete(() =>
+                    {
+                        SceneManager.LoadScene("MoveScene");
+                        GameManager.Instance.bChessClear = true;
+                        GameManager.Instance.SavePuzzle();
+                    });
+                });
             }
             else Debug.Log("No");
         }

@@ -64,6 +64,7 @@ public class PuzzleButton : MonoBehaviour
 
     IEnumerator OK(float second)
     {
+        AudioManager.Instance.ClearSound();
         okText.gameObject.SetActive(true);
         GameManager.Instance.bMovePuzzleClear = true;
         GameManager.Instance.SavePuzzle();

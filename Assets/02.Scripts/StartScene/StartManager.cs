@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class StartManager : MonoBehaviour
 {
+    public static StartManager Instance { get; private set; }
+
     private enum eCanvas
     {
         START,
@@ -19,9 +21,32 @@ public class StartManager : MonoBehaviour
     public InputField ManInput;
     public InputField WomanInput;
 
+    public Toggle ShakeToggle;
+    public bool bShakeOK = true;
+
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         StartCanvas();
+    }
+
+    private void Update()
+    {
+        if (CanvasArr[(int)eCanvas.OPTION].activeSelf)
+        {
+            if (bShakeOK != ShakeToggle.isOn)
+            {
+                bShakeOK = ShakeToggle.isOn;
+            }
+        }
     }
 
     private void ClearCanvas()
@@ -71,7 +96,7 @@ public class StartManager : MonoBehaviour
 
             GameManager.Instance.ResetVolumeController();
             GameManager.Instance.ChangeBGM(GameManager.eScene.DIALOG);
-            LoadScene.LoadingScene("DialogScene");            
+            LoadScene.LoadingScene("DialogScene");
         });
     }
 }

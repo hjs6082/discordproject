@@ -56,8 +56,10 @@ namespace Dialog
             eIndex.MAN_Story,
             eIndex.FAIRY,
             eIndex.FAIRY,
+            eIndex.FAIRY,
             eIndex.MAN,
             eIndex.WOMAN,
+            eIndex.FAIRY,
             eIndex.FAIRY,
             eIndex.FAIRY,
             eIndex.FAIRY,
@@ -72,14 +74,20 @@ namespace Dialog
             eIndex.FAIRY,
             eIndex.FAIRY,
             eIndex.FAIRY,
+            eIndex.FAIRY,
+            eIndex.FAIRY,
+            eIndex.FAIRY,
             eIndex.FAIRY
         };
         private int curOrder = 0; // 현재 몇 번째 순서인지
         private int[] talkVal = { 0, 0, 0 }; // 몇 번째 말하는지 (MAN, WOMAN, FAIRY 순)
+        private int curTalkVal = 0;
 
         public bool isPlayer = false; // 플레이어가 조작할 차례인지
         public bool isTalking = false; // 캐릭터가 말하는 중인지
         private bool bLoadScene = false;
+
+        public CharacterVoice charVoice;
 
         private void Awake()
         {
@@ -184,13 +192,14 @@ namespace Dialog
         public void Next(eIndex type, int talkVal)
         {
             isTalking = true;
+            curTalkVal = talkVal;
 
             int iType = (int)type % 3;
 
             GameObject dialog = InitDialog(iType);
             string str = charStrsDic[type][talkVal];
             this.talkVal[iType]++;
-            if (OrderList[curOrder] == eIndex.MAN)
+            if (type == eIndex.MAN)
             {
                 this.talkVal[iType]--;
             }
@@ -203,16 +212,18 @@ namespace Dialog
             eIndex CurrentOrder = OrderList[curOrder];
 
             Text dialogText = dialog.GetComponentInChildren<Text>();
-            float duration = (float)str.Length / 7.0f;
+
+            string path = $"Voices/Voice_{(int)CurrentOrder}/audio_{curTalkVal}";
+
+            Debug.Log(path);
+            AudioClip myClip = Resources.Load<AudioClip>(path);
+            charVoice.PlayVoice(myClip);
+            float duration = myClip.length;
 
             SpeechArrowDic[dialog].SetActive(false);
             dialogText.text = "";
 
-            if (str == "외딴 섬에나 떨어져!")
-            {
-                duration = 5.5f;
-            }
-            else if (str == "뭐야, 넌")
+            if (str == "뭐야, 넌")
             {
                 FairyNameText.text = "요정";
             }

@@ -17,17 +17,24 @@ public class ShakeText : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        reTime -= reTime;
-        rectTrm.DOShakeRotation(0.1f);
+        if (StartManager.Instance.bShakeOK)
+        {
+            reTime -= reTime;
+            rectTrm.DOShakeRotation(0.1f);
+        }
     }
 
     private void Update()
     {
-        reTime += Time.deltaTime;
-
-        if(reTime >= 1f)
+        if (reTime != 0.0f)
         {
-            rectTrm.DOLocalRotate(Vector3.zero, 0.2f);
+            reTime += Time.deltaTime;
+
+            if (reTime >= 1f)
+            {
+                reTime -= reTime;
+                rectTrm.DOLocalRotate(Vector3.zero, 0.2f);
+            }
         }
     }
 }

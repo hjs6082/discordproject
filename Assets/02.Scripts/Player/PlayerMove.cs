@@ -9,7 +9,7 @@ public class PlayerMove : MonoBehaviour
     bool isMove = false;
 
     float rotateEndVal = 0;
-    float moveDelay = 0.25f;
+    float moveDelay = 1f;
     int dur;
 
     // 레이캐스트 관련
@@ -65,6 +65,7 @@ public class PlayerMove : MonoBehaviour
         print("move");
         isMove = true;
         dur = (int)rotateEndVal / 90;
+        AudioManager.Instance.MoveSound();
         switch(dur)
         {
             case 0:

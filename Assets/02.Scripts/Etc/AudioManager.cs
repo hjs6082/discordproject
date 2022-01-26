@@ -11,6 +11,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip teleportEffect;
     public AudioClip moveEffect;
     public AudioClip fairyEffect;
+    public AudioClip clearEffect;
     public AudioClip[] attackEffect;
 
     public  AudioSource BGM_Source;
@@ -89,7 +90,7 @@ public class AudioManager : MonoBehaviour
 
     public void MoveSound()
     {
-        ChangeSound(moveEffect);
+        StartCoroutine(IEffectSound(moveEffect, 0.5f));
     }
 
     public void AttackSound()
@@ -100,13 +101,18 @@ public class AudioManager : MonoBehaviour
 
     public void FairySound()
     {
-        StartCoroutine(FairyEffect());
+        StartCoroutine(IEffectSound(fairyEffect, 1f));
     }
 
-    IEnumerator FairyEffect()
+    public void ClearSound()
     {
-        ChangeSound(fairyEffect);
-        yield return new WaitForSeconds(1f);
+        ChangeSound(clearEffect);
+    }
+
+    IEnumerator IEffectSound(AudioClip effect, float duration)
+    {
+        ChangeSound(effect);
+        yield return new WaitForSeconds(duration);
         EFFECT_Source.Stop();
     }
 }
