@@ -16,7 +16,7 @@ namespace QueenPuzzle
         private AudioSource dropQueen;
         private GameObject queen;
         public Queen[] queensArr;
-        public Text clearText;
+        public GameObject clearText;
 
         private Vector3 beforePos;
 
@@ -26,7 +26,9 @@ namespace QueenPuzzle
 
         private void Awake()
         {
-            clearText.color = new Color(1, 1, 1, 0);
+            clearText.GetComponent<Image>().color = new Color(0f, 0f, 0f, 0f);
+            clearText.GetComponentInChildren<Text>().color = new Color(204f / 255f, 204f / 255f, 204f / 255f, 0);
+            clearText.SetActive(false);
         }
 
         private void Update()
@@ -92,12 +94,21 @@ namespace QueenPuzzle
         {
             if (_bClear)
             {
+                clearText.SetActive(true);
+
+                if(AudioManager.Instance != null)
                 AudioManager.Instance.ClearSound();
-                clearText.DOFade(1f, 1.5f).OnComplete(() =>
+
+                clearText.GetComponentInChildren<Text>().DOFade(1f, 2f).OnComplete(() => 
                 {
-                    clearText.DOFade(0f, 1.5f).OnComplete(() =>
+                    clearText.GetComponentInChildren<Text>().DOFade(0f, 2f);
+                });
+                clearText.GetComponent<Image>().DOFade(150f / 255f, 2f).OnComplete(() =>
+                {
+                    clearText.GetComponent<Image>().DOFade(0f, 2f).OnComplete(() =>
                     {
-                        SceneManager.LoadScene("MoveScene");
+                        clearText.SetActive(false);
+                        LoadScene.LoadingScene("MoveScene");
                         GameManager.Instance.bChessClear = true;
                         GameManager.Instance.SavePuzzle();
                     });

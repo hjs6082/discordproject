@@ -1188,6 +1188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c26b76f5eae5c24facf9085c013575e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
 --- !u!1 &942488822
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,6 +1536,7 @@ MonoBehaviour:
   - {fileID: 389326280}
   - {fileID: 523871702}
   FairyNameText: {fileID: 1558013362}
+  BottomBar: {fileID: 1398077669}
   BackgroundPanel: {fileID: 1862982321}
   InGameImage: {fileID: 21300000, guid: e52d7897df1672e4a850fb6554389417, type: 3}
   manStrList: []

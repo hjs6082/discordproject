@@ -12,6 +12,9 @@ public class ShakeText : MonoBehaviour, IPointerEnterHandler
 
     public bool isIgnore = false;
 
+    public float strength;
+    public int vibrato;
+
     private void Awake()
     {
         rectTrm = GetComponent<RectTransform>();
@@ -22,14 +25,14 @@ public class ShakeText : MonoBehaviour, IPointerEnterHandler
         if(isIgnore)
         {
             reTime -= reTime;
-            rectTrm.DOShakeRotation(0.1f);
+            rectTrm.DOShakeRotation(0.1f, strength, vibrato);
         }
         else
         {
             if (StartManager.Instance.bShakeOK)
             {
                 reTime -= reTime;
-                rectTrm.DOShakeRotation(0.1f);
+                rectTrm.DOShakeRotation(0.1f, strength, vibrato);
             }
         }
     }

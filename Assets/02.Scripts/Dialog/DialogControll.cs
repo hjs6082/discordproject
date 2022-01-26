@@ -37,6 +37,7 @@ namespace Dialog
         public RectTransform[] ManGuage; // 남자쪽 말싸움 수치 (화해 - 파국)
         public RectTransform[] WomanGuage; // 여자쪽 말싸움 수치 (화해 - 파국)
         public Text FairyNameText; // 요정 이름
+        public GameObject BottomBar;
         private Dictionary<GameObject, GameObject> SpeechArrowDic = new Dictionary<GameObject, GameObject>();
 
         [Header("화면 전환 관련")]
@@ -198,6 +199,10 @@ namespace Dialog
 
             GameObject dialog = InitDialog(iType);
             string str = charStrsDic[type][talkVal];
+            if(str == "어머나 뭐지?")
+            {
+                Dialogs[(int)eIndex.MAN].SetActive(false);
+            }
             this.talkVal[iType]++;
             if (type == eIndex.MAN)
             {
@@ -280,10 +285,16 @@ namespace Dialog
 
                             Next(type, talkVal[iType]);
 
+                            BottomBar.SetActive(false);
+
                             AudioManager.Instance.TeleportSound();
                             GameManager.Instance.FadePanel.SetActive(false);
                         });
                     });
+                }
+                else if(str == "?")
+                {
+                    CharacterImages[(int)eIndex.MAN].gameObject.SetActive(false);
                 }
                 else if (str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
