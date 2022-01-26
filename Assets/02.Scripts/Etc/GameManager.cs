@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
 
     public Vector3 curPlayerPos;
 
+    public GameObject ClearPanel;
+
     private void Awake()
     {
         if (Instance == null)
@@ -56,6 +58,7 @@ public class GameManager : MonoBehaviour
         }
 
         PauseCanvas.SetActive(false);
+        ClearPanel.SetActive(false);
 
         curPlayerPos = new Vector3(-25f, 16f, 10f);
         FadePanel.GetComponent<Image>().color = new Color(1, 1, 1, 0);
@@ -105,6 +108,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public bool DemoClearCheck()
+    {
+        if(bChessClear && bMovePuzzleClear)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public void SavePuzzle()
     {
         SaveData savePuzzle = new SaveData(bChessClear, bMovePuzzleClear, bOnIsland);
@@ -123,11 +135,11 @@ public class GameManager : MonoBehaviour
     {
         bPause = !bPause;
         PauseCanvas.SetActive(bPause);
-        ClearPanel();
+        InitPanel();
         PausePanel.SetActive(bPause);
     }
 
-    private void ClearPanel()
+    private void InitPanel()
     {
         PausePanel.SetActive(false);
         OptionPanel.SetActive(false);
@@ -136,19 +148,19 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        ClearPanel();
+        InitPanel();
         PausePanel.SetActive(true);
     }
 
     public void Option()
     {
-        ClearPanel();
+        InitPanel();
         OptionPanel.SetActive(true);
     }
 
     public void Credit()
     {
-        ClearPanel();
+        InitPanel();
         CreditPanel.SetActive(true);
     }
 

@@ -70,6 +70,6 @@ public class PuzzleButton : MonoBehaviour
         GameManager.Instance.SavePuzzle();
         yield return new WaitForSeconds(second);
         okText.gameObject.SetActive(false);
-        SceneManager.LoadScene("MoveScene");
+        LoadScene.LoadingScene("MoveScene");
     }
 }

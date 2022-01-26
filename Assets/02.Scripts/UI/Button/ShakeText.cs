@@ -10,6 +10,8 @@ public class ShakeText : MonoBehaviour, IPointerEnterHandler
 
     RectTransform rectTrm;
 
+    public bool isIgnore = false;
+
     private void Awake()
     {
         rectTrm = GetComponent<RectTransform>();
@@ -17,10 +19,18 @@ public class ShakeText : MonoBehaviour, IPointerEnterHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (StartManager.Instance.bShakeOK)
+        if(isIgnore)
         {
             reTime -= reTime;
             rectTrm.DOShakeRotation(0.1f);
+        }
+        else
+        {
+            if (StartManager.Instance.bShakeOK)
+            {
+                reTime -= reTime;
+                rectTrm.DOShakeRotation(0.1f);
+            }
         }
     }
 

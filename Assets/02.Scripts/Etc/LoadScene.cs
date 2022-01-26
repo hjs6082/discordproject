@@ -9,6 +9,10 @@ public class LoadScene : MonoBehaviour
     public static void LoadingScene(string sceneName)
     {
         DOTween.Clear(true);
+        if(GameManager.Instance.DemoClearCheck())
+        {
+            GameManager.Instance.ClearPanel.SetActive(true);
+        }
         SceneManager.LoadScene(sceneName);
     }
 }
