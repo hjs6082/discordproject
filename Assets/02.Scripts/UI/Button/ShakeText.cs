@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class ButtonShake : MonoBehaviour, IPointerEnterHandler
+public class ShakeText : MonoBehaviour, IPointerEnterHandler
 {
     float reTime;
 

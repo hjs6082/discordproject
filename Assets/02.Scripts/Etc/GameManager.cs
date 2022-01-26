@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        PauseCanvas.SetActive(false);
+
         curPlayerPos = new Vector3(-25f, 16f, 10f);
         FadePanel.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         FadePanel.SetActive(false);
