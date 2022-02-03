@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5481,6 +5481,10 @@ PrefabInstance:
       propertyPath: backButton
       value: 
       objectReference: {fileID: 1858107801}
+    - target: {fileID: 3856956818250314227, guid: 9748925ca3193754984b11f02944431d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3856956819175151711, guid: 9748925ca3193754984b11f02944431d, type: 3}
       propertyPath: m_Name
       value: MemoCanvas
@@ -5588,7 +5592,7 @@ PrefabInstance:
     - target: {fileID: 3856956819646601529, guid: 9748925ca3193754984b11f02944431d, type: 3}
       propertyPath: m_Text
       value: "to. #&&#\r\n\r\n\uC9D1\uC5D0\uC11C \uC885\uC774\uB97C \uBC1C\uACAC\uD588\uC5B4\uC694\r\n\uCC22\uACA8\uC788\uAE34
-        \uD574\uB3C4 \uC9C0\uB3C4\uC778 \uAC83 \uAC19\uC544 \uBCF4\uB0B4\uBD05\uB2C8\uB2E4"
+        \uD574\uB3C4\n\uC9C0\uB3C4\uC778 \uAC83 \uAC19\uC544 \uBCF4\uB0B4\uBD05\uB2C8\uB2E4"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9748925ca3193754984b11f02944431d, type: 3}
