@@ -11,7 +11,7 @@ public class AttackTween : MonoBehaviour
 
     private void Awake()
     {
-        rectTrm = GetComponent<RectTransform>();    
+        rectTrm = this.gameObject.GetComponent<RectTransform>();    
     }
 
     public void Attack()

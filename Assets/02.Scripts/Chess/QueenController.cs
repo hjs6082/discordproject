@@ -78,11 +78,14 @@ namespace QueenPuzzle
             {
                 if (queen != null)
                 {
-                    Vector3 boardHitPos = boardHit.transform.position;
+                    if (boardHit.transform != null)
+                    {
+                        Vector3 boardHitPos = boardHit.transform.position;
+                        queen.transform.position = (queen.GetComponent<Queen>().bQueenOn) ? beforePos : new Vector3(boardHitPos.x, 0, boardHitPos.z);
+                        dropQueen.Play();
+                        if (!bChecking) StartCoroutine(ClearCheck());
+                    }
 
-                    queen.transform.position = (queen.GetComponent<Queen>().bQueenOn) ? beforePos : new Vector3(boardHitPos.x, 0, boardHitPos.z);
-                    dropQueen.Play();
-                    if (!bChecking) StartCoroutine(ClearCheck());
 
                     queen = null;
                 }
@@ -96,10 +99,10 @@ namespace QueenPuzzle
             {
                 clearText.SetActive(true);
 
-                if(AudioManager.Instance != null)
-                AudioManager.Instance.ClearSound();
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.ClearSound();
 
-                clearText.GetComponentInChildren<Text>().DOFade(1f, 2f).OnComplete(() => 
+                clearText.GetComponentInChildren<Text>().DOFade(1f, 2f).OnComplete(() =>
                 {
                     clearText.GetComponentInChildren<Text>().DOFade(0f, 2f);
                 });

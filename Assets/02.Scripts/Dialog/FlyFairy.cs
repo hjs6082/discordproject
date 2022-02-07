@@ -16,8 +16,8 @@ public class FlyFairy : MonoBehaviour
     private void Start() 
     {
         seq = DOTween.Sequence();
-        seq.Append(rectTrm.DOAnchorPosY(300f, 1.0f).SetEase(Ease.Linear));
-        seq.Append(rectTrm.DOAnchorPosY(270f, 1.0f).SetEase(Ease.Linear));
+        seq.Append(rectTrm.DOAnchorPosY(310f, 1.0f).SetEase(Ease.Linear));
+        seq.Append(rectTrm.DOAnchorPosY(210f, 1.0f).SetEase(Ease.Linear));
         seq.AppendCallback(() => seq.Restart());
     }
 }

@@ -34,24 +34,30 @@ namespace Dialog
 
         public GameObject[] Dialogs; // 다이얼로그
         public Image[] CharacterImages; // 캐릭터 이미지
+        public RectTransform[] objRects;
         public RectTransform[] ManGuage; // 남자쪽 말싸움 수치 (화해 - 파국)
         public RectTransform[] WomanGuage; // 여자쪽 말싸움 수치 (화해 - 파국)
         public Text FairyNameText; // 요정 이름
         public GameObject BottomBar;
         private Dictionary<GameObject, GameObject> SpeechArrowDic = new Dictionary<GameObject, GameObject>();
 
+#region 화면 전환 관련
         [Header("화면 전환 관련")]
         public GameObject BackgroundPanel; // 배경화면
         //public GameObject FadePanel; // 화면전환하기 전 Fade해줄 패널
         public Sprite InGameImage; // Fade하고나서 바꿔줄 Background이미지
+#endregion
 
+#region 대사리스트
         [Header("대사 리스트")]
         public List<string> manStrList = new List<string>();
         public List<string> womanStrList = new List<string>();
         public List<string> fairyStrList = new List<string>();
         public List<string> manStoryStrList = new List<string>();
         private Dictionary<eIndex, List<string>> charStrsDic = new Dictionary<eIndex, List<string>>();
+#endregion
 
+#region 대화 순서 관련
         private eIndex[] OrderList = {
             eIndex.FAIRY,
             eIndex.MAN_Story,
@@ -83,10 +89,13 @@ namespace Dialog
         private int curOrder = 0; // 현재 몇 번째 순서인지
         private int[] talkVal = { 0, 0, 0 }; // 몇 번째 말하는지 (MAN, WOMAN, FAIRY 순)
         private int curTalkVal = 0;
+#endregion
 
+#region bool변수들
         public bool isPlayer = false; // 플레이어가 조작할 차례인지
         public bool isTalking = false; // 캐릭터가 말하는 중인지
         private bool bLoadScene = false;
+#endregion
 
         public CharacterVoice charVoice;
 
@@ -164,6 +173,14 @@ namespace Dialog
                             Next(type, talkVal[iType]);
                             return;
                         }
+                    }
+                }
+                else
+                {
+                    if(Input.GetKeyDown(KeyCode.Space))
+                    {
+                        SkipSpeech(OrderList[curOrder]);
+                        return;
                     }
                 }
             }
@@ -254,7 +271,7 @@ namespace Dialog
                     guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
 
                     CharacterImages[(int)CurrentOrder].GetComponent<AttackTween>().Attack();
-                    Damaged(CharacterImages[(int)eIndex.WOMAN]);
+                    Damaged(objRects[(int)eIndex.WOMAN]);
                 }
                 else if (CurrentOrder == eIndex.WOMAN)
                 {
@@ -265,7 +282,7 @@ namespace Dialog
                     guage.DOSizeDelta(guage.sizeDelta + new Vector2(randomSize, 0f), 0.5f);
 
                     CharacterImages[((int)CurrentOrder)].GetComponent<AttackTween>().Attack();
-                    Damaged(CharacterImages[(int)eIndex.MAN]);
+                    Damaged(objRects[(int)eIndex.MAN]);
                 }
 
                 if (str == "외딴 섬에나 떨어져!")
@@ -294,7 +311,7 @@ namespace Dialog
                 }
                 else if(str == "?")
                 {
-                    CharacterImages[(int)eIndex.MAN].gameObject.SetActive(false);
+                    objRects[(int)eIndex.MAN].gameObject.SetActive(false);
                 }
                 else if (str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
@@ -330,9 +347,15 @@ namespace Dialog
             });
         }
 
-        public void Damaged(Image obj)
+        public void Damaged(RectTransform obj)
         {
-            obj.rectTransform.DOShakeAnchorPos(0.1f);
+            obj.DOShakeAnchorPos(0.1f);
+        }
+
+        public void SkipSpeech(eIndex type)
+        {
+            Text dialogText = Dialogs[(int)type].GetComponentInChildren<Text>();
+            DOTween.Complete(dialogText);
         }
     }
 }

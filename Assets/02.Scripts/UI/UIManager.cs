@@ -49,11 +49,22 @@ public class UIManager : MonoBehaviour
     {
         searchVisionOverlay.gameObject.SetActive(false);
         instance = this;
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
 
     void Update()
     {
+        if(!GameManager.Instance.bPause)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+
         //������ ����
         if (Input.GetKeyDown("n"))
         {
