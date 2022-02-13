@@ -9,6 +9,8 @@ TagManager:
   - BOARD
   - ChessPuzzle
   - MovePuzzle
+  - LADDER
+  - JigsawPuzzle
   layers:
   - Default
   - TransparentFX
