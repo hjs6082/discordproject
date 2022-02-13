@@ -1298,6 +1298,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1681027557}
     m_Modifications:
+    - target: {fileID: 8883951146137159130, guid: 3e5e96b79fe22b44ba56506e81e69a8e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 236
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883951146137159130, guid: 3e5e96b79fe22b44ba56506e81e69a8e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 745
+      objectReference: {fileID: 0}
+    - target: {fileID: 8883951146137159131, guid: 3e5e96b79fe22b44ba56506e81e69a8e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -4967039600337863157, guid: 5421478e3153f0048834d9cad0a378ee, type: 3}
     - target: {fileID: 8883951146623442748, guid: 3e5e96b79fe22b44ba56506e81e69a8e, type: 3}
       propertyPath: m_Name
       value: WomanDialog
@@ -1644,6 +1656,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8379889175520878900, guid: c4a79d3c9e0365444bd3bfb18e6afd9f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 220
+      objectReference: {fileID: 0}
+    - target: {fileID: 8379889175520878900, guid: c4a79d3c9e0365444bd3bfb18e6afd9f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 759
+      objectReference: {fileID: 0}
+    - target: {fileID: 8379889175520878901, guid: c4a79d3c9e0365444bd3bfb18e6afd9f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4834972583670448941, guid: 5421478e3153f0048834d9cad0a378ee, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4a79d3c9e0365444bd3bfb18e6afd9f, type: 3}
 --- !u!114 &8379889175562068835 stripped

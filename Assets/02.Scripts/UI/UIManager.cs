@@ -56,9 +56,16 @@ public class UIManager : MonoBehaviour
 
     void Update()
     {
-        if(!GameManager.Instance.bPause)
+        if (!GameManager.Instance.bPause)
         {
-            Cursor.lockState = CursorLockMode.Locked;
+            if (GameManager.Instance.isPuzzle)
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
         }
         else
         {
@@ -84,13 +91,13 @@ public class UIManager : MonoBehaviour
             }
         }
         //���簡�� ���ã��
-        if(Input.GetKeyDown("e"))
+        if (Input.GetKeyDown("e"))
         {
             if (canSearchVisionActive == false)
             {
                 pPVol.profile = searchVision;
                 canSearchVisionActive = true;
-                for(int i = 0; i < interactionObjs.Length; i++)
+                for (int i = 0; i < interactionObjs.Length; i++)
                 {
                     interactionObjs[i].GetComponent<MeshRenderer>().material = interactMaterial;
                 }
@@ -133,9 +140,9 @@ public class UIManager : MonoBehaviour
     public void ResetCursor()
     {
         searchVisionOverlay.gameObject.SetActive(false);
-        Vector2 cursorHotspot = new Vector2 (standardCursorImg.width / 2, standardCursorImg.height / 2);
+        Vector2 cursorHotspot = new Vector2(standardCursorImg.width / 2, standardCursorImg.height / 2);
         Cursor.SetCursor(standardCursorImg, cursorHotspot, CursorMode.ForceSoftware);
         searchVisionActive = false;
     }
-    
+
 }

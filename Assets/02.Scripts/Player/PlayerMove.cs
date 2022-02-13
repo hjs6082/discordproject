@@ -7,6 +7,7 @@ using DG.Tweening;
 public class PlayerMove : MonoBehaviour
 {
     bool isMove = false;
+    public bool isPuzzle = false;
 
     float rotateEndVal = 0;
     float moveDelay = 0.4f;
@@ -26,35 +27,38 @@ public class PlayerMove : MonoBehaviour
 
     void Start()
     {
-        if(GameManager.Instance != null)
-        this.gameObject.transform.position = GameManager.Instance.curPlayerPos;
+        if (GameManager.Instance != null)
+            //this.gameObject.transform.position = GameManager.Instance.curPlayerPos;
 
-        isMove = false;
+            isMove = false;
         rotateEndVal = Quaternion.identity.y;
     }
 
     void Update()
     {
-        if (Input.anyKeyDown)
+        if (!isPuzzle)
         {
-            foreach (var dic in PlayerMoveAmount)
+            if (Input.anyKeyDown)
             {
-                if (Input.GetKeyDown(dic.Key))
+                foreach (var dic in PlayerMoveAmount)
                 {
-                    if (!isMove)
+                    if (Input.GetKeyDown(dic.Key))
                     {
-                        if (Mathf.Abs(dic.Value) > 5)
+                        if (!isMove)
                         {
-                            Rotate(dic.Value);
+                            if (Mathf.Abs(dic.Value) > 5)
+                            {
+                                Rotate(dic.Value);
+                            }
+                            else
+                            {
+                                bool isForward = (dic.Value > 0) ? true : false;
+                                // 레이캐스트 쏴줘서 충돌체 있나 확인
+                                if (IsCanMove(isForward))
+                                    Straight(dic.Value);
+                            }
+                            return;
                         }
-                        else
-                        {
-                            bool isForward = (dic.Value > 0) ? true : false; 
-                            // 레이캐스트 쏴줘서 충돌체 있나 확인
-                            if(IsCanMove(isForward))
-                            Straight(dic.Value);
-                        }
-                        return;
                     }
                 }
             }
@@ -67,40 +71,44 @@ public class PlayerMove : MonoBehaviour
         isMove = true;
         dur = (int)rotateEndVal / 90;
 
-        if(AudioManager.Instance != null)
-        AudioManager.Instance.MoveSound();
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.MoveSound();
 
-        switch(dur)
+        switch (dur)
         {
             case 0:
-            // z좌표 +
-            transform.DOMoveZ(transform.position.z + _moveDistance, moveDelay).OnComplete(() => {
-               isMove = false; 
-            });
-            break;
+                // z좌표 +
+                transform.DOMoveZ(transform.position.z + _moveDistance, moveDelay).OnComplete(() =>
+                {
+                    isMove = false;
+                });
+                break;
             case 1:
             case -3:
-            // x 좌표 + 
-            transform.DOMoveX(transform.position.x + _moveDistance, moveDelay).OnComplete(() => {
-               isMove = false; 
-            });
-            break;
+                // x 좌표 + 
+                transform.DOMoveX(transform.position.x + _moveDistance, moveDelay).OnComplete(() =>
+                {
+                    isMove = false;
+                });
+                break;
             case -1:
             case 3:
-            // x 좌표 -
-            transform.DOMoveX(transform.position.x - _moveDistance, moveDelay).OnComplete(() => {
-               isMove = false; 
-            });
-            break;
+                // x 좌표 -
+                transform.DOMoveX(transform.position.x - _moveDistance, moveDelay).OnComplete(() =>
+                {
+                    isMove = false;
+                });
+                break;
             case 2:
             case -2:
-            // z좌표 -
-            transform.DOMoveZ(transform.position.z - _moveDistance, moveDelay).OnComplete(() => {
-               isMove = false; 
-            });
-            break;
+                // z좌표 -
+                transform.DOMoveZ(transform.position.z - _moveDistance, moveDelay).OnComplete(() =>
+                {
+                    isMove = false;
+                });
+                break;
             default:
-            break;
+                break;
         }
     }
 
@@ -109,7 +117,7 @@ public class PlayerMove : MonoBehaviour
         print("rotate");
         isMove = true;
         rotateEndVal += _rotateAmount;
-        if(rotateEndVal >= 360 || rotateEndVal <= -360)
+        if (rotateEndVal >= 360 || rotateEndVal <= -360)
         {
             rotateEndVal = 0;
         }
@@ -125,7 +133,7 @@ public class PlayerMove : MonoBehaviour
         Vector3 moveDur = (_isForward) ? transform.forward : -transform.forward;
 
         Debug.DrawRay(transform.position, moveDur, Color.red, 1f);
-        if(Physics.Raycast(transform.position, moveDur, out hit, MaxDistance))
+        if (Physics.Raycast(transform.position, moveDur, out hit, MaxDistance))
         {
             return false;
         }

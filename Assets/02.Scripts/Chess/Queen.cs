@@ -44,10 +44,10 @@ namespace QueenPuzzle
         {
             for (int i = 0; i < dirs.Count; i++)
             {
-                Vector3 pos = this.transform.position + new Vector3(0, 1f, 0);
+                Vector3 pos = this.transform.position + new Vector3(0, 0.1f, 0);
                 Vector3 dir = dirs[i];
                 Physics.Raycast(pos, dir, out hit, 15f);
-                Debug.DrawRay(pos, dir, Color.blue, 0.5f);
+                Debug.DrawRay(pos, dir, Color.blue, 100f);
 
                 if (hit.transform != null)
                 {

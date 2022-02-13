@@ -15,6 +15,7 @@ namespace Player
 
         private bool bJumping = false; // 점프
         private bool onLadder = false; // 사다리
+        public bool isPuzzle = false;
 
         private void Awake()
         {
@@ -25,25 +26,28 @@ namespace Player
 
         private void Update()
         {
-            if(Input.anyKey)
+            if (!GameManager.Instance.isPuzzle)
             {
-                if(!onLadder)
+                if (Input.anyKey)
                 {
-                    Move();
+                    if (!onLadder)
+                    {
+                        Move();
+                    }
+                    else
+                    {
+
+                    }
+
+                    if (Input.GetKeyDown(KeyCode.Space) && !bJumping)
+                    {
+                        Jump();
+                    }
                 }
                 else
                 {
 
                 }
-
-                if(Input.GetKeyDown(KeyCode.Space) && !bJumping)
-                {
-                    Jump();
-                }
-            }
-            else 
-            {
-                
             }
         }
 
@@ -52,10 +56,10 @@ namespace Player
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
 
-            Vector3 _moveHorizontal = mainCam.transform.right * h; 
-            Vector3 _moveVertical = mainCam.transform.forward * v; 
+            Vector3 _moveHorizontal = mainCam.transform.right * h;
+            Vector3 _moveVertical = mainCam.transform.forward * v;
 
-            Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * MOVE_SPEED; 
+            Vector3 _velocity = (_moveHorizontal + _moveVertical).normalized * MOVE_SPEED;
             _velocity = new Vector3(_velocity.x, 0f, _velocity.z);
             playerTrm.position += _velocity * Time.deltaTime;
         }
@@ -68,7 +72,7 @@ namespace Player
 
         private void OnCollisionEnter(Collision other)
         {
-            if(other.transform.tag.Equals("LADDER"))
+            if (other.transform.tag.Equals("LADDER"))
             {
                 onLadder = true;
             }

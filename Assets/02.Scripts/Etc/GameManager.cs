@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     public GameObject OptionBGM_Volume;
     public GameObject OptionEFFECT_Volume;
     public bool bPause = false;
+    public bool isPuzzle = false;
 
     public AudioClip[] BGM_Arr;
     private AudioSource bgmAudio;
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     public bool bMovePuzzleClear = false;
     public bool bOnIsland = false;
 
-    public Vector3 curPlayerPos;
+    //public Vector3 curPlayerPos;
 
     public GameObject ClearPanel;
 
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
         PauseCanvas.SetActive(false);
         ClearPanel.SetActive(false);
 
-        curPlayerPos = new Vector3(-25f, 16f, 10f);
+        //curPlayerPos = new Vector3(-25f, 16f, 10f);
         FadePanel.GetComponent<Image>().color = new Color(1, 1, 1, 0);
         FadePanel.SetActive(false);
 

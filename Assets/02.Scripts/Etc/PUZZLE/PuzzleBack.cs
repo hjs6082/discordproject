@@ -7,6 +7,7 @@ using UnityEngine.EventSystems;
 public class PuzzleBack : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private Image backButtonImage;
+    private ChangeCam changeCam;
 
     private Color SetColor(float r, float g, float b, float a)
     {
@@ -15,6 +16,8 @@ public class PuzzleBack : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void Awake()
     {
+        changeCam = FindObjectOfType<ChangeCam>();
+
         backButtonImage = this.GetComponent<Image>();
 
         backButtonImage.color = SetColor(255f, 255f, 255f, 0f);
@@ -39,6 +42,6 @@ public class PuzzleBack : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     private void BackPuzzle()
     {
-        LoadScene.LoadingScene("MoveScene");
+        changeCam.MoveCam();
     }
 }

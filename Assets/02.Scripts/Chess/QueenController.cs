@@ -9,6 +9,8 @@ namespace QueenPuzzle
 {
     public class QueenController : MonoBehaviour
     {
+        public ChangeCam changeCam;
+
         private RaycastHit hit;
         private RaycastHit boardHit;
         private RaycastHit[] hits;
@@ -33,63 +35,67 @@ namespace QueenPuzzle
 
         private void Update()
         {
-            if (Input.GetMouseButton(0))
+            if (GameManager.Instance.isPuzzle)
             {
-                if (!isClicked)
+                if (Input.GetMouseButton(0))
                 {
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    Physics.Raycast(ray, out hit, 30f);
-
-                    if (hit.transform != null)
+                    if (!isClicked)
                     {
-                        if (hit.transform.CompareTag("QUEEN"))
+                        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        Physics.Raycast(ray, out hit, 30f);
+                        //Debug.DrawRay(ray.origin, ray.direction, Color.blue, 0.5f);
+
+                        if (hit.transform != null)
                         {
-                            if (queen == null)
+                            if (hit.transform.CompareTag("QUEEN"))
                             {
-                                queen = hit.transform.gameObject;
-                                dropQueen = queen.GetComponent<AudioSource>();
-                                if (dropQueen.isPlaying) dropQueen.Stop();
+                                if (queen == null)
+                                {
+                                    queen = hit.transform.gameObject;
+                                    dropQueen = queen.GetComponent<AudioSource>();
+                                    if (dropQueen.isPlaying) dropQueen.Stop();
+                                }
+                                beforePos = hit.transform.position;
+                                //Debug.Log(string.Format("{0}, {1}, {2}", beforePos.x, beforePos.y, beforePos.z));
+                                isClicked = true;
                             }
-                            beforePos = hit.transform.position;
-                            //Debug.Log(string.Format("{0}, {1}, {2}", beforePos.x, beforePos.y, beforePos.z));
-                            isClicked = true;
                         }
                     }
-                }
 
-                if (queen != null)
-                {
-                    ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-                    hits = Physics.RaycastAll(ray, 30f);
-
-                    foreach (RaycastHit rayHit in hits)
+                    if (queen != null)
                     {
-                        if (rayHit.transform.tag.Equals("BOARD"))
+                        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                        hits = Physics.RaycastAll(ray, 30f);
+
+                        foreach (RaycastHit rayHit in hits)
                         {
-                            boardHit = rayHit;
+                            if (rayHit.transform.tag.Equals("BOARD"))
+                            {
+                                boardHit = rayHit;
+                            }
                         }
-                    }
 
-                    queen.transform.position = new Vector3(boardHit.point.x, 0.3f, boardHit.point.z);
+                        queen.transform.position = new Vector3(boardHit.point.x, boardHit.transform.position.y + 0.3f, boardHit.point.z);
+                    }
                 }
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                if (queen != null)
+                else if (Input.GetMouseButtonUp(0))
                 {
-                    if (boardHit.transform != null)
+                    if (queen != null)
                     {
-                        Vector3 boardHitPos = boardHit.transform.position;
-                        queen.transform.position = (queen.GetComponent<Queen>().bQueenOn) ? beforePos : new Vector3(boardHitPos.x, 0, boardHitPos.z);
-                        dropQueen.Play();
-                        if (!bChecking) StartCoroutine(ClearCheck());
+                        if (boardHit.transform != null)
+                        {
+                            Vector3 boardHitPos = boardHit.transform.position;
+                            queen.transform.position = (queen.GetComponent<Queen>().bQueenOn) ? beforePos : new Vector3(boardHitPos.x, boardHit.transform.position.y, boardHitPos.z);
+                            dropQueen.Play();
+                            if (!bChecking) StartCoroutine(ClearCheck());
+                        }
+
+
+                        queen = null;
                     }
-
-
-                    queen = null;
+                    isClicked = false;
                 }
-                isClicked = false;
             }
         }
 
@@ -111,7 +117,9 @@ namespace QueenPuzzle
                     clearText.GetComponent<Image>().DOFade(0f, 2f).OnComplete(() =>
                     {
                         clearText.SetActive(false);
-                        LoadScene.LoadingScene("MoveScene");
+                        //LoadScene.LoadingScene("MoveScene");
+                        changeCam.MoveCam();
+                        GameManager.Instance.isPuzzle = false;
                         GameManager.Instance.bChessClear = true;
                         GameManager.Instance.SavePuzzle();
                     });

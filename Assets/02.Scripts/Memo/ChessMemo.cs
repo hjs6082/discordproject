@@ -19,7 +19,7 @@ namespace Memo
         {
             memoPanel.SetActive(false);
             memoCtrl = memoPanel.GetComponentInChildren<MemoControll>();
-            SetMemoTrm(startPos, startRotate);
+            //SetMemoTrm(startPos, startRotate);
         }
 
         private void SetMemoTrm(Vector3 pos, Vector3 rotate)

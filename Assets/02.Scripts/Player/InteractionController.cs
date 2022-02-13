@@ -3,110 +3,118 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class InteractionController : MonoBehaviour
+namespace Player
 {
-    [SerializeField] Camera cam;
-
-    [SerializeField]
-    Texture2D searchCursorImg;
-    [SerializeField]
-    Texture2D findCursorImg;
-
-    RaycastHit hitInfo;
-
-    bool isContact = false;
-    // Start is called before the first frame update
-    void Start()
+    public class InteractionController : MonoBehaviour
     {
-        
-    }
+        [SerializeField] Camera cam;
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (UIManager.instance.searchVisionActive == true)
-        {
-            CheckObject();
-        }
-    }
+        [SerializeField]
+        Texture2D searchCursorImg;
+        [SerializeField]
+        Texture2D findCursorImg;
 
-    void CheckObject()
-    {
-        Vector3 t_MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
-        if(Physics.Raycast(cam.ScreenPointToRay(t_MousePos), out hitInfo, 100))
-        {
-            Contact();
-        }
-        else
-        {
-            Cursor.SetCursor(searchCursorImg, Vector2.zero, CursorMode.ForceSoftware);
-            NotContact();
-        }
-    }
+        private ChangeCam changeCam;
+        private PlayerWalk playerWalk;
 
-    void Contact() //������Ʈ�� ���� ������ ���
-    {
-        if(hitInfo.transform.CompareTag("Interaction"))
+        RaycastHit hitInfo;
+
+        bool isContact = false;
+
+        private void Awake()
         {
-            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
-            if (Input.GetMouseButtonDown(0))
+            changeCam = GetComponent<ChangeCam>();
+            playerWalk = GetComponent<PlayerWalk>();
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+            if (UIManager.instance.searchVisionActive == true)
             {
-                // ����ٰ� ���� ����
-                Debug.Log("Click");
-            }
-            if (!isContact)
-            {
-                isContact = true;
+                CheckObject();
             }
         }
-        else
-        {
-            NotContact();
-        }
-        if(hitInfo.transform.CompareTag("ChessPuzzle"))
-        {
-            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
-            if (Input.GetMouseButtonDown(0))
-            {
-                UIManager.instance.ResetCursor();
-                GameManager.Instance.curPlayerPos = Camera.main.transform.parent.position;
-                LoadScene.LoadingScene("ChessPuzzle");
 
-            }
-            if (!isContact)
+        void CheckObject()
+        {
+            Vector3 t_MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
+            if (Physics.Raycast(cam.ScreenPointToRay(t_MousePos), out hitInfo, 100))
             {
-                isContact = true;
+                Contact();
+            }
+            else
+            {
+                Cursor.SetCursor(searchCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                NotContact();
             }
         }
-        else
-        {
-            NotContact();
-        }
-        if (hitInfo.transform.CompareTag("MovePuzzle"))
-        {
-            Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
-            if (Input.GetMouseButtonDown(0))
-            {
-                UIManager.instance.ResetCursor();
-                SceneManager.LoadScene("MovePuzzle");
 
-            }
-            if (!isContact)
+        void Contact() //������Ʈ�� ���� ������ ���
+        {
+            if (hitInfo.transform.CompareTag("Interaction"))
             {
-                isContact = true;
+                Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    // ����ٰ� ���� ����
+                    Debug.Log("Click");
+                }
+                if (!isContact)
+                {
+                    isContact = true;
+                }
+            }
+            else
+            {
+                NotContact();
+            }
+            if (hitInfo.transform.CompareTag("ChessPuzzle"))
+            {
+                Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    UIManager.instance.ResetCursor();
+                    //GameManager.Instance.curPlayerPos = Camera.main.transform.parent.position;
+                    //LoadScene.LoadingScene("ChessPuzzle");
+                    GameManager.Instance.isPuzzle = true;
+                    changeCam.ChessCam();
+                }
+                if (!isContact)
+                {
+                    isContact = true;
+                }
+            }
+            else
+            {
+                NotContact();
+            }
+            if (hitInfo.transform.CompareTag("MovePuzzle"))
+            {
+                Cursor.SetCursor(findCursorImg, Vector2.zero, CursorMode.ForceSoftware);
+                if (Input.GetMouseButtonDown(0))
+                {
+                    UIManager.instance.ResetCursor();
+                    SceneManager.LoadScene("MovePuzzle");
+
+                }
+                if (!isContact)
+                {
+                    isContact = true;
+                }
+            }
+            else
+            {
+                NotContact();
             }
         }
-        else
-        {
-            NotContact();
-        }
-    }
 
-    void NotContact() // ������Ʈ�� ���� �Ұ����� ���
-    {
-        if(isContact)
+        void NotContact() // ������Ʈ�� ���� �Ұ����� ���
         {
-            isContact = false;
+            if (isContact)
+            {
+                isContact = false;
+            }
         }
     }
 }
