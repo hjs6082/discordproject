@@ -84,6 +84,11 @@ namespace Dialog
             eIndex.FAIRY,
             eIndex.FAIRY,
             eIndex.FAIRY,
+            eIndex.FAIRY,
+            eIndex.FAIRY,
+            eIndex.FAIRY,
+            eIndex.FAIRY,
+            eIndex.FAIRY,
             eIndex.FAIRY
         };
         private int curOrder = 0; // 현재 몇 번째 순서인지
@@ -231,6 +236,8 @@ namespace Dialog
 
         public void Talking(GameObject dialog, string str) // 대화
         {
+            float duration = 0.5f;
+
             eIndex CurrentOrder = OrderList[curOrder];
 
             Text dialogText = dialog.GetComponentInChildren<Text>();
@@ -239,9 +246,13 @@ namespace Dialog
 
             Debug.Log(path);
             AudioClip myClip = Resources.Load<AudioClip>(path);
-            charVoice.PlayVoice(myClip);
+
+            if(myClip != null)
+            {
+                charVoice.PlayVoice(myClip);
+                duration = myClip.length;
+            }
             AudioManager.Instance.ButtonSound();
-            float duration = myClip.length;
 
             SpeechArrowDic[dialog].SetActive(false);
             dialogText.text = "";

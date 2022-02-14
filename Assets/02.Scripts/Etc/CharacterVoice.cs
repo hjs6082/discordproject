@@ -24,7 +24,7 @@ public class CharacterVoice : MonoBehaviour
 
     public void PlayVoice(AudioClip clip)
     {
-        if (audioSource.mute != true)
+        if (audioSource.mute == false)
         {
             audioSource.Stop();
             audioSource.clip = clip;
