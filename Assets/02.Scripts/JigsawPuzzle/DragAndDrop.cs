@@ -13,6 +13,13 @@ public class DragAndDrop : MonoBehaviour
         _camera = Camera.main;
     }
 
+    public static Vector3 GetMouseWorldPos()
+    {
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0;
+        return mouseWorldPos;
+    }
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -28,8 +35,10 @@ public class DragAndDrop : MonoBehaviour
         }
         if (selectedPiece != null)
         {
-            Vector3 MousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            selectedPiece.transform.position = new Vector3(MousePoint.x, MousePoint.y);
+            Vector3 MousePoint = Input.mousePosition;
+            print(MousePoint);
+            selectedPiece.transform.position = MousePoint;
+            print(selectedPiece.transform.position);
         }
     }
 }
