@@ -227,7 +227,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: cdaa26d9b3761534f9e95dfe30de42c7, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cdaa26d9b3761534f9e95dfe30de42c7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -481,6 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPuzzle: 0
+  isScan: 0
 --- !u!54 &67958380
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2822,7 +2823,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 589cb217327814641b0365e42a1f8239, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 589cb217327814641b0365e42a1f8239, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3085,6 +3086,7 @@ MonoBehaviour:
   searchVisionOverlay: {fileID: 100161216}
   searchCursorImg: {fileID: 2800000, guid: a6a565c99595de841a2c29aa331a614d, type: 3}
   standardCursorImg: {fileID: 2800000, guid: b5fc7e6d387528e458a96559ae72f5ef, type: 3}
+  player: {fileID: 67958372}
   searchVisionActive: 0
   canSearchVisionActive: 0
   interactionObjs:

@@ -16,6 +16,7 @@ namespace Player
         private bool bJumping = false; // 점프
         private bool onLadder = false; // 사다리
         public bool isPuzzle = false;
+        public bool isScan = false;
 
         private void Awake()
         {
@@ -32,7 +33,10 @@ namespace Player
                 {
                     if (!onLadder)
                     {
-                        Move();
+                        if (!isScan)
+                        {
+                            Move();
+                        }
                     }
                     else
                     {

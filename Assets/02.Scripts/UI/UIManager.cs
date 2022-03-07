@@ -18,6 +18,10 @@ public class UIManager : MonoBehaviour
     Texture2D searchCursorImg;
     [SerializeField]
     Texture2D standardCursorImg;
+    [SerializeField]
+    private GameObject player;
+
+    private Player.PlayerWalk pr;
 
     public bool searchVisionActive = false;
     public bool canSearchVisionActive = false;
@@ -51,6 +55,8 @@ public class UIManager : MonoBehaviour
         instance = this;
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        pr = player.GetComponent<Player.PlayerWalk>();
     }
 
 
@@ -87,6 +93,7 @@ public class UIManager : MonoBehaviour
                 clearUI();
                 Cursor.SetCursor(standardCursorImg, Vector2.zero, CursorMode.ForceSoftware);
                 searchVisionActive = false;
+                player.GetComponent<Player.PlayerWalk>().isScan = false;
                 moveModeUI.SetActive(true);
             }
         }
@@ -95,6 +102,7 @@ public class UIManager : MonoBehaviour
         {
             if (canSearchVisionActive == false)
             {
+                pr.isScan = true;
                 pPVol.profile = searchVision;
                 canSearchVisionActive = true;
                 for (int i = 0; i < interactionObjs.Length; i++)
@@ -121,6 +129,7 @@ public class UIManager : MonoBehaviour
                 {
                     interactionObjs[i].GetComponent<MeshRenderer>().material = returnMaterial;
                 }
+                pr.isScan = false;
                 movePuzzle.GetComponent<MeshRenderer>().material = deskMaterial;
                 chessPuzzleWhite.GetComponent<MeshRenderer>().material = chessWhiteMaterial;
                 chessPuzzleBlack.GetComponent<MeshRenderer>().material = chessBlackMaterial;
