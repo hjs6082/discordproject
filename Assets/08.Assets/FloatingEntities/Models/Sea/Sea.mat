@@ -86,7 +86,7 @@ Material:
     - _WaveLengthInverse: 0.1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.026275955, g: 0.13437988, b: 0.19852942, a: 0.934}
+    - _BaseColor: {r: 0.36642933, g: 0.56417364, b: 0.6886792, a: 0.934}
     - _BumpDirection: {r: 40, g: 40, b: 40, a: -40}
     - _BumpTiling: {r: 0.05, g: 0.07, b: 0.08, a: 0.06}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
@@ -94,7 +94,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectionColor: {r: 0.48264486, g: 0.5361673, b: 0.5808823, a: 0.278}
     - _SpecularColor: {r: 0.9411765, g: 0.844577, b: 0.6366782, a: 0.27053705}
-    - _WaterColor: {r: 0, g: 0, b: 0, a: 0.5}
+    - _WaterColor: {r: 0, g: 0.7767916, b: 1, a: 0.5}
     - _WorldLightDir: {r: -0.03, g: -0.201, b: -1, a: 0}
     - world_light_dir: {r: 0.5710599, g: 0.5947614, b: 0.5658178, a: 0}
   m_BuildTextureStacks: []
