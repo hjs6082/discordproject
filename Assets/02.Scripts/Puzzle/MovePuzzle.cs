@@ -32,7 +32,7 @@ public class MovePuzzle : MonoBehaviour
             Vector3 t_MousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0);
             if (Physics.Raycast(_camera.ScreenPointToRay(t_MousePos), out hitInfo, 100))
             {
-                if (Vector3.Distance(a: emptySpace.transform.position, b: hitInfo.transform.position) < 2)
+                if (Vector3.Distance(a: emptySpace.transform.position, b: hitInfo.transform.position) < 0.5)
                 {
                     Vector3 lastEmptySpacePosition = emptySpace.transform.position;
                     TileScript thisTile = hitInfo.transform.GetComponent<TileScript>();
