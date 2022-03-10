@@ -95,6 +95,7 @@ namespace Player
                 if (Input.GetMouseButtonDown(0))
                 {
                     UIManager.instance.ResetCursor();
+                    GameManager.Instance.isPuzzle = true;
                     SceneManager.LoadScene("MovePuzzle");
 
                 }

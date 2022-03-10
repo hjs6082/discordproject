@@ -30,16 +30,19 @@ namespace Memo
 
         private void OnMouseDown()
         {
-            string str = "";
-            
-            for (int i = 0; i < MemoStrs.ChessStoryMemo.Length; i++)
+            if (GameManager.Instance.isPuzzle == true)
             {
-                str += MemoStrs.ChessStoryMemo[i];
-            }
+                string str = "";
 
-            memoPanel.SetActive(true);
-            memoCtrl.SetMemoText(str);
-            SetMemoTrm(nextPos, nextRotate);
+                for (int i = 0; i < MemoStrs.ChessStoryMemo.Length; i++)
+                {
+                    str += MemoStrs.ChessStoryMemo[i];
+                }
+
+                memoPanel.SetActive(true);
+                memoCtrl.SetMemoText(str);
+                SetMemoTrm(nextPos, nextRotate);
+            }
         }
     }
 }

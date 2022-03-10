@@ -34,6 +34,12 @@ public class PuzzleButton : MonoBehaviour
         }
     }
 
+    public void BackButton()
+    {
+        GameManager.Instance.isPuzzle = false;
+        LoadScene.LoadingScene("MoveScene");
+    }
+
     public void ResetButton()
     {
         mp.Shuffle();
@@ -70,6 +76,7 @@ public class PuzzleButton : MonoBehaviour
         GameManager.Instance.SavePuzzle();
         yield return new WaitForSeconds(second);
         okText.gameObject.SetActive(false);
+        GameManager.Instance.isPuzzle = false;
         LoadScene.LoadingScene("MoveScene");
     }
 }

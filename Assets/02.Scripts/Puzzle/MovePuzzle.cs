@@ -77,6 +77,7 @@ public class MovePuzzle : MonoBehaviour
               && tiles[9].name == "Map_9" && tiles[10].name == "Map_10" && tiles[11].name == "Map_11"
               && tiles[12].name == "Map_12" && tiles[13].name == "Map_13" && tiles[14].name == "Map_14")
             {
+                GameManager.Instance.isPuzzle = false;
                 isClear = true;
                 puzzleStart = false;
             }
