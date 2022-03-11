@@ -9,15 +9,15 @@ using UnityEngine.SceneManagement;
 
 namespace Dialog
 {
-    public enum eIndex
-    {
-        MAN,
-        WOMAN,
-        FAIRY,
-        MAN_Story
-    }
+    // public enum eIndex
+    // {
+    //     MAN,
+    //     WOMAN,
+    //     FAIRY,
+    //     MAN_Story
+    // }
 
-    public class DialogControll : MonoBehaviour
+    public class DialogControll_Past : MonoBehaviour
     {
         private Dictionary<KeyCode, int> KeyMapDic = new Dictionary<KeyCode, int>()
         {
@@ -244,7 +244,7 @@ namespace Dialog
 
             string path = $"Voices/Voice_{(int)CurrentOrder}/audio_{curTalkVal}";
 
-            Debug.Log(path);
+            //Debug.Log(path);
             AudioClip myClip = Resources.Load<AudioClip>(path);
 
             if(myClip != null)
@@ -322,7 +322,7 @@ namespace Dialog
                 }
                 else if(str == "?")
                 {
-                    objRects[(int)eIndex.MAN].gameObject.SetActive(false);
+                    //objRects[(int)eIndex.MAN].gameObject.SetActive(false);
                 }
                 else if (str == DialogStrs.fairyStrsArr[DialogStrs.fairyStrsArr.Length - 1])
                 {
@@ -365,7 +365,7 @@ namespace Dialog
 
         public void SkipSpeech(eIndex type)
         {
-            Text dialogText = Dialogs[(int)type].GetComponentInChildren<Text>();
+            Text dialogText = Dialogs[(int)type % 3].GetComponentInChildren<Text>();
             DOTween.Complete(dialogText);
         }
     }
