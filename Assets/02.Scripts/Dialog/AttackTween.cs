@@ -22,4 +22,11 @@ public class AttackTween : MonoBehaviour
             rectTrm.DORotate(new Vector3(0, 0, 0), 0.1f).SetEase(Ease.OutQuad);
         });
     }
+
+    public void Damaged()
+    {
+        RectTransform rect = GetComponent<RectTransform>();
+
+        rect.DOShakeAnchorPos(0.1f);
+    }
 }

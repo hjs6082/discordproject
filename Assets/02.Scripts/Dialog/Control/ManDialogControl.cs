@@ -24,7 +24,6 @@ namespace Dialog
 
         public GameObject charImage;
         private AttackTween attackTween;
-        private CharacterAnimation charAnim;
 
         public Image goodGuage;
         public Image badGuage;
@@ -38,7 +37,6 @@ namespace Dialog
         {
 #region 변수 초기화
             attackTween = charImage.GetComponent<AttackTween>();
-            charAnim = GetComponentInChildren<CharacterAnimation>();
 
             attackStrList = DialogStrs.manStrsArr.ToList();
             storyStrList = DialogStrs.manStoryArr.ToList();
@@ -72,9 +70,7 @@ namespace Dialog
             float duration = clip.length;
          
             arrowText.SetActive(false);
-
-            charAnim.Attack(_attackVal);
-
+            
             PlayAudio(clip, _audioSource);
 
             Talking(duration, attackStrList[_attackVal]);

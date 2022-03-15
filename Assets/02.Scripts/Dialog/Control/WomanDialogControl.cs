@@ -21,7 +21,6 @@ namespace Dialog
 
         public GameObject charImage;
         private AttackTween attackTween;
-        private CharacterAnimation charAnim;
 
         public Image goodGuage;
         public Image badGuage;
@@ -32,7 +31,6 @@ namespace Dialog
         public override void Awake()
         {
             attackTween = charImage.GetComponent<AttackTween>();
-            charAnim = GetComponentInChildren<CharacterAnimation>();
 
             dialogStrList = DialogStrs.womanStrsArr.ToList();
 
@@ -58,8 +56,6 @@ namespace Dialog
             AudioClip clip = dialogClipList[talkVal];
 
             float duration = clip.length;
-
-            charAnim.Attack(UnityEngine.Random.Range(0, 5));
 
             PlayAudio(clip, _audioSource);
             Talking(duration, dialogStrList[talkVal]);

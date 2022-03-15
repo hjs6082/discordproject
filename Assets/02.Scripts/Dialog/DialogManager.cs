@@ -9,7 +9,6 @@ namespace Dialog
     {
         MAN,
         WOMAN,
-        FAIRY,
         MAN_Story
     }
 
@@ -35,17 +34,9 @@ namespace Dialog
         };
 
         private eIndex[] OrderList = {
-            eIndex.FAIRY,
             eIndex.MAN_Story,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
             eIndex.MAN,
             eIndex.WOMAN,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
             eIndex.MAN,
             eIndex.WOMAN,
             eIndex.MAN,
@@ -53,22 +44,12 @@ namespace Dialog
             eIndex.MAN,
             eIndex.WOMAN, // 외딴 섬에나 떨어져
             eIndex.MAN_Story,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY
         };
         private eIndex currentIndex;
         private int totalOrder = 0;
 
         public ManDialogControl manCtrl;
         public WomanDialogControl womanCtrl;
-        public FairyDialogControl fairyCtrl;
 
         private List<DialogControl_main> ctrlList = new List<DialogControl_main>();
 
@@ -102,7 +83,6 @@ namespace Dialog
 
             ctrlList.Add(manCtrl);
             ctrlList.Add(womanCtrl);
-            ctrlList.Add(fairyCtrl);
 
             currentIndex = OrderList[totalOrder];
         }
@@ -208,12 +188,10 @@ namespace Dialog
                 if (OrderList[totalOrder + 1] == eIndex.MAN)
                 {
                     womanCtrl.arrowText.GetComponent<Text>().text = "QWER" + ARROW_TEXT;
-                    fairyCtrl.arrowText.GetComponent<Text>().text = "QWER" + ARROW_TEXT;
                 }
                 else
                 {
                     womanCtrl.arrowText.GetComponent<Text>().text = "SPACE바" + ARROW_TEXT;
-                    fairyCtrl.arrowText.GetComponent<Text>().text = "SPACE바" + ARROW_TEXT;
                 }
             }
 
