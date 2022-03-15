@@ -11,6 +11,10 @@ TagManager:
   - MovePuzzle
   - LADDER
   - JigsawPuzzle
+  - Ladder-top
+  - Ladder-floor
+  - Ladder-bottom
+  - Ladder-air
   layers:
   - Default
   - TransparentFX
@@ -20,7 +24,7 @@ TagManager:
   - UI
   - PostProcessing
   - 
-  - 
+  - PostProcessingMap
   - 
   - QUEEN
   - BOARD
