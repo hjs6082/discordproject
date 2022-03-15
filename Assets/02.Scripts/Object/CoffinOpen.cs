@@ -5,6 +5,11 @@ using DG.Tweening;
 
 public class CoffinOpen : MonoBehaviour
 {
+    public GameObject crossKey;
+    private Vector3 crossKeyStartPosition;
+
+
+
     private Vector3 startPosition;
     private bool isKey = false;
 
@@ -19,15 +24,18 @@ public class CoffinOpen : MonoBehaviour
     {
         startPosition = this.gameObject.transform.position;
         goalPosition1 = new Vector3(startPosition.x, startPosition.y + 0.054f, startPosition.z);
-
-isKey = true; // 지울것
         openSound = this.gameObject.GetComponent<AudioSource>();
-
+        crossKeyStartPosition = crossKey.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            crossKey.transform.DOMove(new Vector3(crossKeyStartPosition.x, 1.5f, crossKeyStartPosition.z), 2f, false).SetEase(Ease.InQuad);
+            StartCoroutine(WaitForKey());
+        }
     }
 
     private void OnMouseDown() //열쇠가 꽃힐 경우에 움직이게 할것. 테스트용이라서 마우스다운으로 맞춰놓음
@@ -43,6 +51,12 @@ isKey = true; // 지울것
         }
     }
 
+
+    IEnumerator WaitForKey()
+    {
+        yield return new WaitForSeconds(2);
+        isKey = true;
+    }
 
     IEnumerator WaitForMute()
     {
