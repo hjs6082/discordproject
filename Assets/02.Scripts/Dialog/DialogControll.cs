@@ -9,13 +9,13 @@ using UnityEngine.SceneManagement;
 
 namespace Dialog
 {
-    public enum eIndex
-    {
-        MAN,
-        WOMAN,
-        FAIRY,
-        MAN_Story
-    }
+    //public enum eIndex
+    //{
+    //    MAN,
+    //    WOMAN,
+    //    FAIRY,
+    //    MAN_Story
+    //}
 
     public class DialogControll : MonoBehaviour
     {
@@ -59,17 +59,9 @@ namespace Dialog
 
 #region 대화 순서 관련
         private eIndex[] OrderList = {
-            eIndex.FAIRY,
             eIndex.MAN_Story,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
             eIndex.MAN,
             eIndex.WOMAN,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
             eIndex.MAN,
             eIndex.WOMAN,
             eIndex.MAN,
@@ -77,19 +69,6 @@ namespace Dialog
             eIndex.MAN,
             eIndex.WOMAN, // 외딴 섬에나 떨어져
             eIndex.MAN_Story,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY,
-            eIndex.FAIRY
         };
         private int curOrder = 0; // 현재 몇 번째 순서인지
         private int[] talkVal = { 0, 0, 0 }; // 몇 번째 말하는지 (MAN, WOMAN, FAIRY 순)
@@ -124,7 +103,6 @@ namespace Dialog
 
             charStrsDic.Add(eIndex.MAN, manStrList);
             charStrsDic.Add(eIndex.WOMAN, womanStrList);
-            charStrsDic.Add(eIndex.FAIRY, fairyStrList);
             charStrsDic.Add(eIndex.MAN_Story, manStoryStrList);
 
             for (int i = 0; i < Dialogs.Length; i++)
