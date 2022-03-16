@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class Apple : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private Vector3 offset;
+
+    private float zOffset;
+
+    private void OnMouseDown()
     {
-        
+        zOffset = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
+
+        offset = gameObject.transform.position - GetMouseWorldPos();
     }
 
-    // Update is called once per frame
-    void Update()
+    private Vector3 GetMouseWorldPos()
     {
-        
+        Vector3 mousePoint = Input.mousePosition;
+        mousePoint.z = zOffset;
+
+        return Camera.main.ScreenToWorldPoint(mousePoint);
     }
 
-    private void OnMouseEnter()
+    private void OnMouseDrag()
     {
-        this.transform.position = Input.mousePosition;
+        transform.position = GetMouseWorldPos() + offset;
     }
 }
