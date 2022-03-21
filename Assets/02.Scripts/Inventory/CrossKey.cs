@@ -24,14 +24,17 @@ public class CrossKey : MonoBehaviour
         if(Inventory.instance.inventoryOne.sprite == null || Inventory.instance.inventoryTwo.sprite == null)
         {
             Inventory.instance.inventoryOne.sprite = crossImage;
+            Inventory.instance.isCoffinKeyOne = true;
         }
         else if (Inventory.instance.inventoryOne.sprite != null || Inventory.instance.inventoryTwo.sprite == null)
         {
             Inventory.instance.inventoryTwo.sprite = crossImage;
+            Inventory.instance.isCoffinKeyTwo = true;
         }
         else if (Inventory.instance.inventoryOne.sprite == null || Inventory.instance.inventoryTwo.sprite != null)
         {
             Inventory.instance.inventoryOne.sprite = crossImage;
+            Inventory.instance.isCoffinKeyOne = true;
         }   
         else
         {

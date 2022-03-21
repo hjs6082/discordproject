@@ -17,7 +17,11 @@ public class Inventory : MonoBehaviour
 
     public bool isBlueKey;
     public bool isRedKey;
-    public bool isCoffinKey;
+    public bool isCoffinKeyOne;
+    public bool isCoffinKeyTwo;
+
+    public bool isSelectOne;
+    public bool isSelectTwo;
 
     void Start()
     {
@@ -39,8 +43,11 @@ public class Inventory : MonoBehaviour
                 isSelect = true;
                 if(inventoryOne.sprite != null)
                 {
+                    ClearCursor();
                     Cursor.SetCursor(textureFromSprite(inventoryOne.sprite), Vector2.zero, CursorMode.ForceSoftware);
                 }
+                isSelectTwo = false;
+                isSelectOne = true;
             }
             else if(selectImage1.enabled == false || selectImage2.enabled == true)
             {
@@ -49,8 +56,11 @@ public class Inventory : MonoBehaviour
                 selectImage1.enabled = true;
                 if (inventoryOne.sprite != null)
                 {
+                    ClearCursor();
                     Cursor.SetCursor(textureFromSprite(inventoryOne.sprite), Vector2.zero, CursorMode.ForceSoftware);
                 }
+                isSelectTwo = false;
+                isSelectOne = true;
             }
             else
             {
@@ -58,8 +68,11 @@ public class Inventory : MonoBehaviour
                 isSelect = false;
                 if (inventoryOne.sprite != null)
                 {
+                    ClearCursor();
                     Cursor.SetCursor(default, Vector2.zero, CursorMode.ForceSoftware);
                 }
+                isSelectTwo = false;
+                isSelectOne = false;
             }
         }
 
@@ -72,8 +85,11 @@ public class Inventory : MonoBehaviour
                 isSelect = true;
                 if (inventoryTwo.sprite != null)
                 {
+                    ClearCursor();
                     Cursor.SetCursor(textureFromSprite(inventoryTwo.sprite), Vector2.zero, CursorMode.ForceSoftware);
                 }
+                isSelectOne = false;
+                isSelectTwo = true;
             }
             else if (selectImage1.enabled == true || selectImage2.enabled == false)
             {
@@ -82,8 +98,11 @@ public class Inventory : MonoBehaviour
                 selectImage2.enabled = true;
                 if (inventoryTwo.sprite != null)
                 {
+                    ClearCursor();
                     Cursor.SetCursor(textureFromSprite(inventoryTwo.sprite), Vector2.zero, CursorMode.ForceSoftware);
                 }
+                isSelectOne = false;
+                isSelectTwo = true;
             }
             else
             {
@@ -93,6 +112,8 @@ public class Inventory : MonoBehaviour
                 {
                     Cursor.SetCursor(default, Vector2.zero, CursorMode.ForceSoftware);
                 }
+                isSelectOne = false;
+                isSelectTwo = false;
 
             }
 
@@ -104,6 +125,11 @@ public class Inventory : MonoBehaviour
     {
         selectImage1.enabled = false;
         selectImage2.enabled = false;
+    }
+
+    void ClearCursor()
+    {
+        Cursor.SetCursor(default, Vector2.zero, CursorMode.ForceSoftware);
     }
 
     public static Texture2D textureFromSprite(Sprite sprite)

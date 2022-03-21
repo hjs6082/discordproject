@@ -31,23 +31,48 @@ public class CoffinOpen : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.K))
+        if (isKey == true)
         {
-            crossKey.transform.DOMove(new Vector3(crossKeyStartPosition.x, 1.5f, crossKeyStartPosition.z), 2f, false).SetEase(Ease.InQuad);
-            StartCoroutine(WaitForKey());
+            Debug.Log(2);
+            this.gameObject.transform.DOMove(new Vector3(goalPosition1.x, goalPosition1.y, goalPosition1.z), 2, false).SetEase(Ease.InQuad);
+            //openSound.Play();
+            //StartCoroutine(WaitForMute());
+
+
+            StartCoroutine(WaitForSecond(2));
+            isKey = false;
+
+
+
         }
     }
 
     private void OnMouseDown() //열쇠가 꽃힐 경우에 움직이게 할것. 테스트용이라서 마우스다운으로 맞춰놓음
     {
-        if (isKey == true)
+        if (Inventory.instance.isSelectOne || Inventory.instance.isCoffinKeyOne && Inventory.instance.isSelectTwo && Inventory.instance.isCoffinKeyTwo)
         {
-            Debug.Log(2);
-            this.gameObject.transform.DOMove(new Vector3(goalPosition1.x,goalPosition1.y,goalPosition1.z), 2, false).SetEase(Ease.InQuad);
-            //openSound.Play();
-            //StartCoroutine(WaitForMute());
-            StartCoroutine(WaitForSecond(2));
-            isKey = false;
+            Cursor.SetCursor(default, Vector2.zero, CursorMode.ForceSoftware);
+            Inventory.instance.isSelect = false;
+            if (Inventory.instance.isSelectOne || Inventory.instance.isCoffinKeyOne)
+            {
+                Inventory.instance.isSelectOne = false;
+                Inventory.instance.isCoffinKeyOne = false;
+                Inventory.instance.inventoryOne.sprite = null;
+                Inventory.instance.selectImage1.enabled = false;
+            }
+            else if (Inventory.instance.isSelectTwo || Inventory.instance.isCoffinKeyTwo)
+            {
+                Inventory.instance.isSelectTwo = false;
+                Inventory.instance.isCoffinKeyTwo = false;
+                Inventory.instance.inventoryTwo.sprite = null;
+                Inventory.instance.selectImage2.enabled = false;
+            }
+            crossKey.transform.DOMove(new Vector3(crossKeyStartPosition.x, 1.5f, crossKeyStartPosition.z), 2f, false).SetEase(Ease.InQuad);
+            StartCoroutine(WaitForKey());
+        }
+        else
+        {
+            Debug.Log("열쇠가 없습니다.");
         }
     }
 
