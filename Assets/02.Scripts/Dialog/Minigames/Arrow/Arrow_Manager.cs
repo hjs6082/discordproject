@@ -30,14 +30,14 @@ public class Arrow_Manager : Minigame
 
     public override void Update()
     {
-        if(!bStart)
-        {
-            StartGame(readyPanel);
-        }   
-        else
+        if (bStart)
         {
             Timer();
             InputArrow();
+        }
+        else
+        {
+            StartGame(readyPanel);
         }
     }
 
@@ -45,16 +45,16 @@ public class Arrow_Manager : Minigame
     {
         bStart = false;
 
-        currentTime = DEFAULT_TIME;
+        InitTimer();
 
         readyPanel.SetActive(true);
 
-        arrow_Obj.InitArrow();
+        arrow_Obj?.InitArrow();
     }
 
     public override void StartGame(GameObject _readyPanel)
     {
-        if(Input.anyKeyDown)
+        if (Input.anyKeyDown && _readyPanel.activeSelf)
         {
             base.StartGame(_readyPanel);
             bStart = true;
@@ -70,17 +70,23 @@ public class Arrow_Manager : Minigame
     {
         bWin = arrow_Ctrl.InputArrow();
 
-        if(bWin || currentTime <= 0.0f)
+        if (bWin || currentTime <= 0.0f)
         {
             Debug.Log("dmddo");
             Attack(bWin);
+            bStart = false;
         }
+    }
+
+    public void InitTimer()
+    {
+        currentTime = DEFAULT_TIME;
+        timer_Text.text = $"{currentTime:F2}";
     }
 
     public void Timer()
     {
         currentTime = Mathf.Clamp(currentTime - Time.deltaTime, 0.0f, DEFAULT_TIME);
-
         timer_Text.text = $"{currentTime:F2}";
     }
 }

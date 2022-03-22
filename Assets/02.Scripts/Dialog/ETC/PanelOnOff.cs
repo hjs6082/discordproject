@@ -7,7 +7,7 @@ public class PanelOnOff : MonoBehaviour
 {
     public Vector3 on_Pos;
     public Vector3 off_Pos;
-    
+
     public GameObject[] miniGames;
 
     private RectTransform rectTrm = null;
@@ -17,9 +17,18 @@ public class PanelOnOff : MonoBehaviour
     private void Awake()
     {
         rectTrm = GetComponent<RectTransform>();
+    }
 
-        for(int i = 0; i < miniGames.Length; i++)
+    private void Start()
+    {
+        InitMiniGames();
+    }
+
+    private void InitMiniGames()
+    {
+        for (int i = 0; i < miniGames.Length; i++)
         {
+            miniGames[i].GetComponent<Arrow_Manager>().InitGame();
             miniGames[i].SetActive(false);
         }
     }
@@ -30,12 +39,24 @@ public class PanelOnOff : MonoBehaviour
 
         Vector3 pos = (isOn) ? on_Pos : off_Pos;
 
-        rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.Linear);
+        rectTrm.DOAnchorPos(pos, 0.5f).SetEase(Ease.InQuad);
     }
 
-    public void OnOff(GameObject _miniGame)
+    public void OnOff(GameObject _miniGame = null)
     {
-        _miniGame.SetActive(true);
+        isOn = !isOn;
+
+        Vector3 pos = (isOn) ? on_Pos : off_Pos;
+
+        rectTrm.DOAnchorPos(pos, 0.5f).SetEase(Ease.InOutQuad).OnComplete(() =>
+        {
+            InitMiniGames();
+            Dialog.DialogManager.Instance.OnOffButtons();
+
+            _miniGame?.SetActive(true);
+
+            OnOff();
+        });
     }
 
     public void MiniGame(int _index)

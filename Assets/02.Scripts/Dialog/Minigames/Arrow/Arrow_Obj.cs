@@ -17,9 +17,20 @@ public class Arrow_Obj : MonoBehaviour
 
     public void InitArrow()
     {
-        for(int i = 0; i < 3; i++)
+        if (arrow_Obj_List.Count > 0)
         {
-            for(int j = 0; j < 5; j++)
+            foreach (GameObject arrow in arrow_Obj_List)
+            {
+                Destroy(arrow);
+            }
+
+            arrow_Obj_List.Clear();
+            arrow_Index_List.Clear();
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 5; j++)
             {
                 int rand_Index = Random.Range(0, 4);
 
@@ -35,11 +46,11 @@ public class Arrow_Obj : MonoBehaviour
         }
     }
 
-    public bool bCheckArrow(int _index)
+    public bool IsCheckArrow(int _index)
     {
         bool bCheck = false;
 
-        if(_index == arrow_Index_List[0])
+        if (_index == arrow_Index_List[0])
         {
             GameObject arrow = arrow_Obj_List[0];
             Destroy(arrow);
@@ -47,12 +58,12 @@ public class Arrow_Obj : MonoBehaviour
             arrow_Obj_List.RemoveAt(0);
             arrow_Index_List.RemoveAt(0);
 
-            if(arrow_Index_List.Count <= 0)
+            if (arrow_Index_List.Count <= 0)
             {
                 bCheck = true;
             }
         }
-        
+
         return bCheck;
     }
 }

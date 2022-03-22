@@ -28,7 +28,7 @@ public class Arrow_Control : MonoBehaviour
             {
                 if (Input.GetKeyDown(input.Key))
                 {
-                    bCheck = arrow_Obj.bCheckArrow(input.Value);
+                    bCheck = arrow_Obj.IsCheckArrow(input.Value);
                 }
             }
         }

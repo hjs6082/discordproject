@@ -48,9 +48,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: BingBang
+  - name: Dialog
     uniqueID: 3141755959
     locked: 0
   - name: Arrow
     uniqueID: 2391670187
+    locked: 0
+  - name: BingBang
+    uniqueID: 4026151915
     locked: 0
