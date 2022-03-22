@@ -8,6 +8,8 @@ public class Apple : MonoBehaviour
 
     private float zOffset;
 
+    private Vector3 nowOffset;
+
     private void OnMouseDown()
     {
         zOffset = Camera.main.WorldToScreenPoint(gameObject.transform.position).z;
@@ -26,5 +28,8 @@ public class Apple : MonoBehaviour
     private void OnMouseDrag()
     {
         transform.position = GetMouseWorldPos() + offset;
+        nowOffset = transform.position;
+        
+        this.gameObject.transform.position = new Vector3(nowOffset.x,nowOffset.y + 0.3f, nowOffset.z);
     }
 }
