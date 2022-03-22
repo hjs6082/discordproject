@@ -33,6 +33,7 @@ public class CoffinOpen : MonoBehaviour
     {
         if (isKey == true)
         {
+            StopCoroutine(WaitForKey());
             Debug.Log(2);
             this.gameObject.transform.DOMove(new Vector3(goalPosition1.x, goalPosition1.y, goalPosition1.z), 2, false).SetEase(Ease.InQuad);
             //openSound.Play();
@@ -41,8 +42,6 @@ public class CoffinOpen : MonoBehaviour
 
             StartCoroutine(WaitForSecond(2));
             isKey = false;
-
-
 
         }
     }

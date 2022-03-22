@@ -15,10 +15,13 @@ public class Inventory : MonoBehaviour
 
     public bool isSelect = false;
 
-    public bool isBlueKey;
     public bool isRedKey;
     public bool isCoffinKeyOne;
     public bool isCoffinKeyTwo;
+    public bool isBlueKeyOne;
+    public bool isBlueKeyTwo;
+    public bool isGreenAppleOne;
+    public bool isGreenAppleTwo;
 
     public bool isSelectOne;
     public bool isSelectTwo;
@@ -147,5 +150,28 @@ public class Inventory : MonoBehaviour
         }
         else
             return sprite.texture;
+    }
+
+    public void PickUp(Sprite joinSprite, bool isItem1, bool isItem2)
+    {
+        if (Inventory.instance.inventoryOne.sprite == null && Inventory.instance.inventoryTwo.sprite == null)
+        {
+            Inventory.instance.inventoryOne.sprite = joinSprite;
+            isItem1 = true;
+        }
+        else if (Inventory.instance.inventoryOne.sprite != null && Inventory.instance.inventoryTwo.sprite == null)
+        {
+            Inventory.instance.inventoryTwo.sprite = joinSprite;
+            isItem2 = true;
+        }
+        else if (Inventory.instance.inventoryOne.sprite == null && Inventory.instance.inventoryTwo.sprite != null)
+        {
+            Inventory.instance.inventoryOne.sprite = joinSprite;
+            isItem2 = true;
+        }
+        else
+        {
+            Debug.Log("이미 인벤토리창이 꽉찼습니다.");
+        }
     }
 }

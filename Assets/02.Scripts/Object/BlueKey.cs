@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CrossKey : MonoBehaviour
+public class BlueKey : MonoBehaviour
 {
     [SerializeField]
-    private Sprite crossImage;
-    
+    private Sprite blueKeyImage;
+
+
     private void OnMouseDown()
     {
         Destroy(this.gameObject);
-        Inventory.instance.PickUp(crossImage, Inventory.instance.isCoffinKeyOne, Inventory.instance.isCoffinKeyTwo);
+        Inventory.instance.PickUp(blueKeyImage, Inventory.instance.isBlueKeyOne, Inventory.instance.isBlueKeyTwo);
     }
 }
