@@ -12,6 +12,7 @@ namespace Dialog
     public abstract class DialogControl_main : MonoBehaviour
     {
         public abstract void Awake();
+        public abstract void Start();
         public abstract void Next(AudioSource _audioSource);
         public abstract void Talking(float duration, string _str); // 대화
         public abstract void SkipSpeech();
@@ -19,9 +20,7 @@ namespace Dialog
 
         public virtual void Damaged()
         {
-            RectTransform rect = GetComponent<RectTransform>();
-
-            rect.DOShakeAnchorPos(0.1f);
+            
         }
 
         public virtual void ClearSpeech(Text _speechText)
