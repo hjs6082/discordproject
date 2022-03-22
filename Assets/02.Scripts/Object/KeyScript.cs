@@ -18,7 +18,7 @@ public class KeyScript : MonoBehaviour
     {
         instnace = this;
         startPosition = this.gameObject.transform.position;
-        goalPosition = new Vector3(startPosition.x + 3f, startPosition.y, startPosition.z);
+        goalPosition = new Vector3(startPosition.x + 2.96f, startPosition.y, startPosition.z);
         backPosition = new Vector3(goalPosition.x - 1f, goalPosition.y, goalPosition.z);
     }
 
