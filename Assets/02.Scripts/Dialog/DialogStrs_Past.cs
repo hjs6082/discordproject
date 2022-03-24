@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Dialog
 {
-    public class DialogStrs
+    public class DialogStrs_Past
     {
         public static string[] manStrsArr = {
             "새 신발 신고 나갔는데\n소나기나 와라!",

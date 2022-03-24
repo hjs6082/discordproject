@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class Arrow_Manager : Minigame
 {
-    private const float DEFAULT_TIME = 6.0f;
+    private const float DEFAULT_TIME = 4.25f;
     public static Action Act_Timer;
 
     public Arrow_Control arrow_Ctrl { get; private set; }
@@ -89,6 +89,7 @@ public class Arrow_Manager : Minigame
     public void UpdateTimer(Action _Act_Timer)
     {
         _Act_Timer?.Invoke();
+        currentTime = Mathf.Clamp(currentTime, 0.0f, DEFAULT_TIME);
         timer_Text.text = $"{currentTime:F2}";
     }
 
@@ -104,7 +105,7 @@ public class Arrow_Manager : Minigame
 
     public void Timer()
     {
-        UpdateTimer(() => currentTime = Mathf.Clamp(currentTime - Time.deltaTime, 0.0f, DEFAULT_TIME));
+        UpdateTimer(() => currentTime -= Time.deltaTime);
     }
 
     public void DecTime()
@@ -113,7 +114,7 @@ public class Arrow_Manager : Minigame
 
         dec_Timer_Text.DOComplete();
         dec_Timer_Text.gameObject.SetActive(true);
-        dec_Timer_Text.rectTransform.DOShakeAnchorPos(0.25f, 10, 10).OnComplete(() => 
+        dec_Timer_Text.rectTransform.DOShakeAnchorPos(0.25f, 10, 15).OnComplete(() => 
         {
             dec_Timer_Text.gameObject.SetActive(false);
         });
