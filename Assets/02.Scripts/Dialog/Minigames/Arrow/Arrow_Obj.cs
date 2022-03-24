@@ -63,6 +63,10 @@ public class Arrow_Obj : MonoBehaviour
                 bCheck = true;
             }
         }
+        else
+        {
+            Arrow_Manager.Act_Timer?.Invoke();
+        }
 
         return bCheck;
     }
