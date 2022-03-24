@@ -13,6 +13,7 @@ public class PanelOnOff : MonoBehaviour
     private RectTransform rectTrm = null;
 
     bool isOn = true;
+    bool isAttack = false;
 
     private void Awake()
     {
@@ -39,7 +40,14 @@ public class PanelOnOff : MonoBehaviour
 
         Vector3 pos = (isOn) ? on_Pos : off_Pos;
 
-        rectTrm.DOAnchorPos(pos, 0.5f).SetEase(Ease.InQuad);
+        rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutCirc).OnComplete(() => 
+        {
+            if(isAttack)
+            {
+                isAttack = false;
+                Dialog.DialogManager.Instance.dialog_Ctrl.Talking(1.0f, "");
+            }
+        });
     }
 
     public void OnOff(GameObject _miniGame = null)
@@ -48,12 +56,20 @@ public class PanelOnOff : MonoBehaviour
 
         Vector3 pos = (isOn) ? on_Pos : off_Pos;
 
-        rectTrm.DOAnchorPos(pos, 0.5f).SetEase(Ease.InOutQuad).OnComplete(() =>
+        rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutBounce).OnComplete(() =>
         {
             InitMiniGames();
-            Dialog.DialogManager.Instance.OnOffButtons();
 
-            _miniGame?.SetActive(true);
+            if (_miniGame != null)
+            {
+                _miniGame.SetActive(true);
+
+                Dialog.DialogManager.Instance.OnOffButtons(false);
+            }
+            else
+            {
+                isAttack = true;
+            }
 
             OnOff();
         });

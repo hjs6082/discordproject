@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace Dialog
 {
@@ -24,18 +25,13 @@ namespace Dialog
             return color;
         }
 
-        public ManDialogControl manCtrl;
-        public WomanDialogControl womanCtrl;
+        public DialogControl dialog_Ctrl = null;
 
-        private List<DialogControl_main> ctrlList = new List<DialogControl_main>();
+        public CharacterVoice charVoice = null;
 
-        public CharacterVoice charVoice;
-
-        public Text ManName_Text;
-        public Text WomanName_Text;
-
-        public Image background;
-        public Sprite inGameImg;
+        public Image background = null;
+        public Sprite inGameImg = null;
+        public Image wife_Image = null;
 
         public PanelOnOff panelOnOff = null;
         public Button action_Button = null;
@@ -48,6 +44,7 @@ namespace Dialog
         private List<GameObject> red_Heart_List = new List<GameObject>();
 
         public bool isTalking = false;
+        bool bWin = false;
 
         private void Awake()
         {
@@ -75,25 +72,33 @@ namespace Dialog
 
         public void Damaged(bool _bWin)
         {
-            int heart_Index = (_bWin) ? 0 : 1;
-
-            GameObject heart = Instantiate(hearts[heart_Index], heart_Parents[heart_Index]);
-
-            switch (heart_Index)
-            {
-                case 0:
-                    blue_Heart_List.Add(heart);
-                    break;
-                case 1:
-                    red_Heart_List.Add(heart);
-                    break;
-                default:
-                    break;
-            }
-
-            OnOffButtons();
-
+            bWin = _bWin;
+            OnOffButtons(true);
             panelOnOff.OnOff(null);
+        }
+
+        public void AddHeart()
+        {
+            wife_Image.rectTransform.DOShakeAnchorPos(0.5f, 50, 10);
+            background.rectTransform.DOShakeAnchorPos(0.5f, 100, 15).OnComplete(() =>
+            {
+                int heart_Index = (bWin) ? 0 : 1;
+
+                GameObject heart = Instantiate(hearts[heart_Index], heart_Parents[heart_Index]);
+
+                switch (heart_Index)
+                {
+                    case 0:
+                        blue_Heart_List.Add(heart);
+                        break;
+                    case 1:
+                        red_Heart_List.Add(heart);
+                        break;
+                    default:
+                        break;
+                }
+            });
+
         }
 
         private void InitButtons()
@@ -110,11 +115,11 @@ namespace Dialog
             }
         }
 
-        public void OnOffButtons()
+        public void OnOffButtons(bool _bInteractable)
         {
-            for(int i = 0; i < action_List.Count; i++)
+            for (int i = 0; i < action_List.Count; i++)
             {
-                action_List[i].interactable = (action_List[i].interactable) ? false : true;
+                action_List[i].interactable = _bInteractable;
             }
         }
     }

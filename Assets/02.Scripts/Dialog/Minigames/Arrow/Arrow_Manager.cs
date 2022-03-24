@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class Arrow_Manager : Minigame
 {
-    private const float DEFAULT_TIME = 8.0f;
+    private const float DEFAULT_TIME = 6.0f;
 
     public Arrow_Control arrow_Ctrl { get; private set; }
     private Arrow_Obj arrow_Obj = null;
