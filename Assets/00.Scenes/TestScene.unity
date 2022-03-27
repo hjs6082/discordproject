@@ -978,7 +978,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c9cf9b19ebc6534a94fc29877949aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blueKeyImage: {fileID: 21300000, guid: 21b7e84358024b64395bfc6a422fbcb4, type: 3}
+  blueKeyImage: {fileID: 21300000, guid: 5634a78bb06e41b41b670c0f316dd88c, type: 3}
 --- !u!1001 &6296301627587770294
 PrefabInstance:
   m_ObjectHideFlags: 0

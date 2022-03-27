@@ -125,4 +125,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db254e0ed1ad02f4d989793a8d68a46c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  greenAppleImage: {fileID: 645411862609229670, guid: fd9be6642e1707e4eb4f3321fb037464, type: 3}
+  greenAppleImage: {fileID: 21300000, guid: 3abc1c7cbf218104a8d6e7bc7b42cbf9, type: 3}
