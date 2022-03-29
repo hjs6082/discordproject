@@ -88,7 +88,6 @@ public class StartManager : MonoBehaviour
     {
         GameManager.Instance.isOnLoad = true;
         GameManager.Instance.ClearPanel.SetActive(false);
-        GameManager.Instance.FadePanel.SetActive(true);
         GameManager.Instance.Fade_Out(0.5f, () => 
         {
             AudioManager.Instance.TeleportSound();

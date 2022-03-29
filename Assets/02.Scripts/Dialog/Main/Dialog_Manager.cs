@@ -27,12 +27,11 @@ namespace Dialog
         private List<Button> action_List = new List<Button>();
 
         public GameObject[] hearts;
-        public Transform[] heart_Parents;
+        public Transform heart_Parent;
         private List<GameObject> blue_Heart_List = new List<GameObject>();
         private List<GameObject> red_Heart_List = new List<GameObject>();
 
         public bool isTalking = false;
-        public bool bExplainOnce = false;
         public bool bWin = false;
 
         private void Awake()
@@ -86,7 +85,7 @@ namespace Dialog
             {
                 int heart_Index = (bWin) ? 0 : 1;
 
-                GameObject heart = Instantiate(hearts[heart_Index], heart_Parents[heart_Index]);
+                GameObject heart = Instantiate(hearts[heart_Index], heart_Parent);
 
                 switch (heart_Index)
                 {

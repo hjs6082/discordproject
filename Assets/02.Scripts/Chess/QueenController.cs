@@ -103,27 +103,30 @@ namespace QueenPuzzle
         {
             if (_bClear)
             {
-                clearText.SetActive(true);
+                // clearText.SetActive(true);
 
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.ClearSound();
+                // if (AudioManager.Instance != null)
+                //     AudioManager.Instance.ClearSound();
 
-                clearText.GetComponentInChildren<Text>().DOFade(1f, 2f).OnComplete(() =>
-                {
-                    clearText.GetComponentInChildren<Text>().DOFade(0f, 2f);
-                });
-                clearText.GetComponent<Image>().DOFade(150f / 255f, 2f).OnComplete(() =>
-                {
-                    clearText.GetComponent<Image>().DOFade(0f, 2f).OnComplete(() =>
-                    {
-                        clearText.SetActive(false);
-                        //LoadScene.LoadingScene("MoveScene");
-                        changeCam.MoveCam();
-                        GameManager.Instance.isPuzzle = false;
-                        GameManager.Instance.bChessClear = true;
-                        GameManager.Instance.SavePuzzle();
-                    });
-                });
+                // clearText.GetComponentInChildren<Text>().DOFade(1f, 2f).OnComplete(() =>
+                // {
+                //     clearText.GetComponentInChildren<Text>().DOFade(0f, 2f);
+                // });
+                // clearText.GetComponent<Image>().DOFade(150f / 255f, 2f).OnComplete(() =>
+                // {
+                //     clearText.GetComponent<Image>().DOFade(0f, 2f).OnComplete(() =>
+                //     {
+                //         clearText.SetActive(false);
+                //         //LoadScene.LoadingScene("MoveScene");
+                //         changeCam.MoveCam();
+                //         GameManager.Instance.isPuzzle = false;
+                //         GameManager.Instance.bChessClear = true;
+                //         GameManager.Instance.SavePuzzle();
+                //     });
+                // });
+
+                Debug.Log(transform.position.x);
+                this.transform.DOMoveX(-28.6f, 1.0f);
             }
             else Debug.Log("No");
         }

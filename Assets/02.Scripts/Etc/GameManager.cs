@@ -191,35 +191,39 @@ public class GameManager : MonoBehaviour
         LoadScene.LoadingScene("MainScene");
     }
 
-    public void Fade_In(float duration = 0.5f, Action _action = null)
+    public void Fade_In(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
-        fade_Image.DOFade(0.0f, duration).OnComplete(() => 
+        fade_Image.DOFade(0.0f, _duration).OnComplete(() => 
+        {
+            _action?.Invoke();
+            FadePanel.SetActive(false);
+        });
+    }
+
+    public void Fade_Out(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
+    {
+        Image fade_Image = FadePanel.GetComponent<Image>();
+
+        FadePanel.SetActive(true);
+        fade_Image.DOFade(1.0f, _duration).SetEase(_ease).OnComplete(() => 
         {
             _action?.Invoke();
         });
     }
 
-    public void Fade_Out(float duration = 0.5f, Action _action = null)
+    public void Fade_InOut(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
-        fade_Image.DOFade(1.0f, duration).OnComplete(() => 
-        {
-            _action?.Invoke();
-        });
-    }
-
-    public void Fade_InOut(float duration = 0.5f, Action _action = null)
-    {
-        Image fade_Image = FadePanel.GetComponent<Image>();
-
-        fade_Image.DOFade(1.0f, duration).OnComplete(() => 
+        FadePanel.SetActive(true);
+        fade_Image.DOFade(1.0f, _duration).OnComplete(() => 
         {
             fade_Image.DOFade(0.0f, 0.5f).OnComplete(() => 
             {
                 _action?.Invoke();
+                FadePanel.SetActive(false);
             });
         });
     }

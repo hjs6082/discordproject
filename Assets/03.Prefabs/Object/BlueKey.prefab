@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4093977069911824279}
   - component: {fileID: 7978396577131220107}
   m_Layer: 0
-  m_Name: key2
+  m_Name: BlueKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
