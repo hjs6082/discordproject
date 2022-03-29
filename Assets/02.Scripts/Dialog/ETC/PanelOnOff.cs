@@ -35,6 +35,15 @@ namespace Dialog
             }
         }
 
+        public void OnOff()
+        {
+            isOn = !isOn;
+
+            Vector3 pos = (isOn) ? on_Pos : off_Pos;
+
+            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutCirc);
+        }
+
         public void OnOff(bool _bWin, bool _isAttack = false)
         {
             isOn = !isOn;
@@ -55,6 +64,8 @@ namespace Dialog
                             dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
                             {
                                 /// 씬이동
+                                //fade
+                                LoadScene.LoadingScene("MoveScene");
                             });
                         }
                     });

@@ -100,6 +100,8 @@ namespace Dialog
                     ClearSpeech(speech_Text);
                     Talk(speech_Text, womanSuccess_Strs[0], w_Dur, 0.75f, () => 
                     {
+                        ClearSpeech(speech_Text);
+
                        _last?.Invoke();   
 
                         RemoveStrs();
@@ -116,6 +118,8 @@ namespace Dialog
                     ClearSpeech(speech_Text);
                     Talk(speech_Text, womanFail_Strs[0], w_Dur, 0.75f, () => 
                     {
+                        ClearSpeech(speech_Text);
+                        
                         _last?.Invoke();
 
                         RemoveStrs();

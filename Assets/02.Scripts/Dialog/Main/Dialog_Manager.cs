@@ -76,7 +76,7 @@ namespace Dialog
         public void Damaged(bool _bWin)
         {
             bWin = _bWin;
-            OnOffButtons(true);
+            //OnOffButtons(true);
             panelOnOff.OnOff(bWin, null);
         }
 
