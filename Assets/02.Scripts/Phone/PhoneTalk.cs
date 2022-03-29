@@ -44,6 +44,7 @@ public class PhoneTalk : MonoBehaviour
                 Phone.instance.isPlay = false;
                 Phone.instance.PhoneDown();
                 phoneOn = true;
+                //À¥ÈÅ Å×½ºÆ®
             }
         }   
     }
