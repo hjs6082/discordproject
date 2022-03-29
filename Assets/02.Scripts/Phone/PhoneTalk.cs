@@ -14,12 +14,18 @@ public class PhoneTalk : MonoBehaviour
     private bool isDestory;
 
     private bool phoneOn;
-    
+
+    [SerializeField]
+    private GameObject player;
+
+    private Player.PlayerWalk pr;
+
     // Start is called before the first frame update
     void Start()
     {
         Phone.instance.isPlay = true;
         StartCoroutine(TalkPlay(talk1, talk1End, 0.5f, 2f));
+        pr = player.GetComponent<Player.PlayerWalk>();
     }
     // Update is called once per frame
     void Update()
@@ -43,6 +49,7 @@ public class PhoneTalk : MonoBehaviour
             {
                 Phone.instance.isPlay = false;
                 Phone.instance.PhoneDown();
+                player.GetComponent<Player.PlayerWalk>().isScan = false;
                 phoneOn = true;
             }
         }   
