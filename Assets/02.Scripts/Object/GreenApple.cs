@@ -10,6 +10,6 @@ public class GreenApple : MonoBehaviour
     private void OnMouseDown()
     {
         Destroy(this.gameObject);
-        Inventory.instance.PickUp(greenAppleImage, Inventory.instance.isGreenAppleOne, Inventory.instance.isGreenAppleTwo);
+        Inventory.instance.PickUp(greenAppleImage, Inventory.instance.isGreenAppleOne, Inventory.instance.isGreenAppleTwo,"초록 사과", 3);
     }
 }

@@ -9,9 +9,10 @@ public class BlueKey : MonoBehaviour
     private Sprite blueKeyImage;
 
 
+
     private void OnMouseDown()
     {
         Destroy(this.gameObject);
-        Inventory.instance.PickUp(blueKeyImage, Inventory.instance.isBlueKeyOne, Inventory.instance.isBlueKeyTwo);
+        Inventory.instance.PickUp(blueKeyImage, Inventory.instance.isBlueKeyOne, Inventory.instance.isBlueKeyTwo, "ºí·ç Å°", 1);
     }
 }
