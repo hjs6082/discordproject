@@ -306,7 +306,7 @@ GameObject:
   - component: {fileID: 291180595}
   - component: {fileID: 291180594}
   m_Layer: 0
-  m_Name: ArrowObject
+  m_Name: BingBangObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,6 +326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyPanel: {fileID: 1736129036}
   timer_Text: {fileID: 1210547654}
+  dec_Timer_Text: {fileID: 0}
 --- !u!4 &291180595
 Transform:
   m_ObjectHideFlags: 0
@@ -353,7 +354,7 @@ GameObject:
   - component: {fileID: 366804539}
   - component: {fileID: 366804538}
   m_Layer: 5
-  m_Name: Arrow_Background
+  m_Name: BingBang_Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

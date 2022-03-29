@@ -3,82 +3,93 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public class PanelOnOff : MonoBehaviour
+namespace Dialog
 {
-    public Vector3 on_Pos;
-    public Vector3 off_Pos;
-
-    public GameObject[] miniGames;
-
-    private RectTransform rectTrm = null;
-
-    bool isOn = true;
-    bool isAttack = false;
-
-    private void Awake()
+    public class PanelOnOff : MonoBehaviour
     {
-        rectTrm = GetComponent<RectTransform>();
-    }
+        public Vector3 on_Pos;
+        public Vector3 off_Pos;
 
-    private void Start()
-    {
-        InitMiniGames();
-    }
+        public GameObject[] miniGames;
 
-    private void InitMiniGames()
-    {
-        for (int i = 0; i < miniGames.Length; i++)
+        private RectTransform rectTrm = null;
+
+        bool isOn = true;
+
+        private void Awake()
         {
-            miniGames[i].GetComponent<Arrow_Manager>().InitGame();
-            miniGames[i].SetActive(false);
+            rectTrm = GetComponent<RectTransform>();
         }
-    }
 
-    public void OnOff()
-    {
-        isOn = !isOn;
-
-        Vector3 pos = (isOn) ? on_Pos : off_Pos;
-
-        rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutCirc).OnComplete(() => 
-        {
-            if(isAttack)
-            {
-                isAttack = false;
-                Dialog.DialogManager.Instance.dialog_Ctrl.Talking(1.0f, "");
-            }
-        });
-    }
-
-    public void OnOff(GameObject _miniGame = null)
-    {
-        isOn = !isOn;
-
-        Vector3 pos = (isOn) ? on_Pos : off_Pos;
-
-        rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutBounce).OnComplete(() =>
+        private void Start()
         {
             InitMiniGames();
+        }
 
-            if (_miniGame != null)
+        private void InitMiniGames()
+        {
+            for (int i = 0; i < miniGames.Length; i++)
             {
-                _miniGame.SetActive(true);
-
-                Dialog.DialogManager.Instance.OnOffButtons(false);
+                miniGames[i].GetComponent<Arrow_Manager>().InitGame();
+                miniGames[i].SetActive(false);
             }
-            else
+        }
+
+        public void OnOff(bool _bWin, bool _isAttack = false)
+        {
+            isOn = !isOn;
+
+            Vector3 pos = (isOn) ? on_Pos : off_Pos;
+
+            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutCirc).OnComplete(() =>
             {
-                isAttack = true;
-            }
+                if(_isAttack)
+                {
+                    Dialog_Talk dialog_Talk = Dialog_Manager.Instance.dialog_Talk;
 
-            OnOff();
-        });
-    }
+                    dialog_Talk.Attack_Talk(_bWin, 1.25f, 1.0f, () => 
+                    {
+                        Dialog_Manager.Instance.AddHeart();
+                        if(dialog_Talk.speech_Index >= 2)
+                        {
+                            dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
+                            {
+                                /// 씬이동
+                            });
+                        }
+                    });
+                }
+            });
+        }
 
-    public void MiniGame(int _index)
-    {
-        GameObject miniGame = miniGames[_index];
+        public void OnOff(bool _bWin, GameObject _miniGame = null)
+        {
+            bool isAttack = (_miniGame == null) ? true : false;
 
-        OnOff(miniGame);
+            isOn = !isOn;
+
+            Vector3 pos = (isOn) ? on_Pos : off_Pos;
+
+            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutBounce).OnComplete(() =>
+            {
+                InitMiniGames();
+
+                if (_miniGame != null)
+                {
+                    _miniGame.SetActive(true);
+
+                    Dialog.Dialog_Manager.Instance.OnOffButtons(false);
+                }
+
+                OnOff(_bWin, isAttack);
+            });
+        }
+
+        public void MiniGame(int _index)
+        {
+            GameObject miniGame = miniGames[_index];
+
+            OnOff(false, miniGame);
+        }
     }
 }

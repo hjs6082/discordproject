@@ -11,7 +11,7 @@ public abstract class Minigame : MonoBehaviour
 
     public virtual void Attack(bool _bWin)
     {
-        Dialog.DialogManager.damaged?.Invoke(_bWin);
+        Dialog.Dialog_Manager.damaged?.Invoke(_bWin);
     }
 
     public virtual void StartGame(GameObject _readyPanel)

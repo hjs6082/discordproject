@@ -7,25 +7,13 @@ using DG.Tweening;
 
 namespace Dialog
 {
-    public enum eIndex
+    public class Dialog_Manager : MonoBehaviour
     {
-        MAN,
-        WOMAN
-    }
-
-    public class DialogManager : MonoBehaviour
-    {
-        public static DialogManager Instance { get; private set; }
+        public static Dialog_Manager Instance { get; private set; }
         public static Action<bool> damaged;
 
-        public Color SetColor(float r, float g, float b, float a)
-        {
-            Color color = new Color(r / 255f, g / 255f, b / 255f, a / 255f);
-
-            return color;
-        }
-
-        public DialogControl dialog_Ctrl = null;
+        public Dialog_Control dialog_Ctrl = null;
+        public Dialog_Talk dialog_Talk = null;
 
         public CharacterVoice charVoice = null;
 
@@ -44,7 +32,8 @@ namespace Dialog
         private List<GameObject> red_Heart_List = new List<GameObject>();
 
         public bool isTalking = false;
-        bool bWin = false;
+        public bool bExplainOnce = false;
+        public bool bWin = false;
 
         private void Awake()
         {
@@ -57,12 +46,26 @@ namespace Dialog
                 Destroy(this.gameObject);
             }
 
+            dialog_Ctrl = GetComponent<Dialog_Control>();
+            dialog_Talk = GetComponent<Dialog_Talk>();
+
             damaged += Damaged;
         }
 
         private void Start()
         {
+            if (GameManager.Instance != null)
+            {
+                dialog_Talk.SetName(GameManager.Instance.ManName, GameManager.Instance.WomanName);
+            }
+            else
+            {
+                dialog_Talk.SetName("남편", "아내");
+            }
+
             InitButtons();
+
+            OnOffButtons(false);
         }
 
         private void Update()
@@ -74,7 +77,7 @@ namespace Dialog
         {
             bWin = _bWin;
             OnOffButtons(true);
-            panelOnOff.OnOff(null);
+            panelOnOff.OnOff(bWin, null);
         }
 
         public void AddHeart()
@@ -98,7 +101,6 @@ namespace Dialog
                         break;
                 }
             });
-
         }
 
         private void InitButtons()
@@ -110,6 +112,11 @@ namespace Dialog
                 button.onClick.AddListener(() =>
                 {
                     panelOnOff.MiniGame(index);
+
+                    if (dialog_Talk.space_Strs.Count > 0)
+                    {
+                        dialog_Talk.Space_Talk(3.5f, null);
+                    }
                 });
                 action_List.Add(button);
             }

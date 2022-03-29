@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         ClearPanel.SetActive(false);
 
         //curPlayerPos = new Vector3(-25f, 16f, 10f);
-        FadePanel.GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        FadePanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         FadePanel.SetActive(false);
 
         SaveData savePuzzle = SaveSystem.Load(fileName);
