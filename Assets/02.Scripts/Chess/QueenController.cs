@@ -126,7 +126,7 @@ namespace QueenPuzzle
                 // });
 
                 Debug.Log(transform.position.x);
-                this.transform.DOMoveX(-28.6f, 1.0f);
+                this.transform.DOMoveX(-10.6f, 1.0f);
             }
             else Debug.Log("No");
         }
