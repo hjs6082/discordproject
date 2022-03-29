@@ -50,6 +50,7 @@ public class Phone : MonoBehaviour
     {
         if(isPhoneStart == true)
         {
+            StopCoroutine(StartPhone());
             PhoneDown();
             isPhoneStart = false;
         }
