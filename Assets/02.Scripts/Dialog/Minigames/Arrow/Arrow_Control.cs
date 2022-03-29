@@ -20,19 +20,17 @@ public class Arrow_Control : MonoBehaviour
 
     public bool InputArrow()
     {
-        bool bCheck = false;
-
         if (Input.anyKeyDown)
         {
             foreach (var input in arrow_Keys)
             {
                 if (Input.GetKeyDown(input.Key))
                 {
-                    bCheck = arrow_Obj.IsCheckArrow(input.Value);
+                    return arrow_Obj.IsCheckArrow(input.Value);
                 }
             }
         }
 
-        return bCheck;
+        return false;
     }
 }

@@ -89,7 +89,7 @@ public class StartManager : MonoBehaviour
         GameManager.Instance.isOnLoad = true;
         GameManager.Instance.ClearPanel.SetActive(false);
         GameManager.Instance.FadePanel.SetActive(true);
-        GameManager.Instance.Fade_Out(() => 
+        GameManager.Instance.Fade_Out(0.5f, () => 
         {
             AudioManager.Instance.TeleportSound();
             GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "철수";

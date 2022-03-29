@@ -191,31 +191,31 @@ public class GameManager : MonoBehaviour
         LoadScene.LoadingScene("MainScene");
     }
 
-    public void Fade_In(Action _action = null)
+    public void Fade_In(float duration = 0.5f, Action _action = null)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
-        fade_Image.DOFade(0.0f, 0.5f).OnComplete(() => 
+        fade_Image.DOFade(0.0f, duration).OnComplete(() => 
         {
             _action?.Invoke();
         });
     }
 
-    public void Fade_Out(Action _action = null)
+    public void Fade_Out(float duration = 0.5f, Action _action = null)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
-        fade_Image.DOFade(1.0f, 0.5f).OnComplete(() => 
+        fade_Image.DOFade(1.0f, duration).OnComplete(() => 
         {
             _action?.Invoke();
         });
     }
 
-    public void Fade_InOut(Action _action = null)
+    public void Fade_InOut(float duration = 0.5f, Action _action = null)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
-        fade_Image.DOFade(1.0f, 0.5f).OnComplete(() => 
+        fade_Image.DOFade(1.0f, duration).OnComplete(() => 
         {
             fade_Image.DOFade(0.0f, 0.5f).OnComplete(() => 
             {

@@ -13,6 +13,7 @@ namespace Dialog
         public GameObject[] miniGames;
 
         private RectTransform rectTrm = null;
+        public ParticleSystem paper_Explosion;
 
         bool isOn = true;
 
@@ -68,11 +69,17 @@ namespace Dialog
                         {
                             /// Attack_Talk
                             Dialog_Manager.Instance.AddHeart();
+                            paper_Explosion.Play(); 
+                            
                             dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
                             {
                                 /// 씬이동
+                                GameManager.Instance.FadePanel.SetActive(true);
+                                GameManager.Instance.Fade_Out(0.25f, () => 
+                                {
+                                    LoadScene.LoadingScene("MoveScene");
+                                });
 
-                                LoadScene.LoadingScene("MoveScene");
                             });
                         }
                     });
