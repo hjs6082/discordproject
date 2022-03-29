@@ -94,17 +94,18 @@ namespace Dialog
             
             if(_bWin)
             {
-                Talk(speech_Text, manSuccess_Strs[0], m_Dur, 0.75f, () => 
+                Talk(speech_Text, manSuccess_Strs[0], m_Dur, 0.25f, () => 
                 {
                     NameChange();
                     ClearSpeech(speech_Text);
-                    Talk(speech_Text, womanSuccess_Strs[0], w_Dur, 0.75f, () => 
+                    Talk(speech_Text, womanSuccess_Strs[0], w_Dur, 0.25f, () => 
                     {
-                        ClearSpeech(speech_Text);
-
-                       _last?.Invoke();   
+                        //ClearSpeech(speech_Text);
+                        Dialog_Manager.Instance.OnOffButtons(true);
 
                         RemoveStrs();
+
+                       _last?.Invoke();   
 
                         speech_Index++;
                     });
@@ -112,17 +113,17 @@ namespace Dialog
             }
             else
             {
-                Talk(speech_Text, manFail_Strs[0], m_Dur, 0.75f, () => 
+                Talk(speech_Text, manFail_Strs[0], m_Dur, 0.25f, () => 
                 {
                     NameChange();
                     ClearSpeech(speech_Text);
-                    Talk(speech_Text, womanFail_Strs[0], w_Dur, 0.75f, () => 
+                    Talk(speech_Text, womanFail_Strs[0], w_Dur, 0.25f, () => 
                     {
-                        ClearSpeech(speech_Text);
-                        
-                        _last?.Invoke();
+                        Dialog_Manager.Instance.OnOffButtons(true);
 
                         RemoveStrs();
+
+                        _last?.Invoke();
 
                         speech_Index++;
                     });

@@ -41,7 +41,7 @@ namespace Dialog
 
             Vector3 pos = (isOn) ? on_Pos : off_Pos;
 
-            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutCirc);
+            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutFlash);
         }
 
         public void OnOff(bool _bWin, bool _isAttack = false)
@@ -50,7 +50,7 @@ namespace Dialog
 
             Vector3 pos = (isOn) ? on_Pos : off_Pos;
 
-            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutCirc).OnComplete(() =>
+            rectTrm.DOAnchorPos(pos, 0.75f).SetEase(Ease.OutFlash).OnComplete(() =>
             {
                 if(_isAttack)
                 {
@@ -58,13 +58,20 @@ namespace Dialog
 
                     dialog_Talk.Attack_Talk(_bWin, 1.25f, 1.0f, () => 
                     {
-                        Dialog_Manager.Instance.AddHeart();
-                        if(dialog_Talk.speech_Index >= 2)
+                        if(dialog_Talk.speech_Index < 2)
                         {
+                            /// AddHeart
+
+                            Dialog_Manager.Instance.AddHeart();
+                        }
+                        else
+                        {
+                            /// Attack_Talk
+                            Dialog_Manager.Instance.AddHeart();
                             dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
                             {
                                 /// 씬이동
-                                //fade
+
                                 LoadScene.LoadingScene("MoveScene");
                             });
                         }

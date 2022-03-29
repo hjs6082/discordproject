@@ -76,7 +76,6 @@ namespace Dialog
         public void Damaged(bool _bWin)
         {
             bWin = _bWin;
-            //OnOffButtons(true);
             panelOnOff.OnOff(bWin, null);
         }
 
@@ -112,21 +111,23 @@ namespace Dialog
                 button.onClick.AddListener(() =>
                 {
                     panelOnOff.MiniGame(index);
+                    OnOffButtons(false);
 
                     if (dialog_Talk.space_Strs.Count > 0)
                     {
                         dialog_Talk.Space_Talk(3.5f, null);
                     }
+                    return;
                 });
                 action_List.Add(button);
             }
         }
 
-        public void OnOffButtons(bool _bInteractable)
+        public void OnOffButtons(bool _bInteract)
         {
             for (int i = 0; i < action_List.Count; i++)
             {
-                action_List[i].interactable = _bInteractable;
+                action_List[i].interactable = _bInteract;
             }
         }
     }
