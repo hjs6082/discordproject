@@ -89,7 +89,6 @@ namespace Dialog
 
         public void Attack_Talk(bool _bWin, float m_Dur, float w_Dur, Action _last = null)
         {
-            ClearSpeech(speech_Text);
             NameChange();
             
             if(_bWin)
@@ -175,6 +174,11 @@ namespace Dialog
             _audioSource.Stop();
             _audioSource.clip = _audioClip;
             _audioSource.Play();
+        }
+
+        public Text GetSpeechText()
+        {
+            return speech_Text;
         }
     }
 }

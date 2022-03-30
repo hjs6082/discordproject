@@ -23,6 +23,12 @@ namespace Player
             mainCam = Camera.main;
             playerRig = GetComponent<Rigidbody>();
             playerTrm = this.gameObject.transform;
+
+        }
+
+        private void Start()
+        {
+            GameManager.Instance.Fade_In(1.0f);
         }
 
         private void Update()

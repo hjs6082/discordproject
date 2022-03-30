@@ -13,7 +13,8 @@ namespace Dialog
         public GameObject[] miniGames;
 
         private RectTransform rectTrm = null;
-        public ParticleSystem paper_Explosion;
+        public ParticleSystem paper_Explosion = null;
+        public GameObject inGameImage = null;
 
         bool isOn = true;
 
@@ -74,7 +75,6 @@ namespace Dialog
                             dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
                             {
                                 /// 씬이동
-                                GameManager.Instance.FadePanel.SetActive(true);
                                 GameManager.Instance.Fade_Out(0.25f, () => 
                                 {
                                     LoadScene.LoadingScene("MoveScene");
