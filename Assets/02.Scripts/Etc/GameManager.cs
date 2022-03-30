@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
     public bool bMovePuzzleClear = false;
     public bool bOnIsland = false;
 
+    public bool stage1Start = false;
+
     //public Vector3 curPlayerPos;
 
     public GameObject ClearPanel;

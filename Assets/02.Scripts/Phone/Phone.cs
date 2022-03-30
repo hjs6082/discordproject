@@ -15,8 +15,6 @@ public class Phone : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 goalPosition;
 
-
-    private bool isPhoneStart;
     private bool isPhone;
     public bool isPlay;
 
@@ -31,16 +29,20 @@ public class Phone : MonoBehaviour
 
     [SerializeField]
     private AudioSource armSound;
-    void Start()
+
+    private void Awake()
     {
-        armSound.Play();
         startPosition = this.gameObject.transform.position;
         goalPosition = new Vector3(startPosition.x, startPosition.y + 550f, startPosition.z);
-        if (!isPhoneStart)
+        if (!GameManager.Instance.stage1Start)
         {
             PhoneUp();
             StartCoroutine(StartPhone());
+            armSound.Play();
         }
+    }
+    void Start()
+    { 
         instance = this;
         pr = player.GetComponent<Player.PlayerWalk>();
     }
@@ -48,11 +50,12 @@ public class Phone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isPhoneStart == true)
+        if(GameManager.Instance.stage1Start == true)
         {
+            //GameManager.Instance.stage1Start = false;
+            armSound.Stop();
             StopCoroutine(StartPhone());
             PhoneDown();
-            isPhoneStart = false;
         }
         if (isPlay == false)
         {
@@ -101,6 +104,6 @@ public class Phone : MonoBehaviour
     IEnumerator StartPhone()
     {
         yield return new WaitForSeconds(1f);
-        isPhoneStart = true;
+        GameManager.Instance.stage1Start = true;
     }
 }
