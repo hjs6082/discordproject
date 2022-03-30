@@ -25,6 +25,7 @@ public class Rotate : MonoBehaviour
             if (isRotateEnd == false)
             {
                 this.gameObject.transform.DORotate(new Vector3(-90, 0, 90), 1f);
+                DOTween.Clear();
                 StartCoroutine(Kill(1));
             }
         }

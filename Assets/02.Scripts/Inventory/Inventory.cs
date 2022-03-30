@@ -100,7 +100,7 @@ public class Inventory : MonoBehaviour
                 selectImage2.enabled = true;
                 selectTwoText.enabled = true;
                 isSelect = true;
-                objPositionList[selectObj2 - 1].gameObject.SetActive(true);
+                objPositionList[selectObj2 -1].gameObject.SetActive(true);
                 isSelectOne = false;
                 isSelectTwo = true;
             }
@@ -170,12 +170,11 @@ public class Inventory : MonoBehaviour
 
     public void PickUp(Sprite joinSprite, bool isItem1, bool isItem2, string itemName, int number)
     {
-        if (inventoryOne.sprite == null && inventoryTwo.sprite == null)
+/*        if (inventoryOne.sprite == null && inventoryTwo.sprite == null)
         {
             inventoryOne.sprite = joinSprite;
-            isItem1 = true;
             selectOneText.text = itemName;
-
+            isItem1 = true;
         }
         else if (instance.inventoryOne.sprite != null && inventoryTwo.sprite == null)
         {
@@ -192,7 +191,7 @@ public class Inventory : MonoBehaviour
         else
         {
             Debug.Log("이미 인벤토리창이 꽉찼습니다.");
-        }
+        }*/
         if(number == 1)
         {
             if(selectObj1 == 0 && selectObj2 == 0)
