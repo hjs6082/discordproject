@@ -486,10 +486,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -577,7 +577,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowObject (3)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7905507564308513420, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
 --- !u!1 &269506039
 GameObject:
@@ -985,7 +986,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowObject (2)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7905507564308513420, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
 --- !u!1001 &593009265
 PrefabInstance:
@@ -1833,7 +1835,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowObject (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7905507564308513420, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
 --- !u!1 &1254458926
 GameObject:
@@ -2211,10 +2214,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2646,10 +2649,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -3245,5 +3248,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ArrowObject
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7905507564308513420, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 98842aeac929ed5438c47d7d38596a3b, type: 3}
