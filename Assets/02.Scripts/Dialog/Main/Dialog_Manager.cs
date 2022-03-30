@@ -27,7 +27,7 @@ namespace Dialog
         private List<Button> action_List = new List<Button>();
 
         public GameObject[] hearts;
-        public Transform heart_Parent;
+        public Transform heart_Parent = null;
         private List<GameObject> blue_Heart_List = new List<GameObject>();
         private List<GameObject> red_Heart_List = new List<GameObject>();
 
@@ -75,6 +75,7 @@ namespace Dialog
         public void Damaged(bool _bWin)
         {
             bWin = _bWin;
+            dialog_Talk.ClearSpeech(dialog_Talk.GetSpeechText());
             panelOnOff.OnOff(bWin, null);
         }
 
