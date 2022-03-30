@@ -18,6 +18,8 @@ public class Phone : MonoBehaviour
     private bool isPhone;
     public bool isPlay;
 
+    private bool isStartEnd;
+
     [SerializeField]
     private Sprite offPhone;
 
@@ -39,6 +41,7 @@ public class Phone : MonoBehaviour
             PhoneUp();
             StartCoroutine(StartPhone());
             armSound.Play();
+
         }
     }
     void Start()
@@ -55,26 +58,33 @@ public class Phone : MonoBehaviour
             //GameManager.Instance.stage1Start = false;
             armSound.Stop();
             StopCoroutine(StartPhone());
-            PhoneDown();
+           // gameObject.transform.DOMove(new Vector3(startPosition.x, startPosition.y, startPosition.z), 1f, false);
+            //gameObject.GetComponent<Image>().sprite = offPhone;
+            //gameObject.GetComponent<Image>().enabled = true;
         }
         if (isPlay == false)
         {
-            if (Input.GetKeyDown(KeyCode.P))
+            if (isStartEnd)
             {
-                if (isPhone == false)
+                if (Input.GetKeyDown(KeyCode.P))
                 {
+                    Debug.Log("1");
+                    if (isPhone == false)
+                    {
+                        Debug.Log("2");
+                        gameObject.transform.DOMove(new Vector3(startPosition.x, startPosition.y + 550f, startPosition.z), 1f, false);
+                        player.GetComponent<Player.PlayerWalk>().isScan = true;
+                        StartCoroutine(PhoneOn());
+                        isPhone = true;
 
-                    isPhone = true;
-                    gameObject.transform.DOMove(new Vector3(startPosition.x, startPosition.y + 550f, startPosition.z), 1f, false);
-                    player.GetComponent<Player.PlayerWalk>().isScan = true;
-                    StartCoroutine(PhoneOn());
-                }
-                else
-                {
-                    StopCoroutine(PhoneOn());
-                    isPhone = false;
-                    player.GetComponent<Player.PlayerWalk>().isScan = false;
-                    PhoneDown();
+                    }
+                    else
+                    {
+                        StopCoroutine(PhoneOn());
+                        isPhone = false;
+                        player.GetComponent<Player.PlayerWalk>().isScan = false;
+                        PhoneDown();
+                    }
                 }
             }
         }
@@ -105,5 +115,10 @@ public class Phone : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         GameManager.Instance.stage1Start = true;
+        inGamePhone.SetActive(true);
+        player.GetComponent<Player.PlayerWalk>().isScan = true;
+        PhoneDown();
+        StartCoroutine(PhoneOn());
+        isStartEnd = true;
     }
 }
