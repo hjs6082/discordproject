@@ -106,12 +106,20 @@ namespace Dialog
                 }
                 else
                 {
-                    dialog_Object.SetActive(true);
-
-                    Dialog_Manager.Instance.dialog_Talk.Story_Talk();
-
-                    CS_Image.transform.parent.gameObject.SetActive(false);
+                    Skip();
                 }
+            });
+        }
+
+        public void Skip()
+        {
+            GameManager.Instance.Fade_OutIn(0.5f, () =>
+            {
+                dialog_Object.SetActive(true);
+
+                Dialog_Manager.Instance.dialog_Talk.Story_Talk();
+
+                CS_Image.transform.parent.gameObject.SetActive(false);
             });
         }
 

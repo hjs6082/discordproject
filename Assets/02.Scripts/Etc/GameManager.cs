@@ -215,16 +215,16 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public void Fade_InOut(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
+    public void Fade_OutIn(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
         FadePanel.SetActive(true);
         fade_Image.DOFade(1.0f, _duration).OnComplete(() => 
         {
+            _action?.Invoke();
             fade_Image.DOFade(0.0f, 0.5f).OnComplete(() => 
             {
-                _action?.Invoke();
                 FadePanel.SetActive(false);
             });
         });
