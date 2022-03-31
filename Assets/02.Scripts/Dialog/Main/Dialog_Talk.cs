@@ -39,7 +39,7 @@ namespace Dialog
 
         private void Start()
         {
-            space_Name_Text.text = man_Name;
+            space_Name_Text.text = "도움말";
 
             ClearSpeech(speech_Text);
         }

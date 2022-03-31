@@ -6,7 +6,7 @@ namespace Player
 {
     public class PlayerCamera : MonoBehaviour
     {
-        private float ROTATE_SPEED = 30f;
+        private float ROTATE_SPEED = 60.0f;
         private Transform playerTrm;
 
         private float rotX;
