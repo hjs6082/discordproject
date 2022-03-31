@@ -87,16 +87,20 @@ namespace Dialog
             });
         }
 
-        public void Attack_Talk(bool _bWin, float m_Dur, float w_Dur, Action _last = null)
+        private void TurnChange()
         {
             NameChange();
-            
+            ClearSpeech(speech_Text);
+        }
+
+        public void Attack_Talk(bool _bWin, float m_Dur, float w_Dur, Action _last = null)
+        {
+            TurnChange();
             if(_bWin)
             {
                 Talk(speech_Text, manSuccess_Strs[0], m_Dur, 0.25f, () => 
                 {
-                    NameChange();
-                    ClearSpeech(speech_Text);
+                    TurnChange();
                     Talk(speech_Text, womanSuccess_Strs[0], w_Dur, 0.25f, () => 
                     {
                         //ClearSpeech(speech_Text);
@@ -114,8 +118,7 @@ namespace Dialog
             {
                 Talk(speech_Text, manFail_Strs[0], m_Dur, 0.25f, () => 
                 {
-                    NameChange();
-                    ClearSpeech(speech_Text);
+                    TurnChange();
                     Talk(speech_Text, womanFail_Strs[0], w_Dur, 0.25f, () => 
                     {
                         Dialog_Manager.Instance.OnOffButtons(true);

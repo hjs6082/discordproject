@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -70,21 +71,32 @@ namespace Dialog
                         {
                             /// Attack_Talk
                             Dialog_Manager.Instance.AddHeart();
-                            paper_Explosion.Play(); 
+                            paper_Explosion.Play();
+                            dialog_Talk.ClearSpeech(dialog_Talk.GetSpeechText());
                             
-                            dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
+                            StartCoroutine(Delay(paper_Explosion.main.duration / 1.4f, () => 
                             {
-                                /// 씬이동
-                                GameManager.Instance.Fade_Out(0.25f, () => 
+                                dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
                                 {
-                                    LoadScene.LoadingScene("MoveScene");
-                                });
+                                /// 씬이동
+                                    GameManager.Instance.Fade_Out(0.25f, () => 
+                                    {
+                                        LoadScene.LoadingScene("MoveScene");
+                                    });
 
-                            });
+                                });
+                            }));
+                            
                         }
                     });
                 }
             });
+        }
+
+        IEnumerator Delay(float delay, Action _action)
+        {
+            yield return new WaitForSeconds(delay);
+            _action?.Invoke();
         }
 
         public void OnOff(bool _bWin, GameObject _miniGame = null)
