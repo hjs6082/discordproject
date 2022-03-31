@@ -71,10 +71,13 @@ namespace Dialog
                         {
                             /// Attack_Talk
                             Dialog_Manager.Instance.AddHeart();
-                            paper_Explosion.Play();
-                            dialog_Talk.ClearSpeech(dialog_Talk.GetSpeechText());
+                            StartCoroutine(Delay(0.25f, () =>
+                            {
+                                paper_Explosion.Play();
+                                dialog_Talk.ClearSpeech(dialog_Talk.GetSpeechText());
+                            }));
                             
-                            StartCoroutine(Delay(paper_Explosion.main.duration / 1.4f, () => 
+                            StartCoroutine(Delay(paper_Explosion.main.duration / 1.3f, () => 
                             {
                                 dialog_Talk.Attack_Talk(_bWin, 0.75f, 1.5f, () =>
                                 {
