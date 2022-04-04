@@ -22,7 +22,7 @@ public class StartManager : MonoBehaviour
     public InputField WomanInput;
 
     public Toggle ShakeToggle;
-    public bool bShakeOK = true;
+    public bool bShakeOK = false;
 
     private void Awake()
     {
@@ -38,6 +38,12 @@ public class StartManager : MonoBehaviour
         StartCanvas();
     }
 
+    private void Start()
+    {
+        ShakeToggle.isOn = false;
+        bShakeOK = false;
+    }
+
     private void Update()
     {
         if (CanvasArr[(int)eCanvas.OPTION].activeSelf)
@@ -47,7 +53,7 @@ public class StartManager : MonoBehaviour
                 bShakeOK = ShakeToggle.isOn;
             }
         }
-    }
+    } 
 
     private void ClearCanvas()
     {
