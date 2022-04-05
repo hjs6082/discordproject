@@ -99,10 +99,7 @@ namespace Dialog
                 if (CS_Order < CS_List.Count)
                 {
                     CS_Image.sprite = CS_List[CS_Order];
-                    CS_Image.DOFade(1.0f, 0.75f).OnComplete(() =>
-                    {
-                        if (CS_Order > 2) { CS_Image.rectTransform.DOShakeAnchorPos(0.25f, 50, 20); }
-                    });
+                    CS_Image.DOFade(1.0f, 0.75f);
                 }
                 else
                 {

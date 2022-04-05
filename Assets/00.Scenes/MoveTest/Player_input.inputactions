@@ -12,6 +12,14 @@
                     "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Run",
+                    "type": "Button",
+                    "id": "c8ea4cde-dc51-4210-b9a6-b5d95ee53087",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -69,66 +77,17 @@
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "New action map",
-            "id": "ea668a5b-312f-4391-ba2f-b85acd77cea6",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "846529b5-35d8-4d41-91cd-29a73338d457",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                }
-            ],
-            "bindings": [
+                },
                 {
                     "name": "",
-                    "id": "3343b474-0fc3-42ea-b889-4d2164c448a0",
-                    "path": "",
+                    "id": "4ee54f24-c393-4e61-8dca-72edc51cc87a",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Run",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
-                {
-                    "name": "Button With One Modifier",
-                    "id": "ecfc5c2d-cbe3-4b95-9b99-c59863364da5",
-                    "path": "ButtonWithOneModifier",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "Modifier",
-                    "id": "9b51336e-ff49-4693-ae64-3b552ca394c2",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "Button",
-                    "id": "09443508-2414-42b5-bf06-18c39b281981",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": true
                 }
             ]
         }
