@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+//using UnityEngine.InputSystem;
 using DG.Tweening;
 
 public class PlayerMovement : MonoBehaviour
@@ -45,16 +45,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void ControlSpeed()
     {
-        curMoveSpeed = (pInput.bRun) ? RUN_SPEED : WALK_SPEED;
+        //curMoveSpeed = (pInput.bRun) ? RUN_SPEED : WALK_SPEED;
     }
 
     private void MovePlayer()
     {
-        Vector2 _moveValue = pInput.moveValue;
-        Vector3 _moveDir = new Vector3(_moveValue.x, 0.0f, _moveValue.y);
-        _moveDir.Normalize();
+        //Vector2 _moveValue = pInput.moveValue;
+        //Vector3 _moveDir = new Vector3(_moveValue.x, 0.0f, _moveValue.y);
+       // _moveDir.Normalize();
 
         ControlSpeed();
-        player.position += _moveDir * Time.fixedDeltaTime * curMoveSpeed;
+        //player.position += _moveDir * Time.fixedDeltaTime * curMoveSpeed;
     }
 }
