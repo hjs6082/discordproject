@@ -5,24 +5,35 @@ using UnityEngine.UI;
 
 public class ObjScript : MonoBehaviour
 {
+    public GameObject backGround;
     public Text objText;
 
     public Object objData;
+    private Outline outLine;
+
+    void Start()
+    {
+        //outLine.OutlineMode = Outline.Mode.OutlineHidden;
+        backGround.SetActive(false);
+    }
 
     private void OnMouseEnter()
     {
-        Debug.Log("#24");
         objText.text = objData.ObjName;
+        outLine = gameObject.GetComponent<Outline>();
+        outLine.OutlineMode = Outline.Mode.OutlineAll;
+        backGround.SetActive(true);
     }
 
     private void OnMouseExit()
     {
-        Debug.Log("234");
         objText.text = "";
+        outLine.OutlineMode = Outline.Mode.OutlineHidden;
+        backGround.SetActive(false);
     }
 
     private void OnMouseDown()
     {
-        Debug.Log("654");
+
     }
 }
