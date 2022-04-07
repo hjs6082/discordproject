@@ -34,6 +34,6 @@ public class ObjScript : MonoBehaviour
 
     private void OnMouseDown()
     {
-
+        
     }
 }
