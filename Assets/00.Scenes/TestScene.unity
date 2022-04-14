@@ -814,7 +814,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &726228997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,7 +1365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c65bbfefdde404e4ba99ae114ab7d099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
+  items:
+  - {fileID: 0}
   slotParent: {fileID: 1887699022}
   slots:
   - {fileID: 99205562}
