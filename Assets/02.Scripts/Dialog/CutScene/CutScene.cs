@@ -1,20 +1,23 @@
+using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-namespace Dialog
+namespace Dialogue
 {
     public class CutScene : MonoBehaviour
     {
         private const float DEFAULT_DELAY = 1.0f;
         private const string CS_PATH = "CutSceneImages/";
 
+        private StringBuilder sb = new StringBuilder();
+
         [SerializeField]
         private GameObject next_Text;
         [SerializeField]
-        private GameObject dialog_Object;
+        private GameObject dialogue_Object;
         private int CS_Order = 0;
         private Image CS_Image = null;
         public List<Sprite> CS_List = new List<Sprite>();
@@ -27,7 +30,9 @@ namespace Dialog
             int CS_Amount = Resources.LoadAll<Sprite>(CS_PATH).Length;
             for (int i = 1; i <= CS_Amount; i++)
             {
-                Sprite CS_Sprite = Resources.Load<Sprite>(CS_PATH + "CS_" + i.ToString());
+                sb.Clear();
+                sb.Append(CS_PATH).Append("CS_").Append(i.ToString());
+                Sprite CS_Sprite = Resources.Load<Sprite>(sb.ToString());
                 CS_List.Add(CS_Sprite);
             }
 
@@ -66,7 +71,7 @@ namespace Dialog
             CS_Order = 0;
             delay_Time = DEFAULT_DELAY;
             CS_Image.color = Color_Util.SetColor(1, 1, 1, 0);
-            dialog_Object.SetActive(false);
+            dialogue_Object.SetActive(false);
         }
 
         private float CutDelay()
@@ -112,9 +117,7 @@ namespace Dialog
         {
             GameManager.Instance.Fade_OutIn(0.5f, () =>
             {
-                dialog_Object.SetActive(true);
-
-                Dialog_Manager.Instance.dialog_Talk.Story_Talk();
+                dialogue_Object.SetActive(true);
 
                 CS_Image.transform.parent.gameObject.SetActive(false);
             });

@@ -57,3 +57,6 @@ TagManager:
   - name: BingBang
     uniqueID: 4026151915
     locked: 0
+  - name: Maze
+    uniqueID: 1283521327
+    locked: 0
