@@ -11,7 +11,6 @@ public class FullPicture : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("@34234");
         clickAction?.Invoke();
     }
     

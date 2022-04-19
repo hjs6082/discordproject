@@ -14,6 +14,5 @@ public class Album : MonoBehaviour
     {
         this.gameObject.GetComponent<RectTransform>().DOLocalMoveX(3f, 3f, false);
         this.gameObject.GetComponent<RectTransform>().DOLocalMoveY(4f, 3f, false);
-        Debug.Log("@#$");
     }
 }

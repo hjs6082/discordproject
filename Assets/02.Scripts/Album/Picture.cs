@@ -30,13 +30,22 @@ public class Picture : MonoBehaviour
     
     public void PictureSend()
     {
-        RotateAndPlay(sendSprite);
-        album.SetActive(false);
+        StartCoroutine(RotateAndPlay(sendSprite));
     }
 
-    public void RotateAndPlay(Sprite _sprite)
+/*    public void RotateAndPlay(Sprite _sprite)
     {
+
+    }*/
+
+    IEnumerator RotateAndPlay(Sprite _sprite)
+    {
+        Cursor.lockState = CursorLockMode.Locked;
         fullPictureImage.GetComponent<Image>().sprite = _sprite;
-        fullPictureObj.GetComponent<RectTransform>().DOLocalRotate(new Vector3(0, 0, 0),1.5f);
+        fullPictureObj.GetComponent<RectTransform>().DOLocalRotate(new Vector3(0, 0, 0), 1.5f);
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("423");
+        Cursor.lockState = CursorLockMode.None;
+        album.SetActive(false);
     }
 }
