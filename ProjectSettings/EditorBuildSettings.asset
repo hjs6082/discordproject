@@ -12,12 +12,21 @@ EditorBuildSettings:
     path: Assets/00.Scenes/DialogScene.unity
     guid: 9bee06e455a6e3047bf12d270c7200b5
   - enabled: 1
-    path: Assets/00.Scenes/MoveScene.unity
+    path: Assets/00.Scenes/noscene.unity
     guid: a2111a4a935361b488db013bfcaa053c
-  - enabled: 1
-    path: Assets/00.Scenes/ChessPuzzle.unity
-    guid: bf8e08d5dfda45648aeffbe39edd5ca2
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/00.Scenes/MovePuzzle.unity
     guid: 30f827dadbc8d7643a552c081792893a
+  - enabled: 1
+    path: Assets/00.Scenes/TestScenes/test1.unity
+    guid: d711c59d67d934c4daa20d24324cd1ad
+  - enabled: 1
+    path: Assets/00.Scenes/LoadingScene.unity
+    guid: 71608d753c99b654f83769552a5ae5d6
+  - enabled: 1
+    path: Assets/00.Scenes/TestScenes/test2.unity
+    guid: 39d59923785cba6429be47cc7a2f22e1
   m_configObjects: {}
