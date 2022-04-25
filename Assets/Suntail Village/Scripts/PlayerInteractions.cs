@@ -15,6 +15,8 @@ namespace Suntail
         [SerializeField] private string doorTag = "Door";
         [Tooltip("Tag for pickable object")]
         [SerializeField] private string itemTag = "Item";
+        [Tooltip("열고 닫을수 있는 오브젝트")]
+        [SerializeField] private string drawerTag = "Drawer";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -43,6 +45,10 @@ namespace Suntail
         [SerializeField] private string doorOpenText;
         [Tooltip("Text when the door can be closed")]
         [SerializeField] private string doorCloseText;
+        [Tooltip("서랍장을 열때 나올 텍스트입니다.")]
+        [SerializeField] private string drawerOpenText;
+        [Tooltip("서랍장을 닫을때 나올 텍스트입니다.")]
+        [SerializeField] private string drawerCloseText;
 
         //Private variables.
         private PhysicsObject _physicsObject;
@@ -52,6 +58,7 @@ namespace Suntail
         private Vector3 _raycastPosition;
         private Rigidbody _pickupRigidBody;
         private Door _lookDoor;
+        private DrawerOpen _drawerObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -77,6 +84,7 @@ namespace Suntail
             if (Physics.Raycast(_raycastPosition, mainCamera.transform.forward, 
                 out interactionHit, interactionDistance, interactionLayer))
             {
+                Debug.Log(interactionHit.collider.tag);
                 if (interactionHit.collider.CompareTag(itemTag))
                 {
                     _lookObject = interactionHit.collider.GetComponentInChildren<PhysicsObject>();
@@ -90,6 +98,11 @@ namespace Suntail
                     {
                         _lookDoor.PlayDoorAnimation();
                     }
+                }
+                else if (interactionHit.collider.CompareTag(drawerTag))
+                {
+                    _drawerObj = interactionHit.collider.gameObject.GetComponent<DrawerOpen>();
+                    ShowDrawUI();
                 }
             }
             else
@@ -197,5 +210,18 @@ namespace Suntail
 
         }
 
+        private void ShowDrawUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            if(_drawerObj.isEnd == true)
+            {
+                panelText.text = drawerCloseText;
+            }
+            else if(_drawerObj.isEnd == false)
+            {
+                panelText.text = drawerOpenText;
+            }
+        }
     }
 }

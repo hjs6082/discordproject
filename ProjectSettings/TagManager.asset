@@ -11,6 +11,9 @@ TagManager:
   - MovePuzzle
   - LADDER
   - JigsawPuzzle
+  - Item
+  - Door
+  - Drawer
   layers:
   - Default
   - TransparentFX
@@ -22,9 +25,9 @@ TagManager:
   - 
   - 
   - 
-  - QUEEN
+  - MainMap
   - BOARD
-  - 
+  - Queen
   - 
   - 
   - 
