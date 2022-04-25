@@ -55,7 +55,8 @@ public class PasswordScript : MonoBehaviour
         passwordText.text = "OK";
         yield return new WaitForSeconds(1f);
         isCheck = false;
-        pt.GetComponent<PasswordTest>().PasswordDown();
+        pt.GetComponent<PasswordOpen>().PasswordDown();
+        pt.GetComponent<PasswordOpen>().puzzleClear = true;
     }
 
     IEnumerator WrongTextPlay()

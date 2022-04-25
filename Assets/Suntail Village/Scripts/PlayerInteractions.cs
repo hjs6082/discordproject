@@ -17,6 +17,8 @@ namespace Suntail
         [SerializeField] private string itemTag = "Item";
         [Tooltip("열고 닫을수 있는 오브젝트")]
         [SerializeField] private string drawerTag = "Drawer";
+        [Tooltip("패스워드 퍼즐 오브젝트")]
+        [SerializeField] private string passwordPuzzleTag = "PasswordPuzzle";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -59,6 +61,7 @@ namespace Suntail
         private Rigidbody _pickupRigidBody;
         private Door _lookDoor;
         private DrawerOpen _drawerObj;
+        private PasswordOpen _passwordObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -84,7 +87,6 @@ namespace Suntail
             if (Physics.Raycast(_raycastPosition, mainCamera.transform.forward, 
                 out interactionHit, interactionDistance, interactionLayer))
             {
-                Debug.Log(interactionHit.collider.tag);
                 if (interactionHit.collider.CompareTag(itemTag))
                 {
                     _lookObject = interactionHit.collider.GetComponentInChildren<PhysicsObject>();
@@ -103,6 +105,11 @@ namespace Suntail
                 {
                     _drawerObj = interactionHit.collider.gameObject.GetComponent<DrawerOpen>();
                     ShowDrawUI();
+                }
+                else if (interactionHit.collider.CompareTag(passwordPuzzleTag))
+                {
+                    _passwordObj = interactionHit.collider.gameObject.GetComponent<PasswordOpen>();
+                    PasswordPuzzleUI();
                 }
             }
             else
@@ -222,6 +229,21 @@ namespace Suntail
             {
                 panelText.text = drawerOpenText;
             }
+        }
+
+        private void PasswordPuzzleUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            if(_passwordObj.GetComponent<PasswordOpen>().puzzleClear == false)
+            {
+                panelText.text = "퍼즐 조사하기";
+            }
+            else if (_passwordObj.GetComponent<PasswordOpen>().puzzleClear == true)
+            {
+                panelText.text = "클리어한 퍼즐";
+            }
+            
         }
     }
 }

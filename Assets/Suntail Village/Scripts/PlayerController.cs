@@ -15,7 +15,7 @@ namespace Suntail
             public Texture2D[] groundTextures;
             public AudioClip[] footstepSounds;
         }
-        
+
         [Header("Movement")]
 
         [Tooltip("Basic controller speed")]
