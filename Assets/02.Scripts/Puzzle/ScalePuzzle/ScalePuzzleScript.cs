@@ -4,24 +4,49 @@ using UnityEngine;
 
 public class ScalePuzzleScript : MonoBehaviour
 {
+    private bool isEnter = false;
+    public int bookCount = 0;
+
+    [SerializeField]
+    private Suntail.PlayerInteractions pi;
+    
+    
+    private void OnMouseEnter()
+    {
+        isEnter = true;
+    }
+
+    private void OnMouseExit()
+    {
+        isEnter = false;
+    }
+
+    private void Update()
+    {
+        if(isEnter)
+        {
+            if(Input.GetKeyDown(KeyCode.E))
+            {
+                pi.BreakConnection();
+            }
+        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "item")
-        {
-            Rigidbody colRigidBody = collision.gameObject.GetComponent<Rigidbody>();
-            colRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
-        }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+        DropObject(collision.gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void DropObject(GameObject gmObj)
     {
-        
+        if(gmObj.tag == "Item")
+        {
+            if(gmObj.name.Contains("Book"))
+            {
+                gmObj.tag = "Untagged";
+                bookCount++;
+                Debug.Log(bookCount);
+            }
+        }
     }
 }

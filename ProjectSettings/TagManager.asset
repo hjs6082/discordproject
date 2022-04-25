@@ -15,6 +15,7 @@ TagManager:
   - Door
   - Drawer
   - PasswordPuzzle
+  - ScalePuzzle
   layers:
   - Default
   - TransparentFX

@@ -19,6 +19,8 @@ namespace Suntail
         [SerializeField] private string drawerTag = "Drawer";
         [Tooltip("패스워드 퍼즐 오브젝트")]
         [SerializeField] private string passwordPuzzleTag = "PasswordPuzzle";
+        [Tooltip("스케일 퍼즐 오브젝트")]
+        [SerializeField] private string scalePuzzleTag = "ScalePuzzle";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -62,6 +64,7 @@ namespace Suntail
         private Door _lookDoor;
         private DrawerOpen _drawerObj;
         private PasswordOpen _passwordObj;
+        private ScalePuzzleScript _scalePuzzleObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -110,6 +113,11 @@ namespace Suntail
                 {
                     _passwordObj = interactionHit.collider.gameObject.GetComponent<PasswordOpen>();
                     PasswordPuzzleUI();
+                }
+                else if(interactionHit.collider.CompareTag(scalePuzzleTag))
+                {
+                    _scalePuzzleObj = interactionHit.collider.gameObject.GetComponent<ScalePuzzleScript>();
+                    ScalePuzzleUI();
                 }
             }
             else
@@ -244,6 +252,20 @@ namespace Suntail
                 panelText.text = "클리어한 퍼즐";
             }
             
+        }
+
+        private void ScalePuzzleUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount < 3)
+            {
+                panelText.text = "올려놓기";
+            }
+            else if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 3)
+            {
+                panelText.text = "클리어한 퍼즐";
+            }
         }
     }
 }
