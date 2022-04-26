@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
  
 public class SecretDoorScript : MonoBehaviour
 {
     [SerializeField] private string keyName;
     public bool isCheck = false;
     public bool isKey = false;
+
+    public Image[] SlotImages;
 
     private bool isEnter = false;
     // Start is called before the first frame update
@@ -28,6 +31,24 @@ public class SecretDoorScript : MonoBehaviour
                     if(Input.GetKeyDown(KeyCode.E))
                     {
                         this.gameObject.tag = "Door";
+                        var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("BlueKey"));
+                        Inventory.instance.items.RemoveAt(itemIndex);
+                        if(itemIndex == 0)
+                        {
+                            SlotImages[0].sprite = null;
+                        }
+                        else if (itemIndex == 1)
+                        {
+                            SlotImages[1].sprite = null;
+                        }
+                        else if (itemIndex == 2)
+                        {
+                            SlotImages[2].sprite = null;
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
             }
@@ -46,16 +67,16 @@ public class SecretDoorScript : MonoBehaviour
 
     private void KeyCheck()
     {
-        foreach (var items in Inventory.instance.items)
+        if (Inventory.instance.items.Count != 0)
         {
-            if(items.itemName == keyName)
+            foreach (var items in Inventory.instance.items)
             {
-                isKey = true;
-                int itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("BlueKey"));
-                Inventory.instance.items.RemoveAt(itemIndex);
+                if (items.itemName == keyName)
+                {
+                    isKey = true;
+                }
             }
         }
-
     }
 
 }
