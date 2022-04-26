@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public static Inventory instance;
     public List<Item> items;
 
     [SerializeField]
@@ -19,6 +20,7 @@ public class Inventory : MonoBehaviour
     private void Awake()
     {
         FreshSlot();
+        instance = this;
     }
 
     public void FreshSlot()

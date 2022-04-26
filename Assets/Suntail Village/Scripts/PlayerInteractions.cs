@@ -21,6 +21,10 @@ namespace Suntail
         [SerializeField] private string passwordPuzzleTag = "PasswordPuzzle";
         [Tooltip("스케일 퍼즐 오브젝트")]
         [SerializeField] private string scalePuzzleTag = "ScalePuzzle";
+        [Tooltip("컵보드 오브젝트")]
+        [SerializeField] private string cupBoardTag = "CupBoard";
+        [Tooltip("주울수 있는 아이템 오브젝트")]
+        [SerializeField] private string pickUpItemTag = "InventoryItem";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -64,7 +68,9 @@ namespace Suntail
         private Door _lookDoor;
         private DrawerOpen _drawerObj;
         private PasswordOpen _passwordObj;
+        private Cupboard _cupBoardObj;
         private ScalePuzzleScript _scalePuzzleObj;
+        private Item _pickUpObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -118,6 +124,21 @@ namespace Suntail
                 {
                     _scalePuzzleObj = interactionHit.collider.gameObject.GetComponent<ScalePuzzleScript>();
                     ScalePuzzleUI();
+                }
+                else if(interactionHit.collider.CompareTag(cupBoardTag))
+                {
+                    _cupBoardObj = interactionHit.collider.gameObject.GetComponent<Cupboard>();
+                    CupBoardUI();
+                }
+                else if(interactionHit.collider.CompareTag(pickUpItemTag))
+                {
+                    _pickUpObj = interactionHit.collider.gameObject.GetComponent<MyData>().myData;
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        Inventory.instance.AddItem(_pickUpObj);
+                        Destroy(interactionHit.collider.gameObject);
+                    }
+                    PickUpUI();
                 }
             }
             else
@@ -258,14 +279,43 @@ namespace Suntail
         {
             uiPanel.gameObject.SetActive(true);
 
-            if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount < 3)
+            if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 0)
             {
-                panelText.text = "올려놓기";
+                panelText.text = "올려놓기" + "\n0/3";
+            }
+            if (_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 1)
+            {
+                panelText.text = "올려놓기" + "\n1/3";
+            }
+            if (_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 2)
+            {
+                panelText.text = "올려놓기" + "\n2/3";
             }
             else if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 3)
             {
-                panelText.text = "클리어한 퍼즐";
+                panelText.text = "클리어한 퍼즐" + "\n2/3";
             }
+        }
+
+        private void CupBoardUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            if(_cupBoardObj.isEnd != true)
+            {
+                panelText.text = "열기";
+            }
+            else if (_cupBoardObj.isEnd)
+            {
+                panelText.text = "닫기";
+            }
+        }
+        
+        private void PickUpUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            panelText.text = "줍기";
         }
     }
 }

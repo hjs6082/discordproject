@@ -16,6 +16,8 @@ TagManager:
   - Drawer
   - PasswordPuzzle
   - ScalePuzzle
+  - CupBoard
+  - InventoryItem
   layers:
   - Default
   - TransparentFX
