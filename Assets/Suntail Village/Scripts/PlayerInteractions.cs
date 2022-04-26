@@ -25,6 +25,8 @@ namespace Suntail
         [SerializeField] private string cupBoardTag = "CupBoard";
         [Tooltip("주울수 있는 아이템 오브젝트")]
         [SerializeField] private string pickUpItemTag = "InventoryItem";
+        [Tooltip("열쇠가 있어야만 열수 있는 문 오브젝트")]
+        [SerializeField] private string keyDoorTag = "SecretDoor";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -70,6 +72,7 @@ namespace Suntail
         private PasswordOpen _passwordObj;
         private Cupboard _cupBoardObj;
         private ScalePuzzleScript _scalePuzzleObj;
+        private SecretDoorScript _keyDoorObj;
         private Item _pickUpObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
@@ -96,7 +99,7 @@ namespace Suntail
             if (Physics.Raycast(_raycastPosition, mainCamera.transform.forward, 
                 out interactionHit, interactionDistance, interactionLayer))
             {
-                ObjScript.instance.isCheck = true;
+                /*ObjScript.instance.isCheck = true;
                 if (interactionHit.collider.gameObject.GetComponent<Outline>() == null)
                 {
                     interactionHit.collider.gameObject.AddComponent<Outline>();
@@ -107,7 +110,7 @@ namespace Suntail
                     //interoutline.enabled = true;
                     //ObjScript interScript = interactionHit.collider.gameObject.GetComponent<ObjScript>();
 
-                }
+                }*/
                 if (interactionHit.collider.CompareTag(itemTag))
                 {
                     _lookObject = interactionHit.collider.GetComponentInChildren<PhysicsObject>();
@@ -131,6 +134,7 @@ namespace Suntail
                 else if (interactionHit.collider.CompareTag(passwordPuzzleTag))
                 {
                     _passwordObj = interactionHit.collider.gameObject.GetComponent<PasswordOpen>();
+                    _passwordObj.isCheck = true;
                     PasswordPuzzleUI();
                 }
                 else if(interactionHit.collider.CompareTag(scalePuzzleTag))
@@ -154,13 +158,19 @@ namespace Suntail
                     }
                     PickUpUI();
                 }
+                else if(interactionHit.collider.CompareTag(keyDoorTag))
+                {
+                    _keyDoorObj = interactionHit.collider.gameObject.GetComponent<SecretDoorScript>();
+                    _keyDoorObj.isCheck = true;
+                    KeyDoorUI();
+                }
             }
             else
             {
                 _lookDoor = null;
                 _lookObject = null;
                 uiPanel.gameObject.SetActive(false);
-                ObjScript.instance.isCheck = false;
+               // ObjScript.instance.isCheck = false;
             }
 
             if (Input.GetKeyDown(interactionKey))
@@ -331,6 +341,20 @@ namespace Suntail
             uiPanel.gameObject.SetActive(true);
 
             panelText.text = "줍기";
+        }
+
+        private void KeyDoorUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            if(!_keyDoorObj.isKey)
+            {
+                panelText.text = "파랑열쇠 0/1";
+            }
+            if(_keyDoorObj.isKey)
+            {
+                panelText.text = "파랑열쇠 1/1";
+            }
         }
     }
 }

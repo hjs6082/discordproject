@@ -11,6 +11,7 @@ public class PasswordOpen : MonoBehaviour
     private GameObject player;
     
     public bool puzzleClear;
+    public bool isCheck;
     private bool isEnter;
     private bool isPuzzleUp;
 
@@ -26,9 +27,12 @@ public class PasswordOpen : MonoBehaviour
     {
         if (isEnter)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (isCheck)
             {
-                PasswordUp();
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    PasswordUp();
+                }
             }
         }
 
@@ -51,6 +55,7 @@ public class PasswordOpen : MonoBehaviour
     private void OnMouseExit()
     {
         isEnter = false;
+        isCheck = false;
     }
 
 

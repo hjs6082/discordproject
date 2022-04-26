@@ -18,6 +18,7 @@ TagManager:
   - ScalePuzzle
   - CupBoard
   - InventoryItem
+  - SecretDoor
   layers:
   - Default
   - TransparentFX

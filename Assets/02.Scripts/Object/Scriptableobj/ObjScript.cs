@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ObjScript : MonoBehaviour
 {
     public static ObjScript instance;
-    public bool isCheck;
+    //public bool isCheck;
 /*  public GameObject backGround;
     public Text objText;*/
 
@@ -25,23 +25,23 @@ public class ObjScript : MonoBehaviour
     private void OnMouseEnter()
     {
         //objText.text = objData.ObjName;
-        if (isCheck)
-        {
+        /*if (isCheck)
+        {*/
             outLine.enabled = true;
             outLine.OutlineMode = Outline.Mode.OutlineAll;
-        }
+        //}
         //backGround.SetActive(true);
     }
 
     private void OnMouseExit()
     {
-        if (!isCheck)
-        {
+/*        if (!isCheck)
+        {*/
             //objText.text = "";
             outLine.enabled = false;
             outLine.OutlineMode = Outline.Mode.OutlineHidden;
             //isCheck = false;
-        }
+        //}
         //backGround.SetActive(false);
     }
 
