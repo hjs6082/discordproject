@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class ObjScript : MonoBehaviour
 {
+    public static ObjScript instance;
+    public bool isCheck;
 /*  public GameObject backGround;
     public Text objText;*/
 
@@ -15,6 +17,7 @@ public class ObjScript : MonoBehaviour
     {
         outLine = gameObject.GetComponent<Outline>();
         outLine.enabled = false;
+        instance = this;
         //outLine.OutlineMode = Outline.Mode.OutlineHidden;
        // backGround.SetActive(false);
     }
@@ -22,16 +25,23 @@ public class ObjScript : MonoBehaviour
     private void OnMouseEnter()
     {
         //objText.text = objData.ObjName;
-        outLine.enabled = true;
-        outLine.OutlineMode = Outline.Mode.OutlineAll;
+        if (isCheck)
+        {
+            outLine.enabled = true;
+            outLine.OutlineMode = Outline.Mode.OutlineAll;
+        }
         //backGround.SetActive(true);
     }
 
     private void OnMouseExit()
     {
-        //objText.text = "";
-        outLine.enabled = false;
-        outLine.OutlineMode = Outline.Mode.OutlineHidden;
+        if (!isCheck)
+        {
+            //objText.text = "";
+            outLine.enabled = false;
+            outLine.OutlineMode = Outline.Mode.OutlineHidden;
+            //isCheck = false;
+        }
         //backGround.SetActive(false);
     }
 

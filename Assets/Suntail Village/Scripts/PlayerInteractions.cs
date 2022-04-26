@@ -96,6 +96,18 @@ namespace Suntail
             if (Physics.Raycast(_raycastPosition, mainCamera.transform.forward, 
                 out interactionHit, interactionDistance, interactionLayer))
             {
+                ObjScript.instance.isCheck = true;
+                if (interactionHit.collider.gameObject.GetComponent<Outline>() == null)
+                {
+                    interactionHit.collider.gameObject.AddComponent<Outline>();
+                    interactionHit.collider.gameObject.AddComponent<ObjScript>();
+                    Outline interoutline = interactionHit.collider.gameObject.GetComponent<Outline>();
+                    interoutline.OutlineMode = Outline.Mode.OutlineHidden;
+                    interoutline.OutlineWidth = 2.7f;
+                    //interoutline.enabled = true;
+                    //ObjScript interScript = interactionHit.collider.gameObject.GetComponent<ObjScript>();
+
+                }
                 if (interactionHit.collider.CompareTag(itemTag))
                 {
                     _lookObject = interactionHit.collider.GetComponentInChildren<PhysicsObject>();
@@ -113,6 +125,7 @@ namespace Suntail
                 else if (interactionHit.collider.CompareTag(drawerTag))
                 {
                     _drawerObj = interactionHit.collider.gameObject.GetComponent<DrawerOpen>();
+                    _drawerObj.isCheck = true;
                     ShowDrawUI();
                 }
                 else if (interactionHit.collider.CompareTag(passwordPuzzleTag))
@@ -128,6 +141,7 @@ namespace Suntail
                 else if(interactionHit.collider.CompareTag(cupBoardTag))
                 {
                     _cupBoardObj = interactionHit.collider.gameObject.GetComponent<Cupboard>();
+                    _cupBoardObj.isCheck = true;
                     CupBoardUI();
                 }
                 else if(interactionHit.collider.CompareTag(pickUpItemTag))
@@ -146,6 +160,7 @@ namespace Suntail
                 _lookDoor = null;
                 _lookObject = null;
                 uiPanel.gameObject.SetActive(false);
+                ObjScript.instance.isCheck = false;
             }
 
             if (Input.GetKeyDown(interactionKey))

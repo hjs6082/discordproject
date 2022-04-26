@@ -12,6 +12,7 @@ public class DrawerOpen : MonoBehaviour
     [SerializeField]
     private Image uiPanel;
     private bool isEnter;
+    public bool isCheck;
     private Vector3 startPosition;
     private Vector3 goalPosition;
 
@@ -34,15 +35,19 @@ public class DrawerOpen : MonoBehaviour
     public void OnMouseExit()
     {
         isEnter = false;
+        isCheck = false;
     }
 
     private void Update()
     {
         if(isEnter)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (isCheck)
             {
-                DrawerOpenAndClose();
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    DrawerOpenAndClose();
+                }
             }
         }
     }

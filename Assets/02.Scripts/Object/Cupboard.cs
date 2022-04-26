@@ -8,6 +8,8 @@ public class Cupboard : MonoBehaviour
     private bool isEnter = false;
     public bool isEnd = false;
 
+    public bool isCheck = false;
+
     [SerializeField]
     private Vector3 startPosition;
     private Vector3 endPosition;
@@ -21,6 +23,7 @@ public class Cupboard : MonoBehaviour
     private void OnMouseExit()
     {
         isEnter = false;
+        isCheck = false;
     }
 
 
@@ -36,9 +39,12 @@ public class Cupboard : MonoBehaviour
     {
         if(isEnter)
         {
-            if(Input.GetKeyDown(KeyCode.E))
+            if (isCheck)
             {
-                CupboardOpenAndClose();
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    CupboardOpenAndClose();
+                }
             }
         }
     }
