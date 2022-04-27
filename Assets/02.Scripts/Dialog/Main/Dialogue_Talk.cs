@@ -156,7 +156,7 @@ namespace Dialogue
                                     // TODO : 마우스 커서 움직이기
                                     Dialogue_Manager.Instance.FadeDialogue(() => 
                                     {
-                                        LoadScene.LoadingScene("Map");
+                                        LoadScene.LoadingScene("TestMap");
                                     });
                                 });
                             });
