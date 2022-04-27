@@ -16,6 +16,6 @@ public class LoadScene : MonoBehaviour
             GameManager.Instance.ClearPanel.SetActive(true);
         }
      
-        SceneManager.LoadScene(sceneName);
+        LoadingSceneManager.LoadScene(sceneName);
     }
 }

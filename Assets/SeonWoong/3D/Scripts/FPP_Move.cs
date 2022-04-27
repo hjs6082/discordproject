@@ -45,8 +45,12 @@ public class FPP_Move : MonoBehaviour
             isRotate = true;
 
             Vector3 curPlayerRotate = player.rotation.eulerAngles;
+            Vector3 degreeOffset = new Vector3(0.0f, _degree, 0.0f);
+            
+            Vector3 playerEndRotate = curPlayerRotate + degreeOffset;
 
-            player.DORotate(curPlayerRotate + (Vector3.up * _degree), 0.25f).OnComplete(() =>
+            player.DORotate(playerEndRotate, 0.25f)
+            .OnComplete(() =>
             {
                 isRotate = false;
             });

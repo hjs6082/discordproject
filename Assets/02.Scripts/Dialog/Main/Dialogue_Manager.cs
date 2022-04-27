@@ -7,38 +7,66 @@ using DG.Tweening;
 
 namespace Dialogue
 {
+    public enum eMinigame
+    {
+        MAZE,
+        ARROW,
+        ONEDRAW,
+        NONE
+    }
+
     public class Dialogue_Manager : MonoBehaviour
     {
+        #region 싱글톤
         private static Dialogue_Manager instance;
-        public static Dialogue_Manager Instance {
+        public static Dialogue_Manager Instance
+        {
             get
             {
                 return instance;
             }
         }
-        public static Action<bool> damaged;
+        #endregion
 
-        private Dialogue_Control dialogue_Ctrl = null;
-        private Dialogue_Talk dialogue_Talk = null;
+        public static readonly Vector3 DEFAULT_MINIGAME_POSITION = new Vector3(0.0f, 10.4f, 0.0f);
+        public static Action download = null;
 
+        public Dialogue_Control dlg_Ctrl   { get; private set; }
+        public Dialogue_Talk    dlg_Talk   { get; private set; }
+        public Dialogue_Option  dlg_Option { get; private set; }
 
-        public Image background = null;
-        public Sprite inGameImg = null;
-        public Image wife_Image = null;
+        // 이름
+        private string manName   = "남편";
+        private string womanName = "아내";
 
-        public Button action_Button = null;
-        public Transform button_Parent = null;
-        private List<Button> action_List = new List<Button>();
+        public Image  background = null;
+        public Sprite inGameImg  = null;
+        public Image  wife_Image = null;
 
-        [SerializeField] private RectTransform wife_View;
-        [SerializeField] private RectTransform pc_View;
-        public bool bWifeView = false;
+        public Button        action_Button = null;
+        public Transform     button_Parent = null;
+        private List<Button> action_List   = new List<Button>();
 
-        public bool isTalking = false;
-        public bool bWin = false;
+        [SerializeField] private RectTransform wife_View = null;
+        [SerializeField] private RectTransform pc_View   = null;
+
+        public Image          download_Guage      = null;
+        public GameObject[]   sub_Background_List = null;
+        public List<Vector3>  old_Background_Pos  = new List<Vector3>();
+        public List<Minigame> minigame_List       = new List<Minigame>();
+        public eMinigame      cur_eMinigame       = eMinigame.NONE;
+        public int            sub_Index           = 0;
+        public int            mainTalk_Index      = 0;
+  
+        public bool bWifeView   = false;
+        public bool isTalking   = false;
+        public bool isMoving    = false;
+        public bool isDoingGame = false;
+        public bool bWin        = false;
 
         private void Awake()
         {
+            #region 싱글톤
             if (instance == null)
             {
                 instance = this;
@@ -47,29 +75,22 @@ namespace Dialogue
             {
                 Destroy(this.gameObject);
             }
-
-            damaged += Damaged;
+            #endregion
 
             InitClass();
         }
 
         private void Start()
         {
-            if (GameManager.Instance != null)
-            {
-                dialogue_Talk?.SetName(GameManager.Instance.ManName, GameManager.Instance.WomanName);
-            }
-            else
-            {
-                dialogue_Talk?.SetName("남편", "아내");
-            }
-
             InitButtons();
+            InitViewPos();
+            InitNames();
+            InitMinigamePos();
 
-            wife_View.anchoredPosition = new Vector3(0, 0, 0);
-            pc_View.anchoredPosition = new Vector3(1920, 0, 0);
-
-            OnOffButtons(false);
+            for (int i = 0; i < sub_Background_List.Length; i++)
+            {
+                old_Background_Pos.Add(sub_Background_List[i].transform.position);
+            }
         }
 
         private void Update()
@@ -77,57 +98,154 @@ namespace Dialogue
 
         }
 
-        public void InitClass()
+        public void InitClass() 
         {
             Transform _parent = this.transform.parent;
-            
-            dialogue_Ctrl = _parent.GetComponentInChildren<Dialogue_Control>();
-            dialogue_Talk = _parent.GetComponentInChildren<Dialogue_Talk>();
-        }
 
-        public void Damaged(bool _bWin)
-        {
-            bWin = _bWin;
-            dialogue_Talk.ClearSpeech(dialogue_Talk.GetSpeechText());
-            //panelOnOff.OnOff(bWin, null);
+            dlg_Ctrl   = _parent.GetComponentInChildren<Dialogue_Control>();
+            dlg_Talk   = _parent.GetComponentInChildren<Dialogue_Talk>();
+            dlg_Option = _parent.GetComponentInChildren<Dialogue_Option>();
         }
 
         private void InitButtons()
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < minigame_List.Count; i++)
             {
                 int index = i;
                 Button button = Instantiate(action_Button, button_Parent);
-                button.GetComponentInChildren<Text>().text = $"{i + 1}. 공격 {i}";
+
+                button.GetComponentInChildren<Text>().text = $"{index + 1}. 공격 {index}";
+                button.interactable = false;
                 button.onClick.AddListener(() =>
                 {
-                    //panelOnOff.MiniGame(index);
-                    OnOffButtons(false);
+                    if (dlg_Option.canSelect)
+                    {
+                        //panelOnOff.MiniGame(index);
+                        Debug.Log("공격공격");
+
+                        // TODO : 미니게임 켜기
+
+                        if (!isMoving)
+                        {
+                            SetMinigame(index);
+                        }
+                    }
 
                     return;
                 });
                 action_List.Add(button);
             }
+
+            dlg_Option.InitOption();
         }
 
-        public void OnOffButtons(bool _bInteract)
+        private void InitViewPos()
         {
-            for (int i = 0; i < action_List.Count; i++)
+            bWifeView = true;
+
+            wife_View.anchoredPosition = new Vector3(   0.0f, 0.0f, 0.0f);
+            pc_View.anchoredPosition   = new Vector3(1920.0f, 0.0f, 0.0f);
+        }
+
+        private void InitNames()
+        {
+            bool isInstanceTrue = (GameManager.Instance != null) ? true : false;
+
+            manName   = (isInstanceTrue) ? GameManager.Instance.ManName : manName;
+            womanName = (isInstanceTrue) ? GameManager.Instance.WomanName : womanName;
+
+            dlg_Talk?.SetName(manName, womanName);
+        }
+
+        private void InitMinigamePos()
+        {
+            for (int i = 0; i < minigame_List.Count; i++)
             {
-                action_List[i].interactable = _bInteract;
+                minigame_List[i].GetComponent<Minigame>().SetGamePos();
             }
         }
 
-        public void ChangeView()
+        public void ChangeView(Action _action = null, float _delay = 0.0f)
         {
             bWifeView = !bWifeView;
+
             float offset = (bWifeView) ? 1920.0f : -1920.0f;
 
             wife_View.DOComplete();
             pc_View.DOComplete();
 
-            wife_View.DOAnchorPosX(wife_View.anchoredPosition.x + offset, 0.5f);
-            pc_View.DOAnchorPosX(pc_View.anchoredPosition.x + offset, 0.5f);
+            wife_View.DOAnchorPosX(wife_View.anchoredPosition.x + offset, 0.5f)
+            .SetDelay(_delay)
+            .SetEase(Ease.OutSine);
+
+            pc_View.DOAnchorPosX(pc_View.anchoredPosition.x + offset, 0.5f)
+            .SetDelay(_delay)
+            .SetEase(Ease.OutSine)
+            .OnComplete(() => 
+            {
+                _action?.Invoke();
+            });
+        }
+
+        public void MinigameClear()
+        {
+            isMoving = true;
+            int cur_eMinigame_Num = (int)cur_eMinigame;
+
+            MoveToPos(sub_Background_List[sub_Index], old_Background_Pos[sub_Index], () =>
+            {
+                sub_Index--;
+                MoveToPos(sub_Background_List[sub_Index], old_Background_Pos[sub_Index], () =>
+                {
+                    sub_Index--;
+                    MoveToPos(sub_Background_List[sub_Index], old_Background_Pos[sub_Index], () =>
+                    {
+                        sub_Index--;
+                        MoveToPos(sub_Background_List[sub_Index], old_Background_Pos[sub_Index], () =>
+                        {
+                            minigame_List[cur_eMinigame_Num].Download();
+                            minigame_List[cur_eMinigame_Num].gameObject.SetActive(false);
+
+                            isMoving = false;
+                        });
+                    });
+                });
+            });
+        }
+
+        public void SetMinigame(int _minigame)
+        {
+            sub_Index = 0;
+            Vector3 zero = new Vector3(0.0f, 0.0f, 0.0f);
+
+            isMoving = true;
+            isDoingGame = true;
+            MoveToPos(sub_Background_List[sub_Index], zero, () =>
+            {
+                sub_Index++;
+                MoveToPos(sub_Background_List[sub_Index], zero, () =>
+                {
+                    sub_Index++;
+                    MoveToPos(sub_Background_List[sub_Index], zero, () =>
+                    {
+                        sub_Index++;
+                        MoveToPos(sub_Background_List[sub_Index], zero, () =>
+                        {
+                            cur_eMinigame = (eMinigame)_minigame;
+                            minigame_List[_minigame].LoadGame(minigame_List[_minigame].transform);
+                            isMoving = false;
+                        });
+                    });
+                });
+            });
+        }
+
+        private void MoveToPos(GameObject _obj, Vector3 _to, Action _action = null)
+        {
+            _obj.transform.DOMove(_to, 0.25f).OnComplete(() =>
+            {
+                _action?.Invoke();
+            });
         }
     }
 }

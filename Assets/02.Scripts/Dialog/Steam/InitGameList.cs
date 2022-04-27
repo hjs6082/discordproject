@@ -7,7 +7,7 @@ public class InitGameList : MonoBehaviour
 {
     private const string GAME_LIST_PATH = "Steam/GameList/";
 
-    public GameObject game_Prefab = null;
+    public  GameObject game_Prefab = null;
     private List<GameScriptableObject> game_SO_List = new List<GameScriptableObject>(); 
     private int SO_Amount = 0;
 
@@ -37,7 +37,7 @@ public class InitGameList : MonoBehaviour
             Text game_Title = game.GetComponentInChildren<Text>();
             Image game_Icon = game.GetComponentInChildren<Image>();
 
-            game_Title.text = game_SO_List[i].game_Title;
+            game_Title.text  = game_SO_List[i].game_Title;
             game_Icon.sprite = game_SO_List[i].game_Icon;
         }
     }

@@ -1,36 +1,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Arrow_Control : MonoBehaviour
+namespace Dialogue
 {
-    public Arrow_Obj arrow_Obj { get; private set; }
-
-    private Dictionary<KeyCode, int> arrow_Keys = new Dictionary<KeyCode, int>()
+    public class Arrow_Control : MonoBehaviour
     {
-        {KeyCode.UpArrow, 0},
-        {KeyCode.DownArrow, 1},
-        {KeyCode.LeftArrow, 2},
-        {KeyCode.RightArrow, 3}
-    };
+        public Arrow_Obj arrow_Obj { get; private set; }
 
-    private void Awake()
-    {
-        arrow_Obj = GetComponentInChildren<Arrow_Obj>();
-    }
-
-    public bool InputArrow()
-    {
-        if (Input.anyKeyDown)
+        private Dictionary<KeyCode, int> arrow_Keys = new Dictionary<KeyCode, int>()
         {
-            foreach (var input in arrow_Keys)
-            {
-                if (Input.GetKeyDown(input.Key))
-                {
-                    return arrow_Obj.IsCheckArrow(input.Value);
-                }
-            }
+            {KeyCode.UpArrow,    0},
+            {KeyCode.DownArrow,  1},
+            {KeyCode.LeftArrow,  2},
+            {KeyCode.RightArrow, 3}
+        };
+
+        private void Awake()
+        {
+            arrow_Obj = GetComponentInChildren<Arrow_Obj>();
         }
 
-        return false;
+        public bool InputArrow()
+        {
+            if (Input.anyKeyDown)
+            {
+                foreach (var input in arrow_Keys)
+                {
+                    if (Input.GetKeyDown(input.Key))
+                    {
+                        return arrow_Obj.IsCheckArrow(input.Value);
+                    }
+                }
+            }
+
+            return false;
+        }
     }
 }

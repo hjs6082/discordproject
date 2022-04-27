@@ -3,120 +3,70 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class Arrow_Manager : Minigame
+namespace Dialogue
 {
-    private const float DEFAULT_TIME = 4.25f;
-    public static Action Act_Timer;
-
-    public Arrow_Control arrow_Ctrl { get; private set; }
-    private Arrow_Obj arrow_Obj = null;
-
-    public GameObject readyPanel = null;
-
-    public Text timer_Text = null;
-    public Text dec_Timer_Text = null;
-    private float currentTime = 0.0f;
-
-    private bool bStart = false;
-    private bool bWin = false;
-
-    public override void Awake()
+    public class Arrow_Manager : Dialogue.Minigame
     {
-        arrow_Ctrl = GetComponentInChildren<Arrow_Control>();
+        private const float DEFAULT_TIME = 4.25f;
 
-        Act_Timer += WrongArrow;
+        public Arrow_Control  arrow_Ctrl { get; private set; }
+        public Arrow_Obj      arrow_Obj  { get; private set; }
+        public SpriteRenderer background = null;
 
-        dec_Timer_Text.gameObject.SetActive(false);
-    }
+        private bool bWin = false;
 
-    public override void Start()
-    {
-        arrow_Obj = arrow_Ctrl.arrow_Obj;
-
-        InitGame();
-    }
-
-    public override void Update()
-    {
-        if (bStart)
+        protected override void Awake()
         {
-            Timer();
-            InputArrow();
+            arrow_Ctrl = GetComponentInChildren<Arrow_Control>();
         }
-        else
+
+        protected override void Start()
         {
-            StartGame(readyPanel);
+            arrow_Obj = arrow_Ctrl.arrow_Obj;
         }
-    }
 
-    public override void InitGame()
-    {
-        bStart = false;
-
-        InitTimer();
-
-        readyPanel.SetActive(true);
-
-        arrow_Obj?.InitArrow();
-    }
-
-    public override void StartGame(GameObject _readyPanel)
-    {
-        if (Input.anyKeyDown && _readyPanel.activeSelf)
+        protected override void Update()
         {
-            base.StartGame(_readyPanel);
-            bStart = true;
+            if (Dialogue_Manager.Instance.cur_eMinigame == eMinigame.ARROW)
+            {
+                InputArrow();
+            }
         }
-    }
 
-    public override void Attack(bool _bWin)
-    {
-        base.Attack(_bWin);
-    }
-
-    public void InputArrow()
-    {
-        bWin = arrow_Ctrl.InputArrow();
-
-        if (bWin || currentTime <= 0.0f)
+        public override void InitGame()
         {
-            Debug.Log("dmddo");
-            Attack(bWin);
-            bStart = false;
+            arrow_Obj?.InitArrow();
         }
-    }
 
-    public void UpdateTimer(Action _Act_Timer)
-    {
-        _Act_Timer?.Invoke();
-        currentTime = Mathf.Clamp(currentTime, 0.0f, DEFAULT_TIME);
-        timer_Text.text = $"{currentTime:F2}";
-    }
-
-    public void WrongArrow()
-    {
-        UpdateTimer(() => DecTime());
-    }
-
-    public void InitTimer()
-    {
-        UpdateTimer(() => currentTime = DEFAULT_TIME);
-    }
-
-    public void Timer()
-    {
-        UpdateTimer(() => currentTime -= Time.deltaTime);
-    }
-
-    public void DecTime()
-    {
-        currentTime -= 0.1f;
-
-        dec_Timer_Text.DOComplete();
-        dec_Timer_Text.gameObject.SetActive(true);
-        dec_Timer_Text.rectTransform.DOShakeAnchorPos(0.25f, 10, 15).OnComplete(() => 
+        public override void SetGamePos()
         {
-            dec_Timer_Text.gameObject.SetActive(false);
-        });
+            background.transform.parent.position = Dialogue_Manager.DEFAULT_MINIGAME_POSITION;
+        }
+
+        public override void LoadGame(Transform _minigameTrm, Action _action = null)
+        {
+            _minigameTrm = background.transform.parent;
+
+            base.LoadGame(_minigameTrm, () => InitGame());
+        }
+
+        public override void Download() // 이겼을 때 다운로드 게이지 채워주는 함수
+        {
+            background.enabled = false;
+
+            base.Download();
+        }
+
+        public void InputArrow()
+        {
+            bWin = arrow_Ctrl.InputArrow();
+
+            if (bWin)
+            {
+                Debug.Log("dmddo");
+                
+                Dialogue_Manager.Instance.MinigameClear();
+            }
+        }
     }
 }

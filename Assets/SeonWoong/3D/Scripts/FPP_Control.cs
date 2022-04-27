@@ -24,6 +24,7 @@ public class FPP_Control : MonoBehaviour
                 if(Input.GetKeyDown(item.Key))
                 {
                     FPP_Move.rotateAct?.Invoke(item.Value);
+                    return;
                 }
             }
         }

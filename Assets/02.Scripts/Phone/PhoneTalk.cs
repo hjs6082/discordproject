@@ -11,7 +11,7 @@ public class PhoneTalk : MonoBehaviour
     private bool talk1End;
     private bool talk2End;
 
-    private bool isDestory;
+    //private bool isDestory;
 
     private bool phoneOn;
 
@@ -36,7 +36,7 @@ public class PhoneTalk : MonoBehaviour
             StartCoroutine(TalkDestory(talk1));
             talk1End = true;
             TalkDestory(talk1);
-            isDestory = true;
+            //isDestory = true;
             StartCoroutine(TalkPlay(talk2, talk2End, 0.5f, 2f));
         }
         if(talk1End == true)

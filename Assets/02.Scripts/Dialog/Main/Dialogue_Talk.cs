@@ -11,21 +11,21 @@ namespace Dialogue
     public class Dialogue_Talk : MonoBehaviour
     {
         private static readonly Dialogue_Strs dlg_Strs = new Dialogue_Strs();
-        private Dialogue_Control dlg_Ctrl;
-
-        private Action<Text, string> talk_Action;
-
-        public List<string> manStory_Strs     = new List<string>();
-        public List<string> womanStory_Strs   = new List<string>();
-        public List<string> man_Strs          = new List<string>();
-        public List<string> woman_Strs        = new List<string>();
-
-        [SerializeField] private Text  speech_Text = null;
-        [SerializeField] private Text  name_Text   = null;
-        [SerializeField] private Image arrow_Image  = null;
 
         public string man_Name   { get; private set; }
         public string woman_Name { get; private set; }
+
+        private Action<Text, string> talk_Action;
+
+        public Dictionary<int, string> name_Order_Dic = new Dictionary<int, string>();
+        public List<string>            epilogue_Strs  = new List<string>();
+        public List<string[]>          dialogue_Strs  = new List<string[]>();
+
+        [SerializeField] private Text  speech_Text = null;
+        [SerializeField] private Text  name_Text   = null;
+        [SerializeField] private Image arrow_Image = null;
+
+        public int epilogueCount = 0;
 
         private bool bWait = false;
 
@@ -36,55 +36,149 @@ namespace Dialogue
 
         private void Start()
         {
-            Talk(speech_Text, man_Strs[0], 1.0f);
+            arrow_Image.DOFade(0.0f, 0.75f)
+            .OnComplete(() => arrow_Image.DOFade(1.0f, 0.75f))
+            .SetLoops(-1, LoopType.Yoyo);
+            arrow_Image.DOPause();
+
+            Talk(speech_Text, epilogue_Strs[epilogueCount], 1.0f);
         }
 
         private void InitStrs() // 대사 받아오기
         {
-            manStory_Strs   = dlg_Strs.manStoryArr.ToList();
-            womanStory_Strs = dlg_Strs.womanStoryArr.ToList();
-            man_Strs        = dlg_Strs.man_Arr.ToList();
-            woman_Strs      = dlg_Strs.woman_Arr.ToList();
+            epilogue_Strs = dlg_Strs.epilogueArr.ToList();
+
+            dialogue_Strs.Add(dlg_Strs.dialogue_1_Speech);
+            dialogue_Strs.Add(dlg_Strs.dialogue_2_Speech);
+            dialogue_Strs.Add(dlg_Strs.dialogue_3_Speech);
         }
 
-        private void Talk(Text _speech_Text, string _str, float _duration)
+        private void InitNameDic()
+        {
+            name_Order_Dic.Add(0, man_Name);
+            name_Order_Dic.Add(1, woman_Name);
+            name_Order_Dic.Add(2, man_Name);
+            name_Order_Dic.Add(3, man_Name);
+            name_Order_Dic.Add(4, woman_Name);
+            name_Order_Dic.Add(5, man_Name);
+            name_Order_Dic.Add(6, woman_Name);
+            name_Order_Dic.Add(7, man_Name);
+            name_Order_Dic.Add(8, woman_Name);
+        }
+
+        private void Talk(Text _speech_Text, string _str, float _duration, bool _nextInvoke = true, Action _action = null)
         {
             ClearSpeech(_speech_Text);
-            _speech_Text.DOText(_str, _duration).OnComplete(() => 
+
+            if(epilogueCount < epilogue_Strs.Count - 1)
+            name_Text.text = name_Order_Dic[epilogueCount % (epilogue_Strs.Count)];
+            //else
+            //NameChange();
+
+            _speech_Text.DOText(_str, _duration)
+            .OnComplete(() =>
             {
                 bWait = true;
 
-                arrow_Image.DOFade(0.0f, 0.75f)
-                .OnComplete(() => arrow_Image.DOFade(1.0f, 0.75f))
-                .SetLoops(-1, LoopType.Yoyo);
+                arrow_Image.DORestart();
 
-                StartCoroutine(WaitTalk());
+
+
+                if (_nextInvoke)
+                {
+                    if (epilogueCount < epilogue_Strs.Count - 1
+                    && !Dialogue_Manager.Instance.dlg_Option.canSelect)
+                    {
+                        epilogueCount++;
+
+                        StartCoroutine(WaitTalk(() => Epilogue_Talk()));
+                    }
+                    else
+                    {
+                        StartCoroutine(WaitTalk(() =>
+                        {
+                            Talk(speech_Text, "대화 선택지 중 하나를 골라보자", 0.5f, false);
+                            Dialogue_Manager.Instance.dlg_Option.canSelect = true;
+                            name_Text.text = man_Name;
+                        }));
+                    
+                    }
+                }
+                else
+                {
+                    StartCoroutine(WaitTalk(() => _action?.Invoke()));
+                }
             });
+        }
+
+        private void Epilogue_Talk()
+        {
+            Talk(speech_Text, epilogue_Strs[epilogueCount], 0.5f);
+        }
+
+        public void Main_Talk(int _talkIndex)
+        {
+            int strs_Length = dialogue_Strs[_talkIndex].Length;
+            int order = 0;
+
+            name_Text.text = man_Name;
+
+            if (strs_Length == 2)
+            {
+                Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
+                {
+                    //NameChange();
+                    order++;
+                    Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, true);
+                    Dialogue_Manager.Instance.isDoingGame = false;
+
+                });
+            }
+            else
+            {
+                Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
+                {
+                    //NameChange();
+                    order++;
+                    Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
+                    {
+                        //NameChange();
+                        order++;
+                        Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
+                        {
+                            //NameChange();
+                            order++;
+                            Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
+                            {
+                                //TODO : 화면 페이드 - OnComplete -> LoadScene                                
+                                LoadScene.LoadingScene("Map");
+                            });
+                        });
+                    });
+                });
+            }
         }
 
         private IEnumerator WaitTalk(Action _nextAction = null)
         {
-            while(bWait)
+            while (bWait)
             {
-                dlg_Ctrl.InputSpeech(ref bWait);
+                Dialogue_Manager.Instance.dlg_Ctrl.InputSpeech(ref bWait);
 
-                yield return new WaitForFixedUpdate();
+                yield return new WaitUntil(() => true);
             }
 
             Debug.Log("다음 내용");
+            NameChange();
             _nextAction?.Invoke();
-        }
-
-        private void RemoveStrs()
-        {
-            man_Strs.RemoveAt(0);
-            woman_Strs.RemoveAt(0);
         }
 
         public void SetName(string _manName, string _womanName)
         {
-            man_Name = _manName;
+            man_Name   = _manName;
             woman_Name = _womanName;
+
+            InitNameDic();
         }
 
         public void NameChange()
