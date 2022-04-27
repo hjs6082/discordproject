@@ -30,5 +30,17 @@ namespace Dialogue
             "어디가",
             "따라오지마!\n나 잠깐 생각 정리만 하고 올게"
         };
+
+        public string[] option_Name = {
+            "회전 미로",
+            "화살표",
+            "한붓그리기"
+        };
+
+        public string[] minigame_Explains = {
+            "회전\n\n<- ->",
+            "방향키\n사용",
+            "마우스\n사용"
+        };
     }
 }

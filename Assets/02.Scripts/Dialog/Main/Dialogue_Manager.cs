@@ -28,6 +28,7 @@ namespace Dialogue
         }
         #endregion
 
+        public static readonly Dialogue_Strs dlg_Strs = new Dialogue_Strs();
         public static readonly Vector3 DEFAULT_MINIGAME_POSITION = new Vector3(0.0f, 10.4f, 0.0f);
         public static Action download = null;
 
@@ -39,9 +40,10 @@ namespace Dialogue
         private string manName   = "남편";
         private string womanName = "아내";
 
-        public Image  background = null;
-        public Sprite inGameImg  = null;
-        public Image  wife_Image = null;
+        public Image          background = null;
+        public Sprite         inGameImg  = null;
+        public Image          wife_Image = null;
+        public SpriteRenderer fade_SR    = null;
 
         public Button        action_Button = null;
         public Transform     button_Parent = null;
@@ -50,13 +52,14 @@ namespace Dialogue
         [SerializeField] private RectTransform wife_View = null;
         [SerializeField] private RectTransform pc_View   = null;
 
-        public Image          download_Guage      = null;
-        public GameObject[]   sub_Background_List = null;
-        public List<Vector3>  old_Background_Pos  = new List<Vector3>();
-        public List<Minigame> minigame_List       = new List<Minigame>();
-        public eMinigame      cur_eMinigame       = eMinigame.NONE;
-        public int            sub_Index           = 0;
-        public int            mainTalk_Index      = 0;
+        public Image          download_Guage        = null;
+        public GameObject[]   sub_Background_List   = null;
+        public List<Vector3>  old_Background_Pos    = new List<Vector3>();
+        public List<Minigame> minigame_List         = new List<Minigame>();
+        public eMinigame      cur_eMinigame         = eMinigame.NONE;
+        public Text           minigame_Explain_Text = null; 
+        public int            sub_Index             = 0;
+        public int            mainTalk_Index        = 0;
   
         public bool bWifeView   = false;
         public bool isTalking   = false;
@@ -91,6 +94,8 @@ namespace Dialogue
             {
                 old_Background_Pos.Add(sub_Background_List[i].transform.position);
             }
+
+            minigame_Explain_Text.transform.parent.gameObject.SetActive(false);
         }
 
         private void Update()
@@ -105,6 +110,8 @@ namespace Dialogue
             dlg_Ctrl   = _parent.GetComponentInChildren<Dialogue_Control>();
             dlg_Talk   = _parent.GetComponentInChildren<Dialogue_Talk>();
             dlg_Option = _parent.GetComponentInChildren<Dialogue_Option>();
+
+            fade_SR = GetComponent<SpriteRenderer>();
         }
 
         private void InitButtons()
@@ -114,7 +121,7 @@ namespace Dialogue
                 int index = i;
                 Button button = Instantiate(action_Button, button_Parent);
 
-                button.GetComponentInChildren<Text>().text = $"{index + 1}. 공격 {index}";
+                button.GetComponentInChildren<Text>().text = $"{index + 1}. {dlg_Strs.option_Name[i]}";
                 button.interactable = false;
                 button.onClick.AddListener(() =>
                 {
@@ -192,6 +199,8 @@ namespace Dialogue
             isMoving = true;
             int cur_eMinigame_Num = (int)cur_eMinigame;
 
+            minigame_Explain_Text.transform.parent.gameObject.SetActive(false);
+
             MoveToPos(sub_Background_List[sub_Index], old_Background_Pos[sub_Index], () =>
             {
                 sub_Index--;
@@ -233,6 +242,10 @@ namespace Dialogue
                         {
                             cur_eMinigame = (eMinigame)_minigame;
                             minigame_List[_minigame].LoadGame(minigame_List[_minigame].transform);
+
+                            minigame_Explain_Text.transform.parent.gameObject.SetActive(true);
+                            minigame_Explain_Text.text = dlg_Strs.minigame_Explains[(int)cur_eMinigame];
+
                             isMoving = false;
                         });
                     });
@@ -243,6 +256,16 @@ namespace Dialogue
         private void MoveToPos(GameObject _obj, Vector3 _to, Action _action = null)
         {
             _obj.transform.DOMove(_to, 0.25f).OnComplete(() =>
+            {
+                _action?.Invoke();
+            });
+        }
+
+        public void FadeDialogue(Action _action = null)
+        {
+            fade_SR.DOFade(1.0f,  0.75f)
+            .SetEase(Ease.OutCubic)
+            .OnComplete(() => 
             {
                 _action?.Invoke();
             });
