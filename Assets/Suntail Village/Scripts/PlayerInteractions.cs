@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 //Interacting with objects and doors
@@ -47,6 +48,8 @@ namespace Suntail
         [SerializeField] private Image uiPanel;
         [Tooltip("Text holder")]
         [SerializeField] private Text panelText;
+        [Tooltip("지금 진행해야하는 일을 표시해주는 텍스트인데 추후 UI로 들어갈 예정")]
+        [SerializeField] private Text explaneText;
         [Tooltip("Text when an object can be lifted")]
         [SerializeField] private string itemPickUpText;
         [Tooltip("Text when an object can be drop")]
@@ -83,12 +86,15 @@ namespace Suntail
         {
             mainCamera = Camera.main;
             _characterController = GetComponent<CharacterController>();
+            StartCoroutine(StartExplane());
         }
 
         private void Update()
         {
             Interactions();
             LegCheck();
+            ExplaneCheck();
+            ExplaneUI();
         }
 
         //Determine which object we are now looking at, depending on the tag and component
@@ -289,7 +295,7 @@ namespace Suntail
         {
             uiPanel.gameObject.SetActive(true);
 
-            if(_passwordObj.GetComponent<PasswordOpen>().puzzleClear == false)
+            if(!_passwordObj.GetComponent<PasswordOpen>().puzzleClear)
             {
                 panelText.text = "퍼즐 조사하기";
             }
@@ -319,6 +325,7 @@ namespace Suntail
             else if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 3)
             {
                 panelText.text = "클리어한 퍼즐" + "\n2/3";
+                ScalePuzzleScript.scalePuzzleClear = true;
             }
         }
 
@@ -355,6 +362,40 @@ namespace Suntail
             {
                 panelText.text = "파랑열쇠 1/1";
             }
+        }
+
+        private void ExplaneUI()
+        {
+            if(!ScalePuzzleScript.scalePuzzleClear)
+            {
+                explaneText.text = "책 3권을 찾아서 2층 테이블 위에 올려두세요";
+            }
+            else if(ScalePuzzleScript.scalePuzzleClear)
+            {
+                explaneText.text = "Clear";
+            }
+        }
+
+        private void ExplaneCheck()
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                explaneText.enabled = true;
+                StartCoroutine(CheckExplane());
+            }
+        }
+
+        IEnumerator CheckExplane()
+        {
+            yield return new WaitForSeconds(2f);
+            explaneText.enabled = false;
+        }
+
+        IEnumerator StartExplane()
+        {
+            explaneText.enabled = true;
+            yield return new WaitForSeconds(2f);
+            explaneText.enabled = false;
         }
     }
 }

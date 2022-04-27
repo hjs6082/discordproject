@@ -6,6 +6,7 @@ public class ScalePuzzleScript : MonoBehaviour
 {
     private bool isEnter = false;
     public int bookCount = 0;
+    public static bool scalePuzzleClear = false;
 
     [SerializeField]
     private Suntail.PlayerInteractions pi;
