@@ -81,6 +81,9 @@ namespace Dialogue
             #endregion
 
             InitClass();
+
+            GameManager.Instance?.FadePanel.SetActive(true);
+            GameManager.Instance?.Fade_In(1.5f);
         }
 
         private void Start()
@@ -96,6 +99,8 @@ namespace Dialogue
             }
 
             minigame_Explain_Text.transform.parent.gameObject.SetActive(false);
+
+            GameManager.Instance.Fade_In();
         }
 
         private void Update()

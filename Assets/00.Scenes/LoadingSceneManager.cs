@@ -27,7 +27,7 @@ public class LoadingSceneManager : MonoBehaviour
     {
         Debug.Log("start");
         StartCoroutine(LoadScene());
-
+        GameManager.Instance?.FadePanel.SetActive(false);
     }
 
 

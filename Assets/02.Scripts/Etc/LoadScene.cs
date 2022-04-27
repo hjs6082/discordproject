@@ -9,6 +9,7 @@ public class LoadScene : MonoBehaviour
 {
     public static void LoadingScene(string sceneName)
     {
+        DOTween.KillAll();
         DOTween.Clear(true);
 
         if (GameManager.Instance != null && GameManager.Instance.DemoClearCheck())

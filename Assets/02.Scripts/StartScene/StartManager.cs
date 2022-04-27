@@ -18,11 +18,11 @@ public class StartManager : MonoBehaviour
 
     public GameObject[] CanvasArr;
 
-    public InputField ManInput;
-    public InputField WomanInput;
+    public InputField ManInput   = null;
+    public InputField WomanInput = null;
 
-    public Toggle ShakeToggle;
-    public bool bShakeOK = false;
+    public Toggle ShakeToggle = null;
+    public bool   bShakeOK    = false;
 
     private void Awake()
     {
@@ -96,13 +96,15 @@ public class StartManager : MonoBehaviour
         GameManager.Instance.ClearPanel.SetActive(false);
         GameManager.Instance.Fade_Out(0.5f, () => 
         {
+            GameManager.Instance.Fade_In();
+
             AudioManager.Instance.TeleportSound();
-            GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "철수";
-            GameManager.Instance.WomanName = (WomanInput.text != "") ? WomanInput.text : "영희";
+            GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "남편";
+            GameManager.Instance.WomanName = (WomanInput.text != "") ? WomanInput.text : "아내";
 
             GameManager.Instance.ResetVolumeController();
             GameManager.Instance.ChangeBGM(GameManager.eScene.DIALOG);
-            LoadScene.LoadingScene("DialogScene");
+            LoadScene.LoadingScene("New_Dialog");
         });
     }
 }
