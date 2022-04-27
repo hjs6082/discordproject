@@ -6,8 +6,9 @@ using UnityEngine.UI;
 public class PasswordPaper : MonoBehaviour
 {
     private bool isEnter = false;
+    public static bool isPaper = false;
     public bool isCheck = false;
-    public GameObject player;
+    //public GameObject player;
 
     [SerializeField] private GameObject paperPanel;
 
@@ -34,7 +35,8 @@ public class PasswordPaper : MonoBehaviour
                     paperPanel.SetActive(true);
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
-                    player.GetComponent<Suntail.PlayerController>().enabled = false;
+                    isPaper = true;
+                    //player.GetComponent<Suntail.PlayerController>().enabled = false;
                 }
             }
         }

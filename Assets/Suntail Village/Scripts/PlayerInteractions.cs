@@ -319,7 +319,8 @@ namespace Suntail
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 blueKey.SetActive(true);
-                player.GetComponent<Suntail.PlayerController>().enabled = false;
+                _passwordObj.GetComponent<PasswordOpen>().enabled = false;
+               // player.GetComponent<Suntail.PlayerController>().enabled = false;
             }
             
         }
@@ -392,6 +393,14 @@ namespace Suntail
             {
                 explaneText.text = "서랍 안에 있는 패스워드 종이를 찾으세요";
                 //StartCoroutine(StartExplane());
+            }
+            if(ScalePuzzleScript.scalePuzzleClear && PasswordPaper.isPaper)
+            {
+                explaneText.text = "문 옆에 있는 도어락에 패스워드를 입력하세요.";
+            }
+            if (ScalePuzzleScript.scalePuzzleClear && PasswordPaper.isPaper && ClearTextUI.isBlueKeyText)
+            {
+                explaneText.text = "파랑열쇠를 찾아서 문을 열고 바깥으로 나가세요.";
             }
         }
 
