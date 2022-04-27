@@ -104,7 +104,7 @@ public class StartManager : MonoBehaviour
 
             GameManager.Instance.ResetVolumeController();
             GameManager.Instance.ChangeBGM(GameManager.eScene.DIALOG);
-            LoadScene.LoadingScene("New_Dialog");
+            LoadScene.LoadingScene_MainToDialogue();
         });
     }
 }
