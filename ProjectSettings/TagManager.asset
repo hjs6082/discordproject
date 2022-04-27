@@ -19,6 +19,7 @@ TagManager:
   - CupBoard
   - InventoryItem
   - SecretDoor
+  - PasswordPaper
   layers:
   - Default
   - TransparentFX

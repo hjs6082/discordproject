@@ -9,6 +9,8 @@ public class PasswordOpen : MonoBehaviour
     private GameObject passwordPanel;
     [SerializeField]
     private GameObject player;
+    [SerializeField]
+    private GameObject clearTextPanel;
     
     public bool puzzleClear;
     public bool isCheck;
@@ -72,10 +74,10 @@ public class PasswordOpen : MonoBehaviour
     }
     public void PasswordDown()
     {
+        player.GetComponent<Suntail.PlayerController>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         passwordPanel.GetComponent<RectTransform>().transform.DOLocalMoveY(-1008f, 1f, false);
-        player.GetComponent<Suntail.PlayerController>().enabled = true;
         isPuzzleUp = false;
     }
 }
