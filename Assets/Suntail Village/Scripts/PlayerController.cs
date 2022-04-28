@@ -86,6 +86,8 @@ namespace Suntail
             GetTerrainData();
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+            GameManager.Instance.PlayerObject = this.gameObject;
         }
 
         //Getting all terrain data for footstep system
@@ -101,8 +103,12 @@ namespace Suntail
 
         private void Update()
         {
-            Movement();
-            MouseLook();
+            if(!GameManager.Instance.bPause)
+            {
+                Movement();
+                MouseLook();
+            }
+            
             GroundChecker();
         }
 

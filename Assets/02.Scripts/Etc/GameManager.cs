@@ -17,55 +17,63 @@ public class GameManager : MonoBehaviour
 
     const string fileName = "PuzzleSave";
 
-    public static GameManager Instance { get; private set; }
+    #region 싱글톤
+    public static GameManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    private static GameManager instance = null;
+    #endregion
 
-    public string ManName = "";
-    public string WomanName = "";
+    public string ManName   = string.Empty;
+    public string WomanName = string.Empty;
 
-    public GameObject FadePanel;
+    public GameObject FadePanel = null;
     public bool isOnLoad;
 
-    public GameObject PauseCanvas;
-    public GameObject PausePanel;
-    public GameObject OptionPanel;
-    public GameObject CreditPanel;
-    public GameObject OptionBGM_Volume;
-    public GameObject OptionEFFECT_Volume;
-    public bool bPause = false;
+    public Vector3    curPlayerRotate     = new Vector3(0.0f, 0.0f, 0.0f);
+    public GameObject PlayerObject        = null;
+    public GameObject PauseCanvas         = null;
+    public GameObject PausePanel          = null;
+    public GameObject OptionPanel         = null;
+    public GameObject CreditPanel         = null;
+    public GameObject OptionBGM_Volume    = null;
+    public GameObject OptionEFFECT_Volume = null;
+
+    public bool bPause   = false;
     public bool isPuzzle = false;
 
-    public AudioClip[] BGM_Arr;
-    private AudioSource bgmAudio;
+    public  AudioClip[]  BGM_Arr;
+    private AudioSource  bgmAudio;
     private AudioManager audioManager;
 
-    public bool bChessClear = false;
+    public bool bChessClear      = false;
     public bool bMovePuzzleClear = false;
-    public bool bOnIsland = false;
+    public bool bOnIsland        = false;
 
     public bool stage1Start = false;
-
-    //public Vector3 curPlayerPos;
 
     public GameObject ClearPanel;
 
     private void Awake()
     {
-        if (Instance == null)
+        #region 싱글톤
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(this.gameObject);
         }
         else
         {
             Destroy(this.gameObject);
         }
-
-        PauseCanvas.SetActive(false);
-        ClearPanel.SetActive(false);
+        #endregion
 
         //curPlayerPos = new Vector3(-25f, 16f, 10f);
-        FadePanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
-        FadePanel.SetActive(false);
+        InitObject();        
 
         SaveData savePuzzle = SaveSystem.Load(fileName);
 
@@ -90,17 +98,39 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name != "MainScene")
         {
+            InputPause();
+        }
+    }
+
+    private void InitObject()
+    {
+        PauseCanvas.SetActive(false);
+        ClearPanel.SetActive(false);
+
+        FadePanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
+        FadePanel.SetActive(false);
+    }
+
+    private void InputPause()
+    {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                OnPause();
+                Pause();
+
+                if (PlayerObject != null)
+                curPlayerRotate = PlayerObject.transform.rotation.eulerAngles;
             }
+
             if (bPause)
             {
                 audioManager.BGM_Source.Pause();
                 audioManager.EFFECT_Source.Pause();
 
-                if(CharacterVoice.Instance != null)
+                if (CharacterVoice.Instance != null)
                 CharacterVoice.Instance.audioSource.Pause();
+
+                if (PlayerObject != null)
+                PlayerObject.transform.rotation = Quaternion.Euler(curPlayerRotate);
             }
             else
             {
@@ -112,7 +142,6 @@ public class GameManager : MonoBehaviour
             }
          
             Time.timeScale = bPause ? 0f : 1f;
-        }
     }
 
     public bool DemoClearCheck()
@@ -138,14 +167,6 @@ public class GameManager : MonoBehaviour
         audioManager.InitVolumeSettings();
     }
 
-    public void OnPause()
-    {
-        bPause = !bPause;
-        PauseCanvas.SetActive(bPause);
-        InitPanel();
-        PausePanel.SetActive(bPause);
-    }
-
     private void InitPanel()
     {
         PausePanel.SetActive(false);
@@ -155,8 +176,13 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
+        bPause = !bPause;
+
+        Cursor.lockState = (bPause) ? CursorLockMode.None : CursorLockMode.Locked;
+
+        PauseCanvas.SetActive(bPause);
         InitPanel();
-        PausePanel.SetActive(true);
+        PausePanel.SetActive(bPause);
     }
 
     public void Option()
@@ -188,7 +214,7 @@ public class GameManager : MonoBehaviour
 
     public void Main()
     {
-        OnPause();
+        Pause();
         ChangeBGM(eScene.MAIN);
         LoadScene.LoadingScene("MainScene");
     }
