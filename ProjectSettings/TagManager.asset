@@ -20,6 +20,7 @@ TagManager:
   - InventoryItem
   - SecretDoor
   - PasswordPaper
+  - LockerButton
   layers:
   - Default
   - TransparentFX

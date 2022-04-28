@@ -53,12 +53,12 @@ public class Cupboard : MonoBehaviour
     {
         if (!isEnd)
         {
-            this.gameObject.GetComponent<Transform>().DOLocalMoveZ(endPosition.z, 1f);
+            this.gameObject.transform.DOLocalMoveZ(endPosition.z, 1f);
             isEnd = true;
         }
         else if (isEnd)
         {
-            this.gameObject.GetComponent<Transform>().DOLocalMoveZ(0.3322172f, 1f); 
+            this.gameObject.transform.DOLocalMoveZ(0.3322172f, 1f); 
             isEnd = false;
         }
         else

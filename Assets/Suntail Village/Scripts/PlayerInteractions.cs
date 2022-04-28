@@ -30,6 +30,8 @@ namespace Suntail
         [SerializeField] private string keyDoorTag = "SecretDoor";
         [Tooltip("패스워드가 적혀있는 종이 오브젝트")]
         [SerializeField] private string passwordPaperTag = "PasswordPaper";
+        [Tooltip("금고 버튼 태그")]
+        [SerializeField] private string lockerButtonTag = "LockerButton";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -68,6 +70,7 @@ namespace Suntail
         [SerializeField] private GameObject clearTextPanel;
         [SerializeField] private GameObject blueKey;
         [SerializeField] private GameObject player;
+        [SerializeField] private GameObject passwordPaper;
 
         //Private variables.
         private PhysicsObject _physicsObject;
@@ -84,6 +87,7 @@ namespace Suntail
         private SecretDoorScript _keyDoorObj;
         private PasswordPaper _passwordPaperObj;
         private Item _pickUpObj;
+        private LockerPassword _lockerButtonObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -183,6 +187,13 @@ namespace Suntail
                     _passwordPaperObj.isCheck = true;
                     PasswordPaperUI();
                 }
+                else if (interactionHit.collider.CompareTag(lockerButtonTag))
+                {
+                    _lockerButtonObj = interactionHit.collider.gameObject.GetComponent<LockerPassword>();
+                    _lockerButtonObj.isCheck = true;
+                    LockerButtonUI();
+                    
+                }
             }
             else
             {
@@ -242,6 +253,7 @@ namespace Suntail
             _currentlyPickedUpObject = _lookObject;
             _lookRotation = _currentlyPickedUpObject.transform.rotation;
             _pickupRigidBody = _currentlyPickedUpObject.GetComponent<Rigidbody>();
+            _currentlyPickedUpObject.GetComponent<MeshCollider>().isTrigger = true;
             _pickupRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
             _pickupRigidBody.transform.rotation = _lookRotation;
             _physicsObject.playerInteraction = this;
@@ -253,6 +265,7 @@ namespace Suntail
         {
             if (_currentlyPickedUpObject)
             {
+                _currentlyPickedUpObject.GetComponent<MeshCollider>().isTrigger = false;
                 _pickupRigidBody.constraints = RigidbodyConstraints.None;
                 _currentlyPickedUpObject = null;
                 _physicsObject.pickedUp = false;
@@ -345,6 +358,7 @@ namespace Suntail
             {
                 panelText.text = "클리어한 퍼즐" + "\n2/3";
                 ScalePuzzleScript.scalePuzzleClear = true;
+                passwordPaper.SetActive(true);
             }
         }
 
@@ -418,6 +432,13 @@ namespace Suntail
             uiPanel.gameObject.SetActive(true);
 
             panelText.text = "보기";
+        }
+
+        private void LockerButtonUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            panelText.text = "누르기";
         }
 
         IEnumerator CheckExplane()
