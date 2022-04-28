@@ -87,6 +87,7 @@ namespace Suntail
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
 
+            if(GameManager.Instance != null)
             GameManager.Instance.PlayerObject = this.gameObject;
         }
 
@@ -108,7 +109,7 @@ namespace Suntail
                 Movement();
                 MouseLook();
             }
-            
+
             GroundChecker();
         }
 

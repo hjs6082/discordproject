@@ -100,6 +100,10 @@ public class GameManager : MonoBehaviour
         {
             InputPause();
         }
+        else if(Cursor.lockState == CursorLockMode.Locked)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     private void InitObject()

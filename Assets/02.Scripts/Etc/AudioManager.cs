@@ -5,7 +5,14 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance { get; private set; }
+    public static AudioManager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    private static AudioManager instance = null;
 
     public AudioClip buttonEffect;
     public AudioClip teleportEffect;
@@ -26,9 +33,9 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
