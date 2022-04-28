@@ -105,7 +105,10 @@ namespace Dialogue
 
         private void Update()
         {
-
+            if(Input.GetKeyDown(KeyCode.T))
+            {
+                LoadScene.LoadingScene("TestMap");
+            }
         }
 
         public void InitClass() 
