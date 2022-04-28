@@ -197,7 +197,9 @@ public class GameManager : MonoBehaviour
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
 
-        fade_Image.DOFade(0.0f, _duration).OnComplete(() => 
+        fade_Image.DOFade(0.0f, _duration)
+        .SetDelay(0.5f)
+        .OnComplete(() => 
         {
             _action?.Invoke();
             FadePanel.SetActive(false);

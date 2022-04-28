@@ -9,6 +9,7 @@ public class LoadScene : MonoBehaviour
 {
     public static void LoadingScene(string sceneName)
     {
+        DOTween.KillAll();
         DOTween.Clear(true);
 
         if (GameManager.Instance != null && GameManager.Instance.DemoClearCheck())
@@ -17,5 +18,18 @@ public class LoadScene : MonoBehaviour
         }
      
         LoadingSceneManager.LoadScene(sceneName);
+    }
+
+    public static void LoadingScene_MainToDialogue()
+    {
+        DOTween.KillAll();
+        DOTween.Clear(true);
+
+        if (GameManager.Instance != null && GameManager.Instance.DemoClearCheck())
+        {
+            GameManager.Instance.ClearPanel.SetActive(true);
+        }
+     
+        SceneManager.LoadScene("New_Dialog");
     }
 }

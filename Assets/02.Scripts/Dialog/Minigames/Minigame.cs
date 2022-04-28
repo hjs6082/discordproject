@@ -18,6 +18,7 @@ namespace Dialogue
         public virtual void LoadGame(Transform _minigameTrm, Action _action = null)
         {
             Dialogue_Manager.Instance.isDoingGame = true;
+
             _minigameTrm.DOMoveY(0.0f, 0.5f)
             .OnComplete(() => 
             {

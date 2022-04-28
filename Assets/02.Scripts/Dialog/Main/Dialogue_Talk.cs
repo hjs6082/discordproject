@@ -10,8 +10,6 @@ namespace Dialogue
 {
     public class Dialogue_Talk : MonoBehaviour
     {
-        private static readonly Dialogue_Strs dlg_Strs = new Dialogue_Strs();
-
         public string man_Name   { get; private set; }
         public string woman_Name { get; private set; }
 
@@ -46,11 +44,11 @@ namespace Dialogue
 
         private void InitStrs() // 대사 받아오기
         {
-            epilogue_Strs = dlg_Strs.epilogueArr.ToList();
+            epilogue_Strs = Dialogue_Manager.dlg_Strs.epilogueArr.ToList();
 
-            dialogue_Strs.Add(dlg_Strs.dialogue_1_Speech);
-            dialogue_Strs.Add(dlg_Strs.dialogue_2_Speech);
-            dialogue_Strs.Add(dlg_Strs.dialogue_3_Speech);
+            dialogue_Strs.Add(Dialogue_Manager.dlg_Strs.dialogue_1_Speech);
+            dialogue_Strs.Add(Dialogue_Manager.dlg_Strs.dialogue_2_Speech);
+            dialogue_Strs.Add(Dialogue_Manager.dlg_Strs.dialogue_3_Speech);
         }
 
         private void InitNameDic()
@@ -82,8 +80,6 @@ namespace Dialogue
 
                 arrow_Image.DORestart();
 
-
-
                 if (_nextInvoke)
                 {
                     if (epilogueCount < epilogue_Strs.Count - 1
@@ -95,18 +91,23 @@ namespace Dialogue
                     }
                     else
                     {
+                        Dialogue_Manager.Instance.dlg_Option.SetCurOption(0);
+
                         StartCoroutine(WaitTalk(() =>
                         {
-                            Talk(speech_Text, "대화 선택지 중 하나를 골라보자", 0.5f, false);
-                            Dialogue_Manager.Instance.dlg_Option.canSelect = true;
-                            name_Text.text = man_Name;
+                            Talk(speech_Text, "대화 선택지 중 하나를 골라보자", 0.5f, false, () => 
+                            {
+                                Dialogue_Manager.Instance.dlg_Option.canSelect = true;
+                                name_Text.text = man_Name;
+                            });
                         }));
                     
                     }
                 }
-                else
+                
+                if(_action != null)
                 {
-                    StartCoroutine(WaitTalk(() => _action?.Invoke()));
+                    StartCoroutine(WaitTalk(() => _action.Invoke()));
                 }
             });
         }
@@ -121,17 +122,16 @@ namespace Dialogue
             int strs_Length = dialogue_Strs[_talkIndex].Length;
             int order = 0;
 
-            name_Text.text = man_Name;
-
             if (strs_Length == 2)
             {
                 Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
                 {
                     //NameChange();
                     order++;
-                    Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, true);
-                    Dialogue_Manager.Instance.isDoingGame = false;
-
+                    Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, true, () => 
+                    {
+                        Dialogue_Manager.Instance.isDoingGame = false;
+                    });                   
                 });
             }
             else
@@ -150,8 +150,15 @@ namespace Dialogue
                             order++;
                             Talk(speech_Text, dialogue_Strs[_talkIndex][order], 1.0f, false, () =>
                             {
-                                //TODO : 화면 페이드 - OnComplete -> LoadScene                                
-                                LoadScene.LoadingScene("Map");
+                                //TODO : 화면 페이드 - OnComplete -> LoadScene    
+                                Dialogue_Manager.Instance.ChangeView(() => 
+                                {
+                                    // TODO : 마우스 커서 움직이기
+                                    Dialogue_Manager.Instance.FadeDialogue(() => 
+                                    {
+                                        LoadScene.LoadingScene("TestMap");
+                                    });
+                                });
                             });
                         });
                     });
@@ -169,7 +176,9 @@ namespace Dialogue
             }
 
             Debug.Log("다음 내용");
+            
             NameChange();
+
             _nextAction?.Invoke();
         }
 

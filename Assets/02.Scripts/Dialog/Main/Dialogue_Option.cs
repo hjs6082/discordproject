@@ -8,16 +8,16 @@ namespace Dialogue
     public class Dialogue_Option : MonoBehaviour
     {
         private Dictionary<KeyCode, int> option_Key_Dic = new Dictionary<KeyCode, int>()
-    {
-        {KeyCode.W,         -1},
-        {KeyCode.UpArrow,   -1},
-        {KeyCode.S,         +1},
-        {KeyCode.DownArrow, +1}
-    };
-
-        public List<Button> option_List = new List<Button>();
-        public Transform option_Element_Trm = null;
-        public Button curOption = null;
+        {
+            {KeyCode.W,         -1},
+            {KeyCode.UpArrow,   -1},
+            {KeyCode.S,         +1},
+            {KeyCode.DownArrow, +1}
+        };
+    
+        public List<Button> option_List        = new List<Button>();
+        public Transform    option_Element_Trm = null;
+        public Button       curOption          = null;
 
         public int optionIndex = 0;
 
@@ -28,7 +28,7 @@ namespace Dialogue
             InputOption();
         }
 
-        public void SetCurOption(int _index)
+        public void SetCurOption(int _index, bool bSwitchColor = true)
         {
             optionIndex += _index;
 
@@ -38,7 +38,10 @@ namespace Dialogue
                 {
                     curOption = option_List[optionIndex % option_List.Count];
 
-                    InitOptionColor();
+                    if (bSwitchColor)
+                    {
+                        InitOptionColor();
+                    }
                 }
             }
         }
@@ -63,8 +66,6 @@ namespace Dialogue
             }
 
             optionIndex = 0;
-
-            SetCurOption(0);
         }
 
         private void InputOption()
@@ -89,7 +90,7 @@ namespace Dialogue
                                 curOption.onClick.RemoveAllListeners();
                                 option_List.Remove(curOption);
                                 optionIndex++;
-                                SetCurOption(1);
+                                SetCurOption(1, false);
                                 return;
                             }
                         }

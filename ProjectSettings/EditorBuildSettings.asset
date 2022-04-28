@@ -14,9 +14,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/00.Scenes/noscene.unity
     guid: a2111a4a935361b488db013bfcaa053c
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/00.Scenes/MovePuzzle.unity
     guid: 30f827dadbc8d7643a552c081792893a
@@ -24,9 +21,18 @@ EditorBuildSettings:
     path: Assets/00.Scenes/TestScenes/test1.unity
     guid: d711c59d67d934c4daa20d24324cd1ad
   - enabled: 1
+    path: Assets/00.Scenes/TestScenes/test2.unity
+    guid: 39d59923785cba6429be47cc7a2f22e1
+  - enabled: 1
+    path: Assets/SeonWoong/2D/Scenes/New_Dialog.unity
+    guid: 74d0cc7141c6b344ba1863c26c05ccc4
+  - enabled: 1
     path: Assets/00.Scenes/LoadingScene.unity
     guid: 71608d753c99b654f83769552a5ae5d6
   - enabled: 1
-    path: Assets/00.Scenes/TestScenes/test2.unity
-    guid: 39d59923785cba6429be47cc7a2f22e1
+    path: Assets/00.Scenes/TestMap.unity
+    guid: 3dfcc67bc65ebe7409047264b4b0e8a6
+  - enabled: 1
+    path: Assets/00.Scenes/Map.unity
+    guid: 1814e12d0bdfd2547b49d2d81b6f564f
   m_configObjects: {}

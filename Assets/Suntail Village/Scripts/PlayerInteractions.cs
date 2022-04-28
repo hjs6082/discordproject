@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 //Interacting with objects and doors
@@ -27,6 +28,8 @@ namespace Suntail
         [SerializeField] private string pickUpItemTag = "InventoryItem";
         [Tooltip("열쇠가 있어야만 열수 있는 문 오브젝트")]
         [SerializeField] private string keyDoorTag = "SecretDoor";
+        [Tooltip("패스워드가 적혀있는 종이 오브젝트")]
+        [SerializeField] private string passwordPaperTag = "PasswordPaper";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -47,6 +50,8 @@ namespace Suntail
         [SerializeField] private Image uiPanel;
         [Tooltip("Text holder")]
         [SerializeField] private Text panelText;
+        [Tooltip("지금 진행해야하는 일을 표시해주는 텍스트인데 추후 UI로 들어갈 예정")]
+        [SerializeField] private Text explaneText;
         [Tooltip("Text when an object can be lifted")]
         [SerializeField] private string itemPickUpText;
         [Tooltip("Text when an object can be drop")]
@@ -59,6 +64,10 @@ namespace Suntail
         [SerializeField] private string drawerOpenText;
         [Tooltip("서랍장을 닫을때 나올 텍스트입니다.")]
         [SerializeField] private string drawerCloseText;
+        [Tooltip("나중에 꼭 지우기")]
+        [SerializeField] private GameObject clearTextPanel;
+        [SerializeField] private GameObject blueKey;
+        [SerializeField] private GameObject player;
 
         //Private variables.
         private PhysicsObject _physicsObject;
@@ -73,6 +82,7 @@ namespace Suntail
         private Cupboard _cupBoardObj;
         private ScalePuzzleScript _scalePuzzleObj;
         private SecretDoorScript _keyDoorObj;
+        private PasswordPaper _passwordPaperObj;
         private Item _pickUpObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
@@ -83,12 +93,15 @@ namespace Suntail
         {
             mainCamera = Camera.main;
             _characterController = GetComponent<CharacterController>();
+            StartCoroutine(StartExplane());
         }
 
         private void Update()
         {
             Interactions();
             LegCheck();
+            ExplaneCheck();
+            ExplaneUI();
         }
 
         //Determine which object we are now looking at, depending on the tag and component
@@ -163,6 +176,12 @@ namespace Suntail
                     _keyDoorObj = interactionHit.collider.gameObject.GetComponent<SecretDoorScript>();
                     _keyDoorObj.isCheck = true;
                     KeyDoorUI();
+                }
+                else if(interactionHit.collider.CompareTag(passwordPaperTag))
+                {
+                    _passwordPaperObj = interactionHit.collider.gameObject.GetComponent<PasswordPaper>();
+                    _passwordPaperObj.isCheck = true;
+                    PasswordPaperUI();
                 }
             }
             else
@@ -289,13 +308,19 @@ namespace Suntail
         {
             uiPanel.gameObject.SetActive(true);
 
-            if(_passwordObj.GetComponent<PasswordOpen>().puzzleClear == false)
+            if(!_passwordObj.GetComponent<PasswordOpen>().puzzleClear)
             {
                 panelText.text = "퍼즐 조사하기";
             }
             else if (_passwordObj.GetComponent<PasswordOpen>().puzzleClear == true)
             {
                 panelText.text = "클리어한 퍼즐";
+                clearTextPanel.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                blueKey.SetActive(true);
+                _passwordObj.GetComponent<PasswordOpen>().enabled = false;
+               // player.GetComponent<Suntail.PlayerController>().enabled = false;
             }
             
         }
@@ -319,6 +344,7 @@ namespace Suntail
             else if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 3)
             {
                 panelText.text = "클리어한 퍼즐" + "\n2/3";
+                ScalePuzzleScript.scalePuzzleClear = true;
             }
         }
 
@@ -355,6 +381,56 @@ namespace Suntail
             {
                 panelText.text = "파랑열쇠 1/1";
             }
+        }
+
+        private void ExplaneUI()
+        {
+            if(!ScalePuzzleScript.scalePuzzleClear)
+            {
+                explaneText.text = "책 3권을 찾아서 2층 테이블 위에 올려두세요";
+            }
+            else if(ScalePuzzleScript.scalePuzzleClear)
+            {
+                explaneText.text = "서랍 안에 있는 패스워드 종이를 찾으세요";
+                //StartCoroutine(StartExplane());
+            }
+            if(ScalePuzzleScript.scalePuzzleClear && PasswordPaper.isPaper)
+            {
+                explaneText.text = "문 옆에 있는 도어락에 패스워드를 입력하세요.";
+            }
+            if (ScalePuzzleScript.scalePuzzleClear && PasswordPaper.isPaper && ClearTextUI.isBlueKeyText)
+            {
+                explaneText.text = "파랑열쇠를 찾아서 문을 열고 바깥으로 나가세요.";
+            }
+        }
+
+        private void ExplaneCheck()
+        {
+            if(Input.GetKeyDown(KeyCode.Tab))
+            {
+                explaneText.enabled = true;
+                StartCoroutine(CheckExplane());
+            }
+        }
+
+        private void PasswordPaperUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            panelText.text = "보기";
+        }
+
+        IEnumerator CheckExplane()
+        {
+            yield return new WaitForSeconds(2f);
+            explaneText.enabled = false;
+        }
+
+        IEnumerator StartExplane()
+        {
+            explaneText.enabled = true;
+            yield return new WaitForSeconds(2f);
+            explaneText.enabled = false;
         }
     }
 }
