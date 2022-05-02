@@ -21,6 +21,7 @@ TagManager:
   - SecretDoor
   - PasswordPaper
   - LockerButton
+  - FirePuzzle
   layers:
   - Default
   - TransparentFX

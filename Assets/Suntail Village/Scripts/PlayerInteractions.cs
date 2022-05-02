@@ -32,6 +32,8 @@ namespace Suntail
         [SerializeField] private string passwordPaperTag = "PasswordPaper";
         [Tooltip("금고 버튼 태그")]
         [SerializeField] private string lockerButtonTag = "LockerButton";
+        [Tooltip("화덕 버튼 태그")]
+        [SerializeField] private string firePuzzleTag = "FirePuzzle";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -88,6 +90,7 @@ namespace Suntail
         private PasswordPaper _passwordPaperObj;
         private Item _pickUpObj;
         private LockerPassword _lockerButtonObj;
+        private FirePuzzle _firePuzzleObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -192,7 +195,11 @@ namespace Suntail
                     _lockerButtonObj = interactionHit.collider.gameObject.GetComponent<LockerPassword>();
                     _lockerButtonObj.isCheck = true;
                     LockerButtonUI();
-                    
+                }
+                else if (interactionHit.collider.CompareTag(firePuzzleTag))
+                {
+                    _firePuzzleObj = interactionHit.collider.gameObject.GetComponent<FirePuzzle>();
+                    _firePuzzleObj.isCheck = true;
                 }
             }
             else

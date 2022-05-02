@@ -105,7 +105,12 @@ namespace Dialogue
 
         private void Update()
         {
+            
+        }
 
+        public void SkipDialog()
+        {
+            LoadScene.LoadingScene("TestMap");
         }
 
         public void InitClass() 

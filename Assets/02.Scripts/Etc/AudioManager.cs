@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        InitVolumeSettings();
+        //InitVolumeSettings();
     }
 
     public void InitVolumeSettings()
