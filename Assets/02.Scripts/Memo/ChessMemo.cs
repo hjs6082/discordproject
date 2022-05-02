@@ -17,7 +17,7 @@ namespace Memo
 
         private void Awake()
         {
-            memoPanel.SetActive(false);
+            memoPanel?.SetActive(false);
             memoCtrl = memoPanel.GetComponentInChildren<MemoControll>();
             //SetMemoTrm(startPos, startRotate);
         }
