@@ -13,6 +13,26 @@ public class CheatWindow : EditorWindow
 
     private void OnGUI()
     {
+        GUILayout.Label("Skip Dialogue", EditorStyles.boldLabel) ;
+
+        GUILayout.BeginHorizontal();
+        GUILayout.FlexibleSpace();
+
+
+        bool isOldWideMode = EditorGUIUtility.wideMode;
+        EditorGUIUtility.wideMode = true;
+
+        if (GUILayout.Button("Skip", GUILayout.Width(100.0f), GUILayout.Height(40.0f)))
+        {
+            Debug.Log("스킵");
+            if(Application.isPlaying)
+            {
+                Dialogue.Dialogue_Manager.Instance.SkipDialog();
+            }
+
+        }
         
+        GUILayout.FlexibleSpace();
+        GUILayout.EndHorizontal();
     }
 }

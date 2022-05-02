@@ -73,6 +73,9 @@ public class GameManager : MonoBehaviour
         #endregion
 
         //curPlayerPos = new Vector3(-25f, 16f, 10f);
+        audioManager = GetComponentInChildren<AudioManager>();
+        audioManager.InitVolumeSettings();
+        
         InitObject();        
 
         SaveData savePuzzle = SaveSystem.Load(fileName);
@@ -84,7 +87,6 @@ public class GameManager : MonoBehaviour
             bOnIsland = savePuzzle.bOnIsland;
         }
 
-        audioManager = GetComponentInChildren<AudioManager>();
 
         Debug.Log(bChessClear);
     }
