@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -48,4 +49,5 @@ public class Inventory : MonoBehaviour
             Debug.Log("슬롯이 가득차있습니다.");
         }
     }
+
 }
