@@ -14,7 +14,6 @@ public class FirePuzzle : MonoBehaviour
     [SerializeField]
     private string woodName = "Wood";
     
-    public Image[] SlotImages;
 
     public bool isCheck = false;
     public bool isWood = false; //나무토막 여부

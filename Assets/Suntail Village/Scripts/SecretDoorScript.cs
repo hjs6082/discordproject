@@ -5,12 +5,19 @@ using UnityEngine.UI;
  
 public class SecretDoorScript : MonoBehaviour
 {
+    public enum KeyType
+    {
+        none,
+        redKey,
+        blueKey,
+        blackKey
+    }
+    public KeyType keyType = KeyType.none;
     [SerializeField] private string keyName;
+    public string keyText;
     public bool isCheck = false;
     public bool isKey = false;
     private bool isClear = false;
-
-    public Image[] SlotImages;
 
     private bool isEnter = false;
     // Start is called before the first frame update
@@ -33,8 +40,22 @@ public class SecretDoorScript : MonoBehaviour
                     {
                         if (!isClear)
                         {
-                            this.gameObject.tag = "Door";
-                            var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("BlueKey"));
+                            switch (keyType)
+                            {
+                                case KeyType.none:
+                                    break;
+                                case KeyType.redKey:
+                                    break;
+                                case KeyType.blueKey:
+                                    this.gameObject.tag = "Door";
+                                    break;
+                                case KeyType.blackKey:
+                                    this.gameObject.tag = "Chest";
+                                    break;
+                                default:
+                                    break;
+                            }
+                            var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains(keyName));
                             Inventory.instance.items.RemoveAt(itemIndex);
                             Inventory.instance.FreshSlot();
                             isClear = true;

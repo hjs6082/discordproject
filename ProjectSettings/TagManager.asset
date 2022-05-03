@@ -22,6 +22,8 @@ TagManager:
   - PasswordPaper
   - LockerButton
   - FirePuzzle
+  - Locker
+  - Chest
   layers:
   - Default
   - TransparentFX
