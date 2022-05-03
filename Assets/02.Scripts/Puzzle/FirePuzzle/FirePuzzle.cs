@@ -171,7 +171,7 @@ public class FirePuzzle : MonoBehaviour
     {
         if (!isFire)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(8f);
             Destroy(fireObj);
             keyObj.SetActive(true);
             isFire = true;
