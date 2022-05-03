@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Dialogue
+namespace Dialogue_R
 {
-    public class Dialogue_Option : MonoBehaviour
+    public class Dialogue_Option_R : MonoBehaviour
     {
         private Dictionary<KeyCode, int> option_Key_Dic = new Dictionary<KeyCode, int>()
         {
@@ -72,7 +72,7 @@ namespace Dialogue
 
         private void InputOption()
         {
-            if (canSelect && !Dialogue_Manager.Instance.isDoingGame)
+            if (canSelect && !Dialogue_Manager_R.Instance.isDoingGame)
             {
                 if (Input.anyKeyDown)
                 {
@@ -80,12 +80,12 @@ namespace Dialogue
                     {
                         if (option_List.Count > 0)
                         {
-                            if (Input.GetKeyDown(item.Key) && option_List.Count > 0 && !Dialogue_Manager.Instance.isTalking)
+                            if (Input.GetKeyDown(item.Key) && option_List.Count > 0 && !Dialogue_Manager_R.Instance.isTalking)
                             {
                                 SetCurOption(item.Value);
                                 return;
                             }
-                            else if (Input.GetKeyDown(KeyCode.Space) && !Dialogue_Manager.Instance.isMoving)
+                            else if (Input.GetKeyDown(KeyCode.Space) && !Dialogue_Manager_R.Instance.isMoving)
                             {
                                 curOption.onClick.Invoke();
                                 curOption.GetComponentInChildren<Text>().color = Color.blue;

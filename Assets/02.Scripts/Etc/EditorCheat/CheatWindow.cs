@@ -5,6 +5,7 @@ using UnityEditor;
 
 public class CheatWindow : EditorWindow
 {
+    #if UNITY_EDITOR
     [MenuItem("Window/Cheat Window")]
     public static void ShowWindow()
     {
@@ -35,4 +36,5 @@ public class CheatWindow : EditorWindow
         GUILayout.FlexibleSpace();
         GUILayout.EndHorizontal();
     }
+    #endif
 }
