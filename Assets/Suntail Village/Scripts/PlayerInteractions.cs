@@ -200,6 +200,7 @@ namespace Suntail
                 {
                     _firePuzzleObj = interactionHit.collider.gameObject.GetComponent<FirePuzzle>();
                     _firePuzzleObj.isCheck = true;
+                    FirePuzzleUI();
                 }
             }
             else
@@ -447,6 +448,54 @@ namespace Suntail
 
             panelText.text = "누르기";
         }
+
+        private void FirePuzzleUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+            if(!_firePuzzleObj.isMatches && !_firePuzzleObj.isWood)
+            {
+                panelText.text = "나무토막    성냥" + "\n    0/1        0/1";
+            }
+            else if (_firePuzzleObj.isMatches && !_firePuzzleObj.isWood)
+            {
+                panelText.text = "나무토막    성냥" + "\n    0/1        1/1";
+            }
+            else if (!_firePuzzleObj.isMatches && _firePuzzleObj.isWood)
+            {
+                panelText.text = "나무토막    성냥" + "\n    1/1        0/1";
+            }
+            else if (_firePuzzleObj.isMatches && _firePuzzleObj.isWood)
+            {
+                panelText.text = "나무토막    성냥" + "\n    1/1        1/1";
+            }
+            if(_firePuzzleObj.isMatchesClear && _firePuzzleObj.isWood)
+            {
+                panelText.text = "나무토막    성냥" + "\n    1/1         완료";
+            }
+            else if(_firePuzzleObj.isMatchesClear && !_firePuzzleObj.isWood)
+            {
+                panelText.text = "나무토막    성냥" + "\n    0/1         완료";
+            }
+            if (_firePuzzleObj.isWoodClear && _firePuzzleObj.isMatches)
+            {
+                panelText.text = "나무토막    성냥" + "\n    완료        1/1";
+            }
+            else if (_firePuzzleObj.isWoodClear && !_firePuzzleObj.isMatches)
+            {
+                panelText.text = "나무토막    성냥" + "\n    완료        0/1";
+            }
+            if(_firePuzzleObj.isMatchesClear && _firePuzzleObj.isWoodClear)
+            {
+                panelText.text = "불 붙이기";
+            }
+            if(_firePuzzleObj.isFireClear)
+            {
+                panelText.text = " "; 
+            }
+
+            
+        }
+
 
         IEnumerator CheckExplane()
         {

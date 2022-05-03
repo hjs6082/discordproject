@@ -8,6 +8,7 @@ public class SecretDoorScript : MonoBehaviour
     [SerializeField] private string keyName;
     public bool isCheck = false;
     public bool isKey = false;
+    private bool isClear = false;
 
     public Image[] SlotImages;
 
@@ -30,25 +31,15 @@ public class SecretDoorScript : MonoBehaviour
                 {
                     if(Input.GetKeyDown(KeyCode.E))
                     {
-                        this.gameObject.tag = "Door";
-                        var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("BlueKey"));
-                        Inventory.instance.items.RemoveAt(itemIndex);
-                        if(itemIndex == 0)
+                        if (!isClear)
                         {
-                            SlotImages[0].sprite = null;
+                            this.gameObject.tag = "Door";
+                            var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("BlueKey"));
+                            Inventory.instance.items.RemoveAt(itemIndex);
+                            Inventory.instance.FreshSlot();
+                            isClear = true;
                         }
-                        else if (itemIndex == 1)
-                        {
-                            SlotImages[1].sprite = null;
-                        }
-                        else if (itemIndex == 2)
-                        {
-                            SlotImages[2].sprite = null;
-                        }
-                        else
-                        {
-
-                        }
+                        
                     }
                 }
             }

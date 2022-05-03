@@ -23,6 +23,10 @@ public class FirePuzzle : MonoBehaviour
     public bool isOneClear = false;
     public bool isClear = false;
     private bool isEnter = false;
+    public bool isWoodClear = false;
+    public bool isMatchesClear = false;
+    public bool isFire = false;
+    public bool isFireClear = false;
     // Start is called before the first frame update
 
     private void OnMouseEnter()
@@ -47,33 +51,46 @@ public class FirePuzzle : MonoBehaviour
             {
                 isMatchesCheck();
                 isWoodCheck();
-                if (isMatches)
+                if (isMatches && isWood)
                 {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        if(!isOneClear)
+                        Debug.Log("32");
+                        if (!isOneClear)
                         {
                             isOneClear = true;
                         }
-                        else if(isOneClear)
+                        if (!isWoodClear && !isMatchesClear)
+                        {
+                            var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("Wood"));
+                            Inventory.instance.items.RemoveAt(itemIndex);
+                            Inventory.instance.FreshSlot();
+                            isWoodClear = true;
+                            isWood = false;
+                        }
+                    }
+                }
+                else if (isMatches)
+                {
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        if (!isOneClear)
+                        {
+                            isOneClear = true;
+                        }
+                        else if (isOneClear)
                         {
                             isClear = true;
                         }
                         if (Inventory.instance.items.Count > 0)
                         {
-                            var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("Matches"));
-                            Inventory.instance.items.RemoveAt(itemIndex);
-                            if (itemIndex == 0)
+                            if (!isMatchesClear)
                             {
-                                SlotImages[0].sprite = null;
-                            }
-                            else if (itemIndex == 1)
-                            {
-                                SlotImages[1].sprite = null;
-                            }
-                            else if (itemIndex == 2)
-                            {
-                                SlotImages[2].sprite = null;
+                                var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("Matches"));
+                                Inventory.instance.items.RemoveAt(itemIndex);
+                                Inventory.instance.FreshSlot();
+                                isMatchesClear = true;
+                                isMatches = false;
                             }
                         }
                     }
@@ -92,64 +109,36 @@ public class FirePuzzle : MonoBehaviour
                         }
                         if (Inventory.instance.items.Count > 0)
                         {
-                            var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("Wood"));
-                            Inventory.instance.items.RemoveAt(itemIndex);
-                            if (itemIndex == 0)
+                            if (!isWoodClear)
                             {
-                                SlotImages[0].sprite = null;
-                            }
-                            else if (itemIndex == 1)
-                            {
-                                SlotImages[1].sprite = null;
-                            }
-                            else if (itemIndex == 2)
-                            {
-                                SlotImages[2].sprite = null;
+                                var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("Wood"));
+                                Inventory.instance.items.RemoveAt(itemIndex);
+                                Inventory.instance.FreshSlot();
+                                isWoodClear = true;
+                                isWood = false;
                             }
                         }
                     }
                 }
-                else if (isMatches && isWood)
+                else if (isClear)
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (!isFire)
                     {
-                        if (!isOneClear)
+                        if (Input.GetKeyDown(KeyCode.E))
                         {
-                            isOneClear = true;
-                        }
-                        else if (isOneClear)
-                        {
-                            isClear = true;
-                        }
-                        var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("Wood"));
-                        Inventory.instance.items.RemoveAt(itemIndex);
-                        if (itemIndex == 0)
-                        {
-                            SlotImages[0].sprite = null;
-                        }
-                        else if (itemIndex == 1)
-                        {
-                            SlotImages[1].sprite = null;
-                        }
-                        else if (itemIndex == 2)
-                        {
-                            SlotImages[2].sprite = null;
+                            fireObj.Play();
+                            Destroy(this.gameObject.GetComponent<ObjScript>());
+                            Destroy(this.gameObject.GetComponent<Outline>());
+                            StartCoroutine(KeySpawn());
+                            isFireClear = true;
                         }
                     }
                 }
+            
             }
         }
-        else if (isClear)
-        {
-            //if (Input.GetKeyDown(KeyCode.E))
-            //{
-                fireObj.Play();
-                Destroy(this.gameObject.GetComponent<ObjScript>());
-                Destroy(this.gameObject.GetComponent<Outline>());
-                StartCoroutine(KeySpawn());
-            //}
-        }
     }
+        
 
     public void isMatchesCheck()
     {
@@ -181,9 +170,13 @@ public class FirePuzzle : MonoBehaviour
 
     IEnumerator KeySpawn()
     {
-        yield return new WaitForSeconds(2f);
-        Destroy(fireObj);
-        keyObj.SetActive(true);
+        if (!isFire)
+        {
+            yield return new WaitForSeconds(2f);
+            Destroy(fireObj);
+            keyObj.SetActive(true);
+            isFire = true;
+        }
     }
 
 }
