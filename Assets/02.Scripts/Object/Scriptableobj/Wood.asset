@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Wood
   m_EditorClassIdentifier: 
   itemName: Wood
-  itemImage: {fileID: 21300000, guid: 14bd275b9c68d44419456c2114290d82, type: 3}
+  itemImage: {fileID: 21300000, guid: e9d6e737164feee4dac8c4943e1dd1ea, type: 3}

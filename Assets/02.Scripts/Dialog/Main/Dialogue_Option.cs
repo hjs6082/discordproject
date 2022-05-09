@@ -26,6 +26,8 @@ namespace Dialogue
         private void Update()
         {
             InputOption();
+
+            
         }
 
         public void SetCurOption(int _index, bool bSwitchColor = true)

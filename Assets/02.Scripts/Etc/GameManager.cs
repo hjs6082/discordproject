@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
         //curPlayerPos = new Vector3(-25f, 16f, 10f);
         audioManager = GetComponentInChildren<AudioManager>();
-        audioManager.InitVolumeSettings();
+        audioManager?.InitVolumeSettings();
         
         InitObject();        
 
@@ -129,8 +129,8 @@ public class GameManager : MonoBehaviour
 
             if (bPause)
             {
-                audioManager.BGM_Source.Pause();
-                audioManager.EFFECT_Source.Pause();
+                audioManager?.BGM_Source.Pause();
+                audioManager?.EFFECT_Source.Pause();
 
                 if (CharacterVoice.Instance != null)
                 CharacterVoice.Instance.audioSource.Pause();
@@ -140,8 +140,8 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                audioManager.BGM_Source.UnPause();
-                audioManager.EFFECT_Source.UnPause();
+                audioManager?.BGM_Source.UnPause();
+                audioManager?.EFFECT_Source.UnPause();
 
                 if(CharacterVoice.Instance != null)
                 CharacterVoice.Instance.audioSource.UnPause();
@@ -206,7 +206,7 @@ public class GameManager : MonoBehaviour
     public void ChangeBGM(eScene scene)
     {
         if (BGM_Arr[(int)scene] != null)
-            audioManager.ChangeBGM(BGM_Arr[(int)scene]);
+            audioManager?.ChangeBGM(BGM_Arr[(int)scene]);
     }
 
     public void Clear()

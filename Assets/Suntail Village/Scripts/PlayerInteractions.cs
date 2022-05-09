@@ -34,6 +34,9 @@ namespace Suntail
         [SerializeField] private string lockerButtonTag = "LockerButton";
         [Tooltip("화덕 버튼 태그")]
         [SerializeField] private string firePuzzleTag = "FirePuzzle";
+        [Tooltip("금고 태그")]
+        [SerializeField] private string lockerTag = "Locker";
+        [SerializeField] private string chestTag = "Chest";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -91,6 +94,7 @@ namespace Suntail
         private Item _pickUpObj;
         private LockerPassword _lockerButtonObj;
         private FirePuzzle _firePuzzleObj;
+        private Locker _lockerObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -201,6 +205,21 @@ namespace Suntail
                     _firePuzzleObj = interactionHit.collider.gameObject.GetComponent<FirePuzzle>();
                     _firePuzzleObj.isCheck = true;
                     FirePuzzleUI();
+                }
+                else if(interactionHit.collider.CompareTag(lockerTag))
+                {
+                    _lockerObj = interactionHit.collider.gameObject.GetComponent<Locker>();
+                    _lockerObj.isCheck = true;
+                    LockerUI();
+                }
+                else if(interactionHit.collider.CompareTag(chestTag))
+                {
+                    uiPanel.gameObject.SetActive(true);
+                    panelText.text = "열기";
+                    if(Input.GetKeyDown(KeyCode.E))
+                    {
+                        ChestTween.instance.ChestMove();
+                    }
                 }
             }
             else
@@ -364,7 +383,7 @@ namespace Suntail
             }
             else if(_scalePuzzleObj.GetComponent<ScalePuzzleScript>().bookCount == 3)
             {
-                panelText.text = "클리어한 퍼즐" + "\n2/3";
+                panelText.text = "클리어한 퍼즐";
                 ScalePuzzleScript.scalePuzzleClear = true;
                 passwordPaper.SetActive(true);
             }
@@ -397,11 +416,11 @@ namespace Suntail
 
             if(!_keyDoorObj.isKey)
             {
-                panelText.text = "파랑열쇠 0/1";
+                panelText.text = _keyDoorObj.keyText + " 0/1";
             }
             if(_keyDoorObj.isKey)
             {
-                panelText.text = "파랑열쇠 1/1";
+                panelText.text = _keyDoorObj.keyText + " 1/1";
             }
         }
 
@@ -494,6 +513,24 @@ namespace Suntail
             }
 
             
+        }
+
+        private void LockerUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+
+            if(!_lockerObj.isClear)
+            {
+                panelText.text = "열기";
+            }
+            if(_lockerObj.isAnswerCheck)
+            {
+                panelText.text = "틀렸습니다.";
+            }
+            if(_lockerObj.isClear)
+            {
+                panelText.text = "금고 열기";
+            }
         }
 
 
