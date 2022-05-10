@@ -7,14 +7,6 @@ using DG.Tweening;
 
 namespace Dialogue_R
 {
-    public enum eMinigame
-    {
-        MAZE,
-        ARROW,
-        ONEDRAW,
-        NONE
-    }
-
     public class Dialogue_Manager_R : MonoBehaviour
     {
         #region 싱글톤
@@ -29,7 +21,6 @@ namespace Dialogue_R
         #endregion
 
         public static readonly Dialogue_Strs dlg_Strs = new Dialogue_Strs();
-        public static readonly Vector3 DEFAULT_MINIGAME_POSITION = new Vector3(0.0f, 10.4f, 0.0f);
         public static Action download = null;
 
         public Dialogue_Control_R dlg_Ctrl   { get; private set; }
@@ -45,20 +36,13 @@ namespace Dialogue_R
         public Image          wife_Image = null;
         public SpriteRenderer fade_SR    = null;
 
-        public Button        action_Button = null;
-        public Transform     button_Parent = null;
-        private List<Button> action_List   = new List<Button>();
-
         [SerializeField] private RectTransform wife_View = null;
         [SerializeField] private RectTransform pc_View   = null;
 
-        public Image          download_Guage        = null;
-        public GameObject[]   sub_Background_List   = null;
-        public List<Vector3>  old_Background_Pos    = new List<Vector3>();
-        public eMinigame      cur_eMinigame         = eMinigame.NONE;
-        public Text           minigame_Explain_Text = null; 
-        public int            sub_Index             = 0;
-        public int            mainTalk_Index        = 0;
+        public Image download_Guage = null;
+
+        public int sub_Index      = 0;
+        public int mainTalk_Index = 0;
   
         public bool bWifeView   = false;
         public bool isTalking   = false;
@@ -89,13 +73,6 @@ namespace Dialogue_R
         {
             InitViewPos();
             InitNames();
-
-            for (int i = 0; i < sub_Background_List.Length; i++)
-            {
-                old_Background_Pos.Add(sub_Background_List[i].transform.position);
-            }
-
-            minigame_Explain_Text.transform.parent.gameObject.SetActive(false);
 
             GameManager.Instance.Fade_In();
         }
@@ -135,6 +112,9 @@ namespace Dialogue_R
 
             manName   = (isInstanceTrue) ? GameManager.Instance.ManName : manName;
             womanName = (isInstanceTrue) ? GameManager.Instance.WomanName : womanName;
+
+            if(manName == string.Empty) manName = "남편";
+            if(womanName == string.Empty) womanName = "아내";
 
             dlg_Talk?.SetName(manName, womanName);
         }

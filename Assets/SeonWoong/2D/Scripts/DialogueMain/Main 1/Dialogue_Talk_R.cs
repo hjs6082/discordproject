@@ -15,17 +15,21 @@ namespace Dialogue_R
 
         private Action<Text, string> talk_Action;
 
-        public Dictionary<int, string> name_Order_Dic = null;
-        public List<string>            epilogue_Strs  = null;
-        public List<string[]>          dialogue_Strs  = null;
+        public List<string>            name_Order_List = null;
+        public List<string>            epilogue_Strs   = null;
+        public List<string[]>          dialogue_Strs   = null;
+        public List<string>            pcView_Strs     = null;
 
         [SerializeField] private Text  speech_Text = null;
         [SerializeField] private Text  name_Text   = null;
         [SerializeField] private Image arrow_Image = null;
+        [SerializeField] private Text  pc_Text     = null;
+        [SerializeField] private Image pc_Arrow    = null;
 
         public int epilogueCount = 0;
         public int dialogue_Idx  = 0;
         public int strs_Count    = 0;
+        public int pc_TalkVal    = 0;
 
         private bool bWait = false;
 
@@ -48,34 +52,33 @@ namespace Dialogue_R
         {
             epilogue_Strs  = new List<string>(Dialogue_Manager_R.dlg_Strs.epilogueArr);
             dialogue_Strs  = new List<string[]>();
+            pcView_Strs    = new List<string>(Dialogue_Manager_R.dlg_Strs.PC_View_Arr);
 
             dialogue_Strs.Add(Dialogue_Manager_R.dlg_Strs.dialogue_1_Speech);
             dialogue_Strs.Add(Dialogue_Manager_R.dlg_Strs.dialogue_2_Speech);
             dialogue_Strs.Add(Dialogue_Manager_R.dlg_Strs.dialogue_3_Speech);
         }
 
-        private void InitNameDic()
+        private void InitName(List<string> _strs)
         {
-            name_Order_Dic = new Dictionary<int, string>();
+            name_Order_List.Clear();
 
-            name_Order_Dic.Add(0, man_Name);
-            name_Order_Dic.Add(1, woman_Name);
-            name_Order_Dic.Add(2, man_Name);
-            name_Order_Dic.Add(3, man_Name);
-            name_Order_Dic.Add(4, woman_Name);
-            name_Order_Dic.Add(5, man_Name);
-            name_Order_Dic.Add(6, woman_Name);
-            name_Order_Dic.Add(7, man_Name);
-            name_Order_Dic.Add(8, woman_Name);
+            for(int i = 0; i < _strs.Count; i++)
+            {
+                string[] nameMark = _strs[i].Split('-');
+                string name = (nameMark[1] == "m") ? man_Name : woman_Name;
+
+                name_Order_List.Add(name);
+            }
         }
 
-        private void Talk(Text _speech_Text, string _str, Action _action = null)
+        private void Talk(Text _speech_Text, int _idx,string _str, Action _action = null)
         {
-            float _duration = _str.Length * 0.1f;
+            float _duration = _str.Length * 0.075f;
         
             ClearSpeech(_speech_Text);
 
-            _speech_Text.DOText(_str, _duration)
+            _speech_Text.DOText(_str.Split('-')[0], _duration)
             .OnComplete(() => 
             {
                 bWait = true;
@@ -91,9 +94,11 @@ namespace Dialogue_R
 
         private void Epilogue_Talk()
         {
+
             if (epilogueCount < epilogue_Strs.Count)
             {
-                Talk(speech_Text, epilogue_Strs[epilogueCount], () =>
+                NameChange(epilogueCount);
+                Talk(speech_Text, epilogueCount, epilogue_Strs[epilogueCount], () =>
                 {
                     epilogueCount++;
                     Epilogue_Talk();
@@ -101,43 +106,75 @@ namespace Dialogue_R
             }
             else
             {
+                InitName(dialogue_Strs[dialogue_Idx].ToList());
                 Main_Talk(dialogue_Idx);
             }
         }
 
         public void Main_Talk(int _dialogue_Idx)
         {     
-            Talk(speech_Text, dialogue_Strs[_dialogue_Idx][strs_Count], () =>
+            NameChange(strs_Count);
+
+            Talk(speech_Text, strs_Count,dialogue_Strs[_dialogue_Idx][strs_Count], () =>
             {
                 strs_Count++;
-
-                if(strs_Count < dialogue_Strs[_dialogue_Idx].Length - 1)
+                Debug.Log(dialogue_Strs[_dialogue_Idx].Length);
+                if(strs_Count < dialogue_Strs[_dialogue_Idx].Length)
                 {
                     Main_Talk(_dialogue_Idx);
                     return;
-                }   
-            });
+                }  
+                else
+                {
+                    strs_Count = 0;
 
-            strs_Count = 0;
-            dialogue_Idx++;
-            Main_Talk(dialogue_Idx);
+                    dialogue_Idx++;
+                    if(dialogue_Idx < dialogue_Strs.Count)
+                    {
+                        InitName(dialogue_Strs[dialogue_Idx].ToList());
+                        Main_Talk(dialogue_Idx);
+                    }
+                    else
+                    {
+                        arrow_Image = pc_Arrow;
+                        speech_Text = pc_Text;
+
+                        Dialogue_Manager_R.Instance.ChangeView(() => 
+                        {
+                            PC_View_Talk();
+                        });
+                    }
+                }
+            });
+        }
+
+        public void PC_View_Talk()
+        {
+            Talk(speech_Text, pc_TalkVal, pcView_Strs[pc_TalkVal], () => 
+            {
+                pc_TalkVal++;
+                StartCoroutine(WaitTalk(() => 
+                {
+                    // TODO : 줌
+
+                    speech_Text.transform.parent.gameObject.SetActive(false);
+                    
+                }));
+            });
         }
 
         private IEnumerator WaitTalk(Action _nextAction = null)
         {
             while (bWait)
             {
-                
-
                 Dialogue_Manager_R.Instance.dlg_Ctrl.InputSpeech(ref bWait);
 
                 yield return new WaitUntil(() => true);
             }
 
             Debug.Log("다음 내용");
-            
-            NameChange();
 
+            
             _nextAction?.Invoke();
         }
 
@@ -146,17 +183,12 @@ namespace Dialogue_R
             man_Name   = _manName;
             woman_Name = _womanName;
 
-            InitNameDic();
+            InitName(epilogue_Strs);
         }
 
-        public void NameChange()
+        public void NameChange(int _idx)
         {
-            name_Text.text = (name_Text.text == man_Name) ? woman_Name : man_Name;
-        }
-
-        public void SkipSpeech(Text _speechText)
-        {
-            DOTween.Complete(_speechText);
+            name_Text.DOText(name_Order_List[_idx], 0.15f);
         }
 
         public void ClearSpeech(Text _speechText)
