@@ -6,8 +6,8 @@ using DG.Tweening;
 public class ChestTween : MonoBehaviour
 {
     public static ChestTween instance;
-    public GameObject chestObj;
     public GameObject[] apples;
+    public bool isOpen;
 
      void Awake()
     {
@@ -16,10 +16,23 @@ public class ChestTween : MonoBehaviour
 
     public void ChestMove()
     {
-        chestObj.transform.DOLocalRotate(new Vector3(-90, 0, 0), 2f);
-        for(int i = 0; i < apples.Length; i++)
+        if (!isOpen)
         {
-            apples[i].SetActive(true);
+            this.gameObject.transform.DOLocalRotate(new Vector3(-90, 0, 0), 2f);
+            if (apples[0] != null)
+            {
+                for (int i = 0; i < apples.Length; i++)
+                {
+                    apples[i].SetActive(true);
+                }
+            }
+            isOpen = true;
         }
+    }
+
+    public void ChestClose()
+    {
+        isOpen = false;
+        this.gameObject.transform.DOLocalRotate(new Vector3(0, 0, 0), 2f);
     }
 }
