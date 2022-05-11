@@ -36,6 +36,10 @@ namespace Suntail
         [SerializeField] private string firePuzzleTag = "FirePuzzle";
         [Tooltip("금고 태그")]
         [SerializeField] private string lockerTag = "Locker";
+        [Tooltip("애플 퍼즐 태그")]
+        [SerializeField] private string applePuzzleTag = "ApplePuzzle";
+        [Tooltip("영어 퍼즐 금고 태그")]
+        [SerializeField] private string englishPuzzleTag = "EnglishButton";
         [SerializeField] private string chestTag = "Chest";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
@@ -94,7 +98,9 @@ namespace Suntail
         private Item _pickUpObj;
         private LockerPassword _lockerButtonObj;
         private FirePuzzle _firePuzzleObj;
+        private ApplePuzzle _applePuzzleObj;
         private Locker _lockerObj;
+        private EnglishButton _englishButtonObj;
         private ChestTween _chestObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
@@ -234,6 +240,21 @@ namespace Suntail
                         }
                     }
                     
+                }
+                else if(interactionHit.collider.CompareTag(applePuzzleTag))
+                {
+                    _applePuzzleObj = interactionHit.collider.gameObject.GetComponent<ApplePuzzle>();
+                    _applePuzzleObj.isCheck = true;
+                    uiPanel.gameObject.SetActive(true);
+                    ApplePuzzleUI();
+
+                }
+                else if(interactionHit.collider.gameObject.CompareTag(englishPuzzleTag))
+                {
+                    _englishButtonObj = interactionHit.collider.gameObject.GetComponent<EnglishButton>();
+                    _englishButtonObj.isCheck = true;
+                    uiPanel.gameObject.SetActive(true);
+                    panelText.text = "누르기";
                 }
             }
             else
@@ -546,6 +567,19 @@ namespace Suntail
             if(_lockerObj.isClear)
             {
                 panelText.text = "금고 열기";
+            }
+        }
+
+        private void ApplePuzzleUI()
+        {
+            uiPanel.gameObject.SetActive(true);
+            if(_applePuzzleObj.appleCount != 3)
+            {
+                panelText.text = "넣기";
+            }
+            else
+            {
+                panelText.text = "완료";
             }
         }
 
