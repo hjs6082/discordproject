@@ -34,6 +34,17 @@ public class GameManager : MonoBehaviour
     public GameObject FadePanel = null;
     public bool isOnLoad;
 
+    public  Book_Main Book    = null;
+    private ePage     curPage = ePage.LIST;
+    private Dictionary<KeyCode, ePage> page_Key_Dic = new Dictionary<KeyCode, ePage>()
+    {
+        {KeyCode.L,      ePage.LIST  },
+        {KeyCode.P,      ePage.ALBUM },
+        {KeyCode.M,      ePage.MAP   },
+        {KeyCode.Escape, ePage.OPTION}
+    };
+
+
     public Vector3    curPlayerRotate     = new Vector3(0.0f, 0.0f, 0.0f);
     public GameObject PlayerObject        = null;
     public GameObject PauseCanvas         = null;
@@ -87,7 +98,6 @@ public class GameManager : MonoBehaviour
             bOnIsland = savePuzzle.bOnIsland;
         }
 
-
         Debug.Log(bChessClear);
     }
 
@@ -119,35 +129,45 @@ public class GameManager : MonoBehaviour
 
     private void InputPause()
     {
+        if(Book == null)
+        {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 Pause();
-
-                if (PlayerObject != null)
-                curPlayerRotate = PlayerObject.transform.rotation.eulerAngles;
+                return;
             }
-
-            if (bPause)
+        }
+        else
+        {
+            if (Input.anyKeyDown)
             {
-                audioManager?.BGM_Source.Pause();
-                audioManager?.EFFECT_Source.Pause();
+                foreach (var page in page_Key_Dic)
+                {
+                    if (Input.GetKeyDown(page.Key))
+                    {
+                        if(bPause)
+                        {
+                            if(page.Value == curPage)
+                            {
+                                BookCtrl(page.Value);
+                            }
+                            else
+                            {
+                                curPage = page.Value;
+                                Book.FlipButton((int)curPage);
+                            }
+                        }
+                        else
+                        {
+                            curPage = page.Value;
+                            BookCtrl(page.Value);
+                        }
 
-                if (CharacterVoice.Instance != null)
-                CharacterVoice.Instance.audioSource.Pause();
-
-                if (PlayerObject != null)
-                PlayerObject.transform.rotation = Quaternion.Euler(curPlayerRotate);
+                        return;
+                    }
+                }
             }
-            else
-            {
-                audioManager?.BGM_Source.UnPause();
-                audioManager?.EFFECT_Source.UnPause();
-
-                if(CharacterVoice.Instance != null)
-                CharacterVoice.Instance.audioSource.UnPause();
-            }
-         
-            Time.timeScale = bPause ? 0f : 1f;
+        }
     }
 
     public bool DemoClearCheck()
@@ -180,15 +200,50 @@ public class GameManager : MonoBehaviour
         CreditPanel.SetActive(false);
     }
 
+    public void BookCtrl(ePage _page)
+    {
+        bPause = !bPause;
+
+        Book.FlipButton((int)_page);
+        
+        Book.OnOffBook(bPause);
+    }
+
     public void Pause()
     {
         bPause = !bPause;
 
-        Cursor.lockState = (bPause) ? CursorLockMode.None : CursorLockMode.Locked;
+        if (PlayerObject != null) {  curPlayerRotate = PlayerObject.transform.rotation.eulerAngles; }
+
+        if (bPause)
+        {
+            Cursor.lockState = CursorLockMode.None;
+
+            audioManager?.BGM_Source.Pause();
+            audioManager?.EFFECT_Source.Pause();
+
+            if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.Pause(); }
+
+            if (PlayerObject != null) { PlayerObject.transform.rotation = Quaternion.Euler(curPlayerRotate); }
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+
+            audioManager?.BGM_Source.UnPause();
+            audioManager?.EFFECT_Source.UnPause();
+
+            if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.UnPause(); }
+        }
 
         PauseCanvas.SetActive(bPause);
         InitPanel();
         PausePanel.SetActive(bPause);
+    }
+
+    private void ChangeTimeScale()
+    {
+        Time.timeScale = bPause ? 0.0f : 1.0f;
     }
 
     public void Option()

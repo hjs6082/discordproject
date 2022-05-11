@@ -14,6 +14,7 @@ public class Cupboard : MonoBehaviour
     private Vector3 startPosition;
     private Vector3 endPosition;
 
+    public float backfloat;
 
     private void OnMouseEnter()
     {
@@ -58,7 +59,7 @@ public class Cupboard : MonoBehaviour
         }
         else if (isEnd)
         {
-            this.gameObject.transform.DOLocalMoveZ(0.3322172f, 1f); 
+            this.gameObject.transform.DOLocalMoveZ(backfloat, 1f); 
             isEnd = false;
         }
         else

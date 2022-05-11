@@ -14,6 +14,7 @@ public class SecretDoorScript : MonoBehaviour
     }
     public KeyType keyType = KeyType.none;
     [SerializeField] private string keyName;
+
     public string keyText;
     public bool isCheck = false;
     public bool isKey = false;
@@ -45,6 +46,7 @@ public class SecretDoorScript : MonoBehaviour
                                 case KeyType.none:
                                     break;
                                 case KeyType.redKey:
+                                    this.gameObject.tag = "Chest";
                                     break;
                                 case KeyType.blueKey:
                                     this.gameObject.tag = "Door";

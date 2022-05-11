@@ -7,10 +7,13 @@ using DG.Tweening;
 public class FPP_Move : MonoBehaviour
 {
     public static Action<float> rotateAct = null;
+    public static Action<float> moveAct   = null;
 
-    private Camera mainCam = null;
+    private Camera mainCam   = null;
     private Transform player = null;
+
     private bool isRotate = false;
+    private bool isMove   = false;
 
     private void Awake()
     {
@@ -28,6 +31,7 @@ public class FPP_Move : MonoBehaviour
     private void InitValue()
     {
         rotateAct += (x) => RotatePlayer(x);
+        moveAct   += (x) => MovePlayer(x); 
 
         mainCam = Camera.main;
         player = this.transform;
@@ -40,7 +44,7 @@ public class FPP_Move : MonoBehaviour
 
     public void RotatePlayer(float _degree)
     {
-        if (!isRotate)
+        if (!isRotate && !isMove)
         {
             isRotate = true;
 
@@ -53,6 +57,24 @@ public class FPP_Move : MonoBehaviour
             .OnComplete(() =>
             {
                 isRotate = false;
+            });
+        }
+    }
+
+    public void MovePlayer(float _dir)
+    {
+        if(!isMove && !isRotate)
+        {
+            isMove = true;
+
+            Debug.Log(player.forward);
+            Vector3 forward = new Vector3(Mathf.Round(player.forward.x), 0.0f, Mathf.Round(player.forward.z));
+            Vector3 moveEndValue = player.position + forward * _dir;
+
+            player.DOMove(moveEndValue, 0.25f)
+            .OnComplete(() => 
+            {
+                isMove = false;
             });
         }
     }

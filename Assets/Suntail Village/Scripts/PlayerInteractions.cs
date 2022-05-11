@@ -11,7 +11,7 @@ namespace Suntail
         [Tooltip("Layer mask for interactive objects")]
         [SerializeField] private LayerMask interactionLayer;
         [Tooltip("Maximum distance from player to object of interaction")]
-        [SerializeField] private float interactionDistance = 3f;
+        [SerializeField] private float interactionDistance = 3f; 
         [Tooltip("Tag for door object")]
         [SerializeField] private string doorTag = "Door";
         [Tooltip("Tag for pickable object")]
@@ -95,6 +95,7 @@ namespace Suntail
         private LockerPassword _lockerButtonObj;
         private FirePuzzle _firePuzzleObj;
         private Locker _lockerObj;
+        private ChestTween _chestObj;
         private float _currentSpeed = 0f;
         private float _currentDistance = 0f;
         private CharacterController _characterController;
@@ -104,7 +105,7 @@ namespace Suntail
         {
             mainCamera = Camera.main;
             _characterController = GetComponent<CharacterController>();
-            StartCoroutine(StartExplane());
+            //StartCoroutine(StartExplane());
         }
 
         private void Update()
@@ -112,7 +113,7 @@ namespace Suntail
             Interactions();
             LegCheck();
             ExplaneCheck();
-            ExplaneUI();
+            //ExplaneUI();
         }
 
         //Determine which object we are now looking at, depending on the tag and component
@@ -214,12 +215,25 @@ namespace Suntail
                 }
                 else if(interactionHit.collider.CompareTag(chestTag))
                 {
+                    _chestObj = interactionHit.collider.gameObject.GetComponent<ChestTween>();
                     uiPanel.gameObject.SetActive(true);
-                    panelText.text = "열기";
-                    if(Input.GetKeyDown(KeyCode.E))
+                    if (!_chestObj.isOpen)
                     {
-                        ChestTween.instance.ChestMove();
+                        panelText.text = "열기";
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            _chestObj.ChestMove();
+                        }
                     }
+                    else if(_chestObj.isOpen)
+                    {
+                        panelText.text = "닫기";
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            _chestObj.ChestClose(); 
+                        }
+                    }
+                    
                 }
             }
             else
@@ -227,7 +241,10 @@ namespace Suntail
                 _lookDoor = null;
                 _lookObject = null;
                 uiPanel.gameObject.SetActive(false);
-               // ObjScript.instance.isCheck = false;
+                //Color color = panelImage.color;
+                //color.a = 0f;
+                //panelImage.color = color;
+                // ObjScript.instance.isCheck = false;
             }
 
             if (Input.GetKeyDown(interactionKey))
@@ -413,7 +430,6 @@ namespace Suntail
         private void KeyDoorUI()
         {
             uiPanel.gameObject.SetActive(true);
-
             if(!_keyDoorObj.isKey)
             {
                 panelText.text = _keyDoorObj.keyText + " 0/1";
