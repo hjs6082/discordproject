@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 
 public class EnglishPassword : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject doorObj;
+
     public static EnglishPassword instance;
     public TextMeshProUGUI englishPassword;
     public bool isCheck;
     public bool isAnswer;
+    public bool isClear;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +29,8 @@ public class EnglishPassword : MonoBehaviour
             AnswerCheck();
             if(isAnswer)
             {
-                Debug.Log("Open");
+                isClear = true;
+                englishPassword.text =  "clear";
             }
             else if(!isAnswer)
             {
@@ -47,5 +54,10 @@ public class EnglishPassword : MonoBehaviour
         yield return new WaitForSeconds(1f);
         englishPassword.text  = "";
         isCheck = false;
+    }
+
+    public void DoorOpen()
+    {
+        doorObj.transform.DOLocalRotate(new Vector3(-90, 0, 90), 1.5f);
     }
 }

@@ -8,7 +8,7 @@ public class PasswordPaper : MonoBehaviour
     private bool isEnter = false;
     public static bool isPaper = false;
     public bool isCheck = false;
-    //public GameObject player;
+    public GameObject player;
 
     [SerializeField] private GameObject paperPanel;
 
@@ -36,7 +36,7 @@ public class PasswordPaper : MonoBehaviour
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     isPaper = true;
-                    //player.GetComponent<Suntail.PlayerController>().enabled = false;
+                    player.GetComponent<Suntail.PlayerController>().enabled = false;
                 }
             }
         }

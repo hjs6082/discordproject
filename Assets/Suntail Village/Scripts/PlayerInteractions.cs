@@ -41,6 +41,8 @@ namespace Suntail
         [Tooltip("영어 퍼즐 금고 태그")]
         [SerializeField] private string englishPuzzleTag = "EnglishButton";
         [SerializeField] private string chestTag = "Chest";
+        [Tooltip("영어퍼즐 금고")]
+        [SerializeField] private string englishDoorTag = "EnglishPuzzle";
         [Tooltip("The player's main camera")]
         [SerializeField] private Camera mainCamera;
         [Tooltip("Parent object where the object to be lifted becomes")]
@@ -95,6 +97,7 @@ namespace Suntail
         private ScalePuzzleScript _scalePuzzleObj;
         private SecretDoorScript _keyDoorObj;
         private PasswordPaper _passwordPaperObj;
+        private EnglishPuzzle _englishDoorObj;
         private Item _pickUpObj;
         private LockerPassword _lockerButtonObj;
         private FirePuzzle _firePuzzleObj;
@@ -255,6 +258,21 @@ namespace Suntail
                     _englishButtonObj.isCheck = true;
                     uiPanel.gameObject.SetActive(true);
                     panelText.text = "누르기";
+                }
+                else if(interactionHit.collider.gameObject.CompareTag(englishDoorTag))
+                {
+                    _englishDoorObj = interactionHit.collider.gameObject.GetComponent<EnglishPuzzle>();
+                    _englishDoorObj.isCheck = true;
+                    uiPanel.gameObject.SetActive(true);
+
+                    if(_englishDoorObj.isWrong)
+                    {
+                        panelText.text = "틀렸습니다.";
+                    }
+                    else if(!_englishDoorObj.isWrong)
+                    {
+                        panelText.text = "열기";
+                    }
                 }
             }
             else
@@ -573,11 +591,20 @@ namespace Suntail
         private void ApplePuzzleUI()
         {
             uiPanel.gameObject.SetActive(true);
-            if(_applePuzzleObj.appleCount != 3)
+
+            if (_applePuzzleObj.appleCount == 0)
             {
-                panelText.text = "넣기";
+                panelText.text = "초록 사과" + "\n0/3";
             }
-            else
+            if (_applePuzzleObj.appleCount == 1)
+            {
+                panelText.text = "초록 사과" + "\n1/3";
+            }
+            if (_applePuzzleObj.appleCount == 2)
+            {
+                panelText.text = "초록 사과" + "\n2/3";
+            }
+            else if (_applePuzzleObj.appleCount == 3)
             {
                 panelText.text = "완료";
             }

@@ -26,6 +26,7 @@ TagManager:
   - Chest
   - ApplePuzzle
   - EnglishButton
+  - EnglishPuzzle
   layers:
   - Default
   - TransparentFX

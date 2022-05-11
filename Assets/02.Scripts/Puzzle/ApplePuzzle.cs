@@ -1,14 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class ApplePuzzle : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject doorObj;
+    [SerializeField]
+    private GameObject blueKeyObj;
     public GameObject[] greenApples;
     public bool isEnter;
     public bool isCheck;
     public bool isApple;
     public int appleCount;
+    private bool isTween;
+    private bool isDoorOpen;
 
     private void OnMouseEnter()
     {
@@ -56,11 +63,21 @@ public class ApplePuzzle : MonoBehaviour
                                 AppleDelete();
                                 greenApples[2].SetActive(true);
                                 appleCount++;
+                                
                             }
                             isApple = false;
                         }
                     }
                 }
+            }
+        }
+
+        if(appleCount == 3)
+        {
+            if (isDoorOpen == false)
+            {
+                isTween = true;
+                StartCoroutine(DoorOpen());
             }
         }
     }
@@ -86,6 +103,18 @@ public class ApplePuzzle : MonoBehaviour
             var itemIndex = Inventory.instance.items.FindIndex(items => items.itemName.Contains("GreenApple"));
             Inventory.instance.items.RemoveAt(itemIndex);
             Inventory.instance.FreshSlot();
+        }
+    }
+
+    IEnumerator DoorOpen()
+    {
+        if (isTween)
+        {
+            isDoorOpen = true;
+            blueKeyObj.SetActive(true);
+            doorObj.transform.DOLocalRotate(new Vector3(-90, 0, -90), 1.5f); 
+            yield return new WaitForSeconds(1.5f);
+            isTween = false; 
         }
     }
 }
