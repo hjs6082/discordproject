@@ -40,6 +40,11 @@ public class FPP_Control : MonoBehaviour
                     return;
                 }
             }
+
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                
+            }
         }
     }
 }

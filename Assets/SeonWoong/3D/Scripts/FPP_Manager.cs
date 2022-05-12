@@ -1,20 +1,182 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class FPP_Manager : MonoBehaviour
 {
+    #region 싱글톤
+    public  static FPP_Manager Instance
+    {
+        get
+        {
+            return instance;
+        }
+    }
+    private static FPP_Manager instance = null;
+    #endregion
+
+    private static readonly Vector3 DEFAULT_PLAYER_POS = new Vector3(10.0f, 3.1f, 3.5f);
+    private static readonly Vector3 DEFAULT_PLAYER_ROTATE = new Vector3(0.0f, 180.0f, 0.0f);
+    private const string FIRST_STR  = "흠...뒤쪽 서랍 중 하나에 사진이 있던 것 같은데...";
+    private const string SECOND_STR = "맞다, 어제 서랍 잠궈놨는데...\n내가 열쇠를 어디다 『던져』뒀더라..?";
+
+    private Transform player    = null;
+    private Sequence  player_SQ = null;
+
     private FPP_Move    fpp_Move = null;
     private FPP_Control fpp_Ctrl = null;
 
+    public Text fpp_Speech_Text = null;
+    private bool isTalk = false;
+    private bool bWait  = false;
+    private int  talkCount = 0;
+
     private void Awake()
     {
-        
+        if(instance == null)
+        {
+            instance = this;
+        }
+
+        InitClass();
+        OnOffText(false);
+    }
+
+    private void Start()
+    {
+        InitPlayer();
+    }
+
+    private void Update()
+    {
+
     }
 
     private void InitClass()
     {
+        player = this.transform;
+        player_SQ = DOTween.Sequence();
+
+        player_SQ.Append(
+            player.DOMoveY(3.3f, 0.5f)
+            .SetEase(Ease.OutQuad));
+        player_SQ.Join(
+            player.DOMoveZ(4.0f, 0.5f)
+            .SetEase(Ease.InQuad));
+
         fpp_Move = GetComponent<FPP_Move>();
         fpp_Ctrl = GetComponent<FPP_Control>();
+    }
+
+    private void InitPlayer()
+    {
+        player.position = DEFAULT_PLAYER_POS;
+        player.rotation = Quaternion.Euler(DEFAULT_PLAYER_ROTATE);
+
+        StartMove();
+    }
+
+    private void StartMove()
+    {
+        fpp_Move.bObject = true;
+
+        player_SQ.Play()
+        .SetDelay(0.5f)
+        .OnComplete(() => 
+        {
+            StartTalk(FIRST_STR);
+        });
+    }
+
+    private void EndMove()
+    {
+        player.DOMove(DEFAULT_PLAYER_POS, 0.5f)
+        .SetEase(Ease.OutQuad);
+    }
+
+    public void FindObjectTalk(string _str, Action _callback = null, FontStyle _fontStyle = FontStyle.Normal)
+    {
+        if(!fpp_Speech_Text.transform.parent.gameObject.activeSelf)
+        {
+            OnOffText(true);
+        }
+
+        ClearText();
+
+        fpp_Speech_Text.fontStyle = _fontStyle;
+        fpp_Speech_Text.DOText(_str, _str.Length * 0.1f)
+        .OnComplete(() => 
+        {
+            _callback?.Invoke();
+        });
+    }
+
+    public void OnOffText(bool _bOn)
+    {
+        fpp_Speech_Text.transform.parent.gameObject.SetActive(_bOn);
+    }
+
+    private void ClearText()
+    {
+        fpp_Speech_Text.text = string.Empty;
+    }
+
+    public FPP_Move GetMove()
+    {
+        return fpp_Move;
+    }
+
+    private void StartTalk(string _str)
+    {
+        bWait = true;
+
+        OnOffText(true);
+        StartCoroutine(FastTalk());
+        FindObjectTalk(_str, () => 
+        {
+            StartCoroutine(NextTalk());
+        });
+    }
+
+    private IEnumerator FastTalk()
+    {
+        while(true)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                Time.timeScale = 5.0f;
+                break;
+            }
+
+            yield return new WaitUntil(() => true);
+        }
+    }
+
+    private IEnumerator NextTalk()
+    {
+        while(bWait)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                bWait = false;
+                Time.timeScale = 1.0f;
+            }
+
+            yield return new WaitUntil(() => true);
+        }
+
+        if(talkCount != 1)
+        {
+            talkCount++;
+            StartTalk(SECOND_STR);
+        }
+        else
+        {
+            fpp_Move.bObject = false;
+            OnOffText(false);
+        }
     }
 }

@@ -44,7 +44,6 @@ public class GameManager : MonoBehaviour
         {KeyCode.Escape, ePage.OPTION}
     };
 
-
     public Vector3    curPlayerRotate     = new Vector3(0.0f, 0.0f, 0.0f);
     public GameObject PlayerObject        = null;
     public GameObject PauseCanvas         = null;
@@ -129,7 +128,7 @@ public class GameManager : MonoBehaviour
 
     private void InputPause()
     {
-        if(Book == null)
+        if(!Book.gameObject.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
