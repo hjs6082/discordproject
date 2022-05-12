@@ -19,6 +19,7 @@ public class SecretDoorScript : MonoBehaviour
     public bool isCheck = false;
     public bool isKey = false;
     private bool isClear = false;
+    public bool isdoorOpen = false; //지울거임
 
     private bool isEnter = false;
     // Start is called before the first frame update
@@ -61,6 +62,7 @@ public class SecretDoorScript : MonoBehaviour
                             Inventory.instance.items.RemoveAt(itemIndex);
                             Inventory.instance.FreshSlot();
                             isClear = true;
+                            isdoorOpen = true;
                         }
                         
                     }

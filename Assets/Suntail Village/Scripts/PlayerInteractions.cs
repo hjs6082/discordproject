@@ -336,7 +336,7 @@ namespace Suntail
             _currentlyPickedUpObject = _lookObject;
             _lookRotation = _currentlyPickedUpObject.transform.rotation;
             _pickupRigidBody = _currentlyPickedUpObject.GetComponent<Rigidbody>();
-            _currentlyPickedUpObject.GetComponent<MeshCollider>().isTrigger = true;
+           //_currentlyPickedUpObject.GetComponent<MeshCollider>().isTrigger = true;
             _pickupRigidBody.constraints = RigidbodyConstraints.FreezeRotation;
             _pickupRigidBody.transform.rotation = _lookRotation;
             _physicsObject.playerInteraction = this;
@@ -348,11 +348,11 @@ namespace Suntail
         {
             if (_currentlyPickedUpObject)
             {
-                _currentlyPickedUpObject.GetComponent<MeshCollider>().isTrigger = false;
+                //_currentlyPickedUpObject.GetComponent<MeshCollider>().isTrigger = false;
                 _pickupRigidBody.constraints = RigidbodyConstraints.None;
                 _currentlyPickedUpObject = null;
                 _physicsObject.pickedUp = false;
-                _currentDistance = 0;
+                _currentDistance = 0;   
             }
         }
 
