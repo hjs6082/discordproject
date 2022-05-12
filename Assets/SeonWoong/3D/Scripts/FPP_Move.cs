@@ -129,7 +129,11 @@ public class FPP_Move : MonoBehaviour
             float endVal = (!bSitDown) ? 2.5f : 3.3f;
 
             gameObject.transform.DOMoveY(endVal, 0.5f)
-            .SetEase(Ease.OutQuad);
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() => 
+            {
+                isMove = false;
+            });
         }
     }
 }

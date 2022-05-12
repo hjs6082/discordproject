@@ -41,9 +41,9 @@ public class FPP_Control : MonoBehaviour
                 }
             }
 
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetKeyDown(KeyCode.LeftShift))
             {
-                
+                FPP_Manager.Instance.GetMove().SitUpDown();
             }
         }
     }

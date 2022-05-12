@@ -40,7 +40,7 @@ public class Book_Main : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.Book = this;
+        //GameManager.Instance.Book = GetComponent<Book_Main>();
     }
 
     private void InitButtons()

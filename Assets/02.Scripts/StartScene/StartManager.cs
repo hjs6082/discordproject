@@ -98,7 +98,7 @@ public class StartManager : MonoBehaviour
         {
             GameManager.Instance.Fade_In();
 
-            AudioManager.Instance.TeleportSound();
+            AudioManager.Instance?.TeleportSound();
             GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "남편";
             GameManager.Instance.WomanName = (WomanInput.text != "") ? WomanInput.text : "아내";
 

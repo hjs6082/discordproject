@@ -24,7 +24,7 @@ namespace FPP_Wife
 
         private void OnMouseDown()
         {
-            if(Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 1.0f)
+            if(Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 2.0f)
             {
                 FindTalk();
             }

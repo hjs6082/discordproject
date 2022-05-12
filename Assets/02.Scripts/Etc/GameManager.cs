@@ -124,6 +124,9 @@ public class GameManager : MonoBehaviour
 
         FadePanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         FadePanel.SetActive(false);
+
+        Book = GetComponentInChildren<Book_Main>();
+        Book.gameObject.SetActive(false);
     }
 
     private void InputPause()
