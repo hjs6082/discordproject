@@ -21,7 +21,11 @@ public class FPP_Manager : MonoBehaviour
     private static readonly Vector3 DEFAULT_PLAYER_POS = new Vector3(10.0f, 3.1f, 3.5f);
     private static readonly Vector3 DEFAULT_PLAYER_ROTATE = new Vector3(0.0f, 180.0f, 0.0f);
     private const string FIRST_STR  = "흠...뒤쪽 서랍 중 하나에 사진이 있던 것 같은데...";
-    private const string SECOND_STR = "맞다, 어제 서랍 잠궈놨는데...\n내가 열쇠를 어디다 『던져』뒀더라..?";
+    private const string SECOND_STR = "맞다, 어제 서랍 잠궈놨는데...\n내가 열쇠를 어디다 뒀더라..?";
+
+    private int curChapter = 0;
+
+    public Texture2D[] cursor_Textures;
 
     private Transform player    = null;
     private Sequence  player_SQ = null;
@@ -30,7 +34,7 @@ public class FPP_Manager : MonoBehaviour
     private FPP_Control fpp_Ctrl = null;
 
     public Text fpp_Speech_Text = null;
-    private bool isTalk = false;
+    public  bool bUpDownBtn = false;
     private bool bWait  = false;
     private int  talkCount = 0;
 
@@ -48,6 +52,10 @@ public class FPP_Manager : MonoBehaviour
     private void Start()
     {
         InitPlayer();
+
+        curChapter = (int)GameManager.Instance.curChapter;
+
+        FPP_MouseCursor.ChangeCursor(cursor_Textures[0], false);
     }
 
     private void Update()
@@ -87,14 +95,42 @@ public class FPP_Manager : MonoBehaviour
         .SetDelay(0.5f)
         .OnComplete(() => 
         {
-            StartTalk(FIRST_STR);
+            switch(curChapter)
+            {
+                case 0:
+                {
+                   StartTalk(FIRST_STR);
+                }
+                break;
+                case 1:
+                {
+                    
+                }
+                break;
+                case 2:
+                {
+
+                }
+                break;
+                case 3:
+                {
+
+                }
+                break;
+                default:
+                break;
+            }
         });
     }
 
-    private void EndMove()
+    public void EndMove(Action _callback = null)
     {
         player.DOMove(DEFAULT_PLAYER_POS, 0.5f)
-        .SetEase(Ease.OutQuad);
+        .SetEase(Ease.OutQuad)
+        .OnComplete(() => 
+        {
+            _callback?.Invoke();
+        });
     }
 
     public void FindObjectTalk(string _str, Action _callback = null, FontStyle _fontStyle = FontStyle.Normal)
@@ -135,6 +171,7 @@ public class FPP_Manager : MonoBehaviour
 
         OnOffText(true);
         StartCoroutine(FastTalk());
+
         FindObjectTalk(_str, () => 
         {
             StartCoroutine(NextTalk());

@@ -9,6 +9,9 @@ namespace Dialogue_R
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 _bWait = false;
+
+                Time.timeScale = 1.0f;
+                
                 return;
             }
         }

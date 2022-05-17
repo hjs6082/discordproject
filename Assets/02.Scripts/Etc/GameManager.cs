@@ -6,6 +6,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 
+public enum eChapter
+{
+    CHAPTER_1,
+    CHAPTER_2,
+    CHAPTER_3,
+    CHAPTER_4
+};
+
 public class GameManager : MonoBehaviour
 {
     public enum eScene
@@ -34,7 +42,9 @@ public class GameManager : MonoBehaviour
     public GameObject FadePanel = null;
     public bool isOnLoad;
 
+    public  eChapter curChapter = eChapter.CHAPTER_1;
     public  Book_Main Book    = null;
+    public  List<Image> album_Images = new List<Image>();
     private ePage     curPage = ePage.LIST;
     private Dictionary<KeyCode, ePage> page_Key_Dic = new Dictionary<KeyCode, ePage>()
     {
@@ -56,7 +66,9 @@ public class GameManager : MonoBehaviour
     public bool bPause   = false;
     public bool isPuzzle = false;
 
+    public  AudioClip    explosion_AD;
     public  AudioClip[]  BGM_Arr;
+    public  AudioSource  effectAudio;
     private AudioSource  bgmAudio;
     private AudioManager audioManager;
 
@@ -230,6 +242,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            if(SceneManager.GetActiveScene().name != "WifeScene_Seon")
             Cursor.lockState = CursorLockMode.Locked;
 
             audioManager?.BGM_Source.UnPause();
@@ -282,9 +295,22 @@ public class GameManager : MonoBehaviour
         LoadScene.LoadingScene("MainScene");
     }
 
-    public void Fade_In(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
+    public void Fade_In(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear, Color? _panel_Color = null)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
+
+        if(_panel_Color == null)
+        {
+            fade_Image.color = Color.black;
+        }
+        else
+        {
+            fade_Image.color = (Color)_panel_Color;
+        }
+
+        Color color = fade_Image.color;
+        color.a = 0;
+        fade_Image.color = color;
 
         fade_Image.DOFade(0.0f, _duration)
         .SetDelay(0.5f)
@@ -295,9 +321,22 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public void Fade_Out(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
+    public void Fade_Out(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear, Color? _panel_Color = null)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
+
+        if(_panel_Color == null)
+        {
+            fade_Image.color = Color.black;
+        }
+        else
+        {
+            fade_Image.color = (Color)_panel_Color;
+        }
+
+        Color color = fade_Image.color;
+        color.a = 0;
+        fade_Image.color = color;
 
         FadePanel.SetActive(true);
         fade_Image.DOFade(1.0f, _duration).SetEase(_ease).OnComplete(() => 
@@ -306,18 +345,47 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    public void Fade_OutIn(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear)
+    public void Fade_OutIn(float _duration = 0.5f, Action _action = null, Ease _ease = Ease.Linear, Color? _panel_Color = null)
     {
         Image fade_Image = FadePanel.GetComponent<Image>();
+
+        if(_panel_Color == null)
+        {
+            fade_Image.color = Color.black;
+        }
+        else
+        {
+            fade_Image.color = (Color)_panel_Color;
+        }
+
+        Color color = fade_Image.color;
+        color.a = 0;
+        fade_Image.color = color;
 
         FadePanel.SetActive(true);
         fade_Image.DOFade(1.0f, _duration).OnComplete(() => 
         {
             _action?.Invoke();
-            fade_Image.DOFade(0.0f, 0.5f).OnComplete(() => 
+            fade_Image.DOFade(0.0f, 0.5f)
+            .SetDelay(0.5f)
+            .OnComplete(() => 
             {
                 FadePanel.SetActive(false);
             });
         });
+    }
+
+    public void AddPhoto(Sprite _photo)
+    {
+        for(int i = 0; i < album_Images.Count; i++)
+        {
+            if(album_Images[i].sprite == null)
+            {
+                album_Images[i].sprite = _photo;
+                //album_Images[i].color = Color.white;
+
+                return;
+            }
+        }
     }
 }

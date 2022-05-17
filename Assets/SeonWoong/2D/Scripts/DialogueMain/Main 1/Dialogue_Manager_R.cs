@@ -27,6 +27,8 @@ namespace Dialogue_R
         public Dialogue_Talk_R    dlg_Talk   { get; private set; }
         public Dialogue_Option_R  dlg_Option { get; private set; }
 
+        public Dialogue_Cursor_R dlg_Cursor = null;
+
         // 이름
         private string manName   = "남편";
         private string womanName = "아내";
@@ -149,6 +151,11 @@ namespace Dialogue_R
             {
                 _action?.Invoke();
             });
+        }
+
+        public RectTransform Get_PC_View()
+        {
+            return pc_View;
         }
     }
 }

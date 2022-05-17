@@ -18,10 +18,12 @@ public class Book_Main : MonoBehaviour
     private const float ON_POS_Y  = 0.0f;
     private const float OFF_POS_Y = -1075.0f;
 
+    public Image background = null;
     private RectTransform bookTrm = null;
 
     public  GameObject[] book_Page_Arr   = null;
     public  Button[]     book_Button_Arr = null;
+    public  Image[]     book_Button_Back_Arr = null;
 
     public ePage oldPage = ePage.LIST;
     public ePage curPage = ePage.LIST;
@@ -29,13 +31,14 @@ public class Book_Main : MonoBehaviour
     private void Awake()
     {
         bookTrm = GetComponent<RectTransform>();
+
+        InitButton();
+        InitBook();
     }
 
     private void Start()
     {
-        bookTrm.anchoredPosition3D = new Vector3(0, OFF_POS_Y, 0);
 
-        InitButtons();
     }
 
     private void OnEnable()
@@ -43,7 +46,7 @@ public class Book_Main : MonoBehaviour
         //GameManager.Instance.Book = GetComponent<Book_Main>();
     }
 
-    private void InitButtons()
+    private void InitButton()
     {
         for(int i = 0; i < book_Button_Arr.Length; i++)
         {
@@ -56,9 +59,15 @@ public class Book_Main : MonoBehaviour
         }
     }
 
+    private void InitBook()
+    {
+        bookTrm.anchoredPosition3D = new Vector3(0, OFF_POS_Y, 0);
+    }
+
     public void FlipButton(int _idx)
     {
         ChangePage((ePage)(_idx));
+        InitBtnSize(_idx);
         //Debug.Log((ePage)((_idx + 1) * 2));
         //InitBtnSize(_idx);
 
@@ -96,13 +105,7 @@ public class Book_Main : MonoBehaviour
         {
             bool isBig = (i == _idx) ? true : false;
 
-            RectTransform rectTrm = book_Button_Arr[i].GetComponent<RectTransform>();
-            Vector2 vt = rectTrm.sizeDelta;
-
-            if(isBig) { vt = new Vector2(120, 120); }
-            else      { vt = new Vector2(120,  80); }
-
-            rectTrm.sizeDelta = vt;
+            book_Button_Back_Arr[i].gameObject.SetActive(isBig);
         }
     }
 
@@ -128,12 +131,23 @@ public class Book_Main : MonoBehaviour
 
     public void OnOffBook(bool _isOn)
     {
-        float endValue = _isOn ? ON_POS_Y : OFF_POS_Y;
+        Sequence seq = DOTween.Sequence();
 
+        float endValue = _isOn ? ON_POS_Y : OFF_POS_Y;
+        float fadeValue = _isOn ? 100.0f : 0.0f;
+
+        seq.Append(
         bookTrm.DOAnchorPosY(endValue, 0.5f)
         .OnComplete(() => 
         {
             Debug.Log("Rmx");
-        });
+        })
+        );
+
+        seq.Join(
+            background.DOFade(fadeValue / 255.0f, 0.5f)
+        );
+
+        seq.Play();
     }
 }

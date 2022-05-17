@@ -11,11 +11,6 @@ public class LoadScene : MonoBehaviour
     {
         DOTween.KillAll();
         DOTween.Clear(true);
-
-        if (GameManager.Instance != null && GameManager.Instance.DemoClearCheck())
-        {
-            GameManager.Instance.ClearPanel.SetActive(true);
-        }
      
         LoadingSceneManager.LoadScene(sceneName);
     }
@@ -24,11 +19,6 @@ public class LoadScene : MonoBehaviour
     {
         DOTween.KillAll();
         DOTween.Clear(true);
-
-        if (GameManager.Instance != null && GameManager.Instance.DemoClearCheck())
-        {
-            GameManager.Instance.ClearPanel.SetActive(true);
-        }
      
         SceneManager.LoadScene("New_Dialog");
     }

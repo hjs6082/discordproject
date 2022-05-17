@@ -20,22 +20,27 @@ public class FPP_Down : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!FPP_Manager.Instance.GetMove().bObject && !FPP_Manager.Instance.GetMove().bSightDown)
+        if (!FPP_Manager.Instance.GetMove().bObject && FPP_Manager.Instance.GetMove().curSight != eSight.DOWN)
         {
+            FPP_Manager.Instance.bUpDownBtn = true;
             text.gameObject.SetActive(true);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        FPP_Manager.Instance.bUpDownBtn = false;
         text.gameObject.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (!FPP_Manager.Instance.GetMove().bObject && !FPP_Manager.Instance.GetMove().bSightDown)
+        if (!FPP_Manager.Instance.GetMove().bObject && FPP_Manager.Instance.GetMove().curSight != eSight.DOWN)
         {
-            FPP_Manager.Instance.GetMove().SightUpDown(60.0f);
+            int curSight = (int)FPP_Manager.Instance.GetMove().curSight;
+            curSight++;
+
+            FPP_Manager.Instance.GetMove().SightUpDown((eSight)curSight);
         }
     }
 }
