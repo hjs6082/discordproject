@@ -13,7 +13,7 @@ public class FPP_Strs
 
     public static readonly string[] FPP_MANAGER_STRS =
     {
-        "게속 느낀건데 아무래도\n이 게임 이상하단 말이야",
+        "계속 느낀건데 아무래도\n이 게임 이상하단 말이야",
         "아까 배너에서 부터\n남편이 없어진 것도 그렇고",
         "말도 안되는데 그거 말곤\n지금 생각나는게 없잖아",
         "방이라도 좀 뒤져볼까"

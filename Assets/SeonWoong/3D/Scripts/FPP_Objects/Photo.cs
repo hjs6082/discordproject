@@ -40,11 +40,15 @@ public class Photo : MonoBehaviour
     {
         FPP_Manager.Instance.OnOffText(true);
 
-        if(GameManager.Instance.Book.checkList_List[1] != null)
-        GameManager.Instance.Book.checkList_List[1].GetComponent<Toggle>().isOn = true;
+        for(int i = 0; i < GameManager.Instance.Book.checkList_List.Count; i++)
+        {
+            string text = GameManager.Instance.Book.checkList_List[i].GetComponentInChildren<Text>().text;
 
-        if(GameManager.Instance.Book.checkList_List[2] != null)
-        GameManager.Instance.Book.checkList_List[2].GetComponent<Toggle>().isOn = true;
+            if(text == "서랍에서 사진 찾기" || text == "서랍 열쇠 찾기")
+            {
+                GameManager.Instance.Book.checkList_List[i].GetComponent<Toggle>().isOn = true;
+            }
+        }
 
         FindTalk();
     }
