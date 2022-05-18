@@ -7,7 +7,6 @@ using DG.Tweening;
 public class UIPhotoScript : MonoBehaviour//, IPointerClickHandler
 {
     public GameObject player;
-    public GameObject clearPanel;
     public GameObject blinkPanel;
     public GameObject blinkPanel2;
 
@@ -56,10 +55,10 @@ public class UIPhotoScript : MonoBehaviour//, IPointerClickHandler
 
     public void EndPanel()
     {
-        clearPanel.SetActive(true); //클리어패널이아니라 씬이동으로 바꿀것
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         player.GetComponent<Suntail.PlayerController>().enabled = true;
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
+        LoadScene.LoadingScene("WifeScene_Seon");
     }
 }

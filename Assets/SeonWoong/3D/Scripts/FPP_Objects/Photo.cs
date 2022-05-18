@@ -40,6 +40,7 @@ public class Photo : MonoBehaviour
     {
         FPP_Manager.Instance.OnOffText(true);
 
+        if(GameManager.Instance.Book.checkList_List[1] != null)
         GameManager.Instance.Book.checkList_List[1].GetComponent<Toggle>().isOn = true;
 
         if(GameManager.Instance.Book.checkList_List[2] != null)

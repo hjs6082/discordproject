@@ -20,6 +20,6 @@ public class LoadScene : MonoBehaviour
         DOTween.KillAll();
         DOTween.Clear(true);
      
-        SceneManager.LoadScene("New_Dialog");
+        SceneManager.LoadScene("ReNew_Dialogue");
     }
 }

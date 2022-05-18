@@ -185,7 +185,7 @@ namespace Dialogue_R
                                     {
                                         Time.timeScale = 1.0f;
                                         Cursor.visible = true;
-                                        LoadScene.LoadingScene("TestMap");
+                                        LoadScene.LoadingScene("MapJunseo");
                                     }, Ease.Linear, Color.white);
                                 });
                             }

@@ -110,7 +110,7 @@ namespace Dialogue
 
         public void SkipDialog()
         {
-            LoadScene.LoadingScene("TestMap");
+            LoadScene.LoadingScene("MapJunseo");
         }
 
         public void InitClass() 

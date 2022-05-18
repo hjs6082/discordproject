@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
     public bool stage1Start = false;
 
     public GameObject ClearPanel;
+    public GameObject check_Prefab;
 
     private void Awake()
     {
