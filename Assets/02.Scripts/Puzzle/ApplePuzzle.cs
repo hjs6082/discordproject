@@ -7,8 +7,10 @@ public class ApplePuzzle : MonoBehaviour
 {
     [SerializeField]
     private GameObject doorObj;
+    //[SerializeField]
+    //private GameObject blueKeyObj;
     [SerializeField]
-    private GameObject blueKeyObj;
+    private GameObject photoObj;
     public GameObject[] greenApples;
     public bool isEnter;
     public bool isCheck;
@@ -111,7 +113,8 @@ public class ApplePuzzle : MonoBehaviour
         if (isTween)
         {
             isDoorOpen = true;
-            blueKeyObj.SetActive(true);
+            //blueKeyObj.SetActive(true);
+            photoObj.SetActive(true);
             doorObj.transform.DOLocalRotate(new Vector3(-90, 0, -90), 1.5f); 
             yield return new WaitForSeconds(1.5f);
             isTween = false; 
