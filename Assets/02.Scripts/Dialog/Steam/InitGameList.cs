@@ -36,6 +36,15 @@ public class InitGameList : MonoBehaviour
 
             Text game_Title = game.GetComponentInChildren<Text>();
             Image game_Icon = game.GetComponentInChildren<Image>();
+            Image[] game_Icons = game.GetComponentsInChildren<Image>();
+
+            for(int j = 0; j < game_Icons.Length; j++)
+            {
+                if(game_Icons[j].CompareTag("GameImage"))
+                {
+                    game_Icon = game_Icons[j];
+                }
+            }
 
             game_Title.text  = game_SO_List[i].game_Title;
             game_Icon.sprite = game_SO_List[i].game_Icon;

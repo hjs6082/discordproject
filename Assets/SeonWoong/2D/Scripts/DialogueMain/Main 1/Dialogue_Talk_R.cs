@@ -148,6 +148,9 @@ namespace Dialogue_R
 
                                     Dialogue_Manager_R.Instance.Get_PC_View().localScale = new Vector3(1.0f, 1.0f, 1.0f);
                                     PC_View_Talk();
+                                    Dialogue_Manager_R.Instance.game_Info_Text.text = string.Empty;
+                                    Dialogue_Manager_R.Instance.game_Info_Text.DOText(Dialogue_Strs.GAME_INFO_STRS[1], 3.0f, true, ScrambleMode.Numerals)
+                                    .SetDelay(0.25f);
                                     // TODO : 큰 소리 효과음, 쿵 하는 소리
                                     // PlayAudio(GameManager.Instance.explosion_AD, GameManager.Instance.effectAudio, () => 
                                     // {

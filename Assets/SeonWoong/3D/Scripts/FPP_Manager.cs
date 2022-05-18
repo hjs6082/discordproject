@@ -20,13 +20,14 @@ public class FPP_Manager : MonoBehaviour
 
     private static readonly Vector3 DEFAULT_PLAYER_POS = new Vector3(10.0f, 3.1f, 3.5f);
     private static readonly Vector3 DEFAULT_PLAYER_ROTATE = new Vector3(0.0f, 180.0f, 0.0f);
-    private const string FIRST_STR  = "흠...뒤쪽 서랍 중 하나에 사진이 있던 것 같은데...";
-    private const string SECOND_STR = "맞다, 어제 서랍 잠궈놨는데...\n내가 열쇠를 어디다 뒀더라..?";
+
+    private List<string> manage_Strs_List;
 
     private int curChapter = 0;
 
     public Texture2D[] cursor_Textures;
 
+    public  GameObject houseKey = null;
     private Transform player    = null;
     private Sequence  player_SQ = null;
 
@@ -47,6 +48,7 @@ public class FPP_Manager : MonoBehaviour
 
         InitClass();
         OnOffText(false);
+        houseKey.SetActive(false);
     }
 
     private void Start()
@@ -77,6 +79,8 @@ public class FPP_Manager : MonoBehaviour
 
         fpp_Move = GetComponent<FPP_Move>();
         fpp_Ctrl = GetComponent<FPP_Control>();
+
+        manage_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.FPP_MANAGER_STRS);
     }
 
     private void InitPlayer()
@@ -99,7 +103,7 @@ public class FPP_Manager : MonoBehaviour
             {
                 case 0:
                 {
-                   StartTalk(FIRST_STR);
+                   StartTalk(manage_Strs_List[talkCount]);
                 }
                 break;
                 case 1:
@@ -205,13 +209,14 @@ public class FPP_Manager : MonoBehaviour
             yield return new WaitUntil(() => true);
         }
 
-        if(talkCount != 1)
+        if(talkCount < manage_Strs_List.Count - 1)
         {
             talkCount++;
-            StartTalk(SECOND_STR);
+            StartTalk(manage_Strs_List[talkCount]);
         }
         else
         {
+            CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[0]);
             fpp_Move.bObject = false;
             OnOffText(false);
         }

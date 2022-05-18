@@ -18,6 +18,9 @@ public class Book_Main : MonoBehaviour
     private const float ON_POS_Y  = 0.0f;
     private const float OFF_POS_Y = -1075.0f;
 
+    public GameObject check_Prefab = null;
+    public Transform checkList_Parent = null;
+    public List<GameObject> checkList_List = new List<GameObject>();
     public Image background = null;
     private RectTransform bookTrm = null;
 

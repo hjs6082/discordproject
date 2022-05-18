@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Photo : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class Photo : MonoBehaviour
 
     private void Awake()
     {
-        photo_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.ALBUM_STRS);
+        photo_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.PHOTO_STRS);
     }
 
     private void OnMouseEnter()
@@ -22,6 +23,8 @@ public class Photo : MonoBehaviour
         if(!bCursorChanged)
         {
             bCursorChanged = true;
+
+            
 
             FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[1]); // 손바닥
         }
@@ -37,16 +40,11 @@ public class Photo : MonoBehaviour
     {
         FPP_Manager.Instance.OnOffText(true);
 
-        if(GameManager.Instance.Book.gameObject.activeSelf)
-        {
-            GameManager.Instance.AddPhoto(photo_Sprite);
-        }
-        else
-        {
-            Inventory.instance.AddItem(GetComponent<MyData>().myData);
-        }
+        GameManager.Instance.Book.checkList_List[1].GetComponent<Toggle>().isOn = true;
 
-        StartCoroutine(FastTalk());
+        if(GameManager.Instance.Book.checkList_List[2] != null)
+        GameManager.Instance.Book.checkList_List[2].GetComponent<Toggle>().isOn = true;
+
         FindTalk();
     }
 
@@ -61,6 +59,7 @@ public class Photo : MonoBehaviour
         switch (talkCount)
         {
             case 0:
+            case 1:
                 {
                     FPP_Manager.Instance.FindObjectTalk(photo_Strs_List[talkCount], () =>
                     {
@@ -70,10 +69,7 @@ public class Photo : MonoBehaviour
                 break;
             default:
                 {
-                    FPP_Manager.Instance.FindObjectTalk(photo_Strs_List[talkCount], () =>
-                    {
-                        StartCoroutine(NextGot());
-                    });
+                    StartCoroutine(NextGot());
                 }
                 break;
         }
@@ -94,6 +90,13 @@ public class Photo : MonoBehaviour
         }
 
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+        if(talkCount == 2)
+        {
+            GameManager.Instance.AddPhoto(photo_Sprite);
+            GameManager.Instance.BookCtrl(ePage.ALBUM);
+        }
+
         FindTalk();
     }
 
@@ -109,6 +112,10 @@ public class Photo : MonoBehaviour
 
             yield return new WaitUntil(() => true);
         }
+
+        GameManager.Instance.BookCtrl(ePage.ALBUM);
+
+        CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[3]);
 
         FPP_Manager.Instance.GetMove().bObject = false;
         FPP_Manager.Instance.OnOffText(false);

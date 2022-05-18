@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 514997c0de1a0f046add35d4a1d4070f, type: 3}
   m_Name: Game_0
   m_EditorClassIdentifier: 
-  game_Title: Game_0
-  game_Icon: {fileID: 0}
+  game_Title: American Football
+  game_Icon: {fileID: 21300000, guid: 32fb34249bff46444aee29ac42db8c09, type: 3}

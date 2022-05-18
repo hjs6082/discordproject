@@ -33,10 +33,11 @@ namespace Dialogue_R
         private string manName   = "남편";
         private string womanName = "아내";
 
-        public Image          background = null;
-        public Sprite         inGameImg  = null;
-        public Image          wife_Image = null;
-        public SpriteRenderer fade_SR    = null;
+        public Image          background     = null;
+        public Sprite         inGameImg      = null;
+        public Image          wife_Image     = null;
+        public SpriteRenderer fade_SR        = null;
+        public Text           game_Info_Text = null;
 
         [SerializeField] private RectTransform wife_View = null;
         [SerializeField] private RectTransform pc_View   = null;
@@ -73,6 +74,8 @@ namespace Dialogue_R
 
         private void Start()
         {
+            game_Info_Text.text = Dialogue_Strs.GAME_INFO_STRS[0];
+
             InitViewPos();
             InitNames();
 

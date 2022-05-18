@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HouseKey : MonoBehaviour
 {
@@ -63,7 +64,7 @@ public class HouseKey : MonoBehaviour
         {
             case 0:
                 {
-                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[1], () =>
+                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[0], () =>
                     {
                         StartCoroutine(NextTalk());
                     });
@@ -71,7 +72,7 @@ public class HouseKey : MonoBehaviour
                 break;
             default:
                 {
-                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[2], () =>
+                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[1], () =>
                     {
 
                         StartCoroutine(NextGot());
@@ -110,6 +111,14 @@ public class HouseKey : MonoBehaviour
             }
 
             yield return new WaitUntil(() => true);
+        }
+
+        for(int i = 0; i < GameManager.Instance.Book.checkList_List.Count; i++)
+        {
+            if(GameManager.Instance.Book.checkList_List[i].GetComponentInChildren<Text>().text == CheckLists.FPP_CHECKLIST_STRS[2])
+            {
+                GameManager.Instance.Book.checkList_List[i].GetComponent<Toggle>().isOn = true;
+            }
         }
 
         FPP_Manager.Instance.GetMove().bObject = false;

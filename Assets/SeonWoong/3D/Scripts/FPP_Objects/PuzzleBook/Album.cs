@@ -2,6 +2,7 @@ using System.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace FPP_Wife
 {
@@ -34,17 +35,8 @@ namespace FPP_Wife
             if(Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 2.0f && !FPP_Manager.Instance.GetMove().bObject)
             {
                 FindTalk();
-
-                for(int i = 0; i < Inventory.instance.items.Count; i++)
-                {
-                    if(Inventory.instance.items[i].itemName == "Photo")
-                    {
-                        GameManager.Instance.AddPhoto(Inventory.instance.items[i].itemImage);
-                        Inventory.instance.items.Remove(Inventory.instance.items[i]);
-                        Inventory.instance.FreshSlot();
-                        return;
-                    }
-                }
+                GameManager.Instance.Book.checkList_List[0].GetComponent<Toggle>().isOn = true;
+                FPP_Manager.Instance.houseKey.SetActive(true);
             }
         }
 
@@ -134,12 +126,12 @@ namespace FPP_Wife
                 {
                     talkCount++;
                     bWait = false;
-                    Time.timeScale = 1.0f;
                 }
 
                 yield return new WaitUntil(() => true);
             }
 
+            Time.timeScale = 1.0f;
             FindTalk();
         }
 
@@ -150,11 +142,14 @@ namespace FPP_Wife
                 if(Input.GetKeyDown(KeyCode.Space))
                 {
                     bWait = false;
-                    Time.timeScale = 1.0f;
                 }
 
                 yield return new WaitUntil(() => true);
             }
+
+            Time.timeScale = 1.0f;
+
+            CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[1]);
 
             FPP_Manager.Instance.GetMove().bObject = false;
             FPP_Manager.Instance.OnOffText(false);

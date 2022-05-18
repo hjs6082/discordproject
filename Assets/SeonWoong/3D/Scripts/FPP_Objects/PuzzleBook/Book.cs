@@ -66,7 +66,7 @@ namespace FPP_Wife
                 case 0:
                 case 1:
                     {
-                        FPP_Manager.Instance.FindObjectTalk("...", () =>
+                        FPP_Manager.Instance.FindObjectTalk(book_Strs_List[0], () =>
                         {
                             StartCoroutine(NextTalk());
                         });
@@ -74,7 +74,7 @@ namespace FPP_Wife
                     break;
                 default:
                     {
-                        FPP_Manager.Instance.FindObjectTalk(book_Strs_List[talkCount], () =>
+                        FPP_Manager.Instance.FindObjectTalk(book_Strs_List[1], () =>
                         {
                             StartCoroutine(NextGot());
                         });
