@@ -57,7 +57,9 @@ public class FPP_Manager : MonoBehaviour
 
         curChapter = (int)GameManager.Instance.curChapter;
 
+        Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        
         FPP_MouseCursor.ChangeCursor(cursor_Textures[0], false);
     }
 

@@ -136,6 +136,9 @@ public class Book_Main : MonoBehaviour
     {
         Sequence seq = DOTween.Sequence();
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         float endValue = _isOn ? ON_POS_Y : OFF_POS_Y;
         float fadeValue = _isOn ? 100.0f : 0.0f;
 

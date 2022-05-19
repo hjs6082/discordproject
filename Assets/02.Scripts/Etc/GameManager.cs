@@ -233,6 +233,7 @@ public class GameManager : MonoBehaviour
         if (bPause)
         {
             Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
 
             audioManager?.BGM_Source.Pause();
             audioManager?.EFFECT_Source.Pause();
@@ -245,6 +246,7 @@ public class GameManager : MonoBehaviour
         {
             if(SceneManager.GetActiveScene().name != "WifeScene_Seon")
             Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
 
             audioManager?.BGM_Source.UnPause();
             audioManager?.EFFECT_Source.UnPause();
