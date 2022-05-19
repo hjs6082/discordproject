@@ -294,6 +294,7 @@ public class GameManager : MonoBehaviour
     public void Main()
     {
         Pause();
+        BookCtrl(ePage.OPTION);
         ChangeBGM(eScene.MAIN);
         LoadScene.LoadingScene("MainScene");
     }

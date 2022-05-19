@@ -10,15 +10,15 @@ public class LoadScene : MonoBehaviour
     public static void LoadingScene(string sceneName)
     {
         DOTween.KillAll();
-        DOTween.Clear(true);
-     
+        DOTween.Clear();
+    
         LoadingSceneManager.LoadScene(sceneName);
     }
 
     public static void LoadingScene_MainToDialogue()
     {
         DOTween.KillAll();
-        DOTween.Clear(true);
+        DOTween.Clear();
      
         SceneManager.LoadScene("ReNew_Dialogue");
     }
