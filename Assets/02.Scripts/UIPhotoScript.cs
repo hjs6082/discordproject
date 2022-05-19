@@ -36,7 +36,7 @@ public class UIPhotoScript : MonoBehaviour//, IPointerClickHandler
     IEnumerator Blink()
     {
         yield return new WaitForSeconds(1.5f);
-        if (blinkCount < 3)
+        if (blinkCount < 2)
         {
             blinkPanel.transform.DOLocalMoveY(497f, 0.8f).OnComplete(() => { blinkPanel.transform.DOLocalMoveY(1164f, 0.8f); });
             blinkPanel2.transform.DOLocalMoveY(-599f, 0.8f).OnComplete(() => { blinkPanel2.transform.DOLocalMoveY(-1357f, 0.8f); });
