@@ -38,7 +38,7 @@ public class SecretDoorScript : MonoBehaviour
                 KeyCheck();
                 if(isKey)
                 {
-                    if(Input.GetKeyDown(KeyCode.E))
+                    if(Input.GetMouseButtonDown(0))
                     {
                         if (!isClear)
                         {

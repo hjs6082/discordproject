@@ -7,6 +7,7 @@ public class EnglishPuzzle : MonoBehaviour
     private bool isEnter;
     public bool isCheck;
     public bool isWrong;
+    public GameObject greenApple;
 
     private void OnMouseEnter()
     {
@@ -27,11 +28,12 @@ public class EnglishPuzzle : MonoBehaviour
         {
             if(isCheck)
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if(Input.GetMouseButtonDown(0))
                 {
                     if(EnglishPassword.instance.isClear)
                     {
                         EnglishPassword.instance.DoorOpen();
+                        greenApple.SetActive(true);
                     }
                     else
                     {

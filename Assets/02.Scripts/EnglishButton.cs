@@ -32,7 +32,7 @@ public class EnglishButton : MonoBehaviour
         {
             if(isCheck)
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if(Input.GetMouseButtonDown(0))
                 {
                     if (!EnglishPassword.instance.isCheck)
                     {

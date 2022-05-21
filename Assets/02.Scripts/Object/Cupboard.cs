@@ -42,7 +42,7 @@ public class Cupboard : MonoBehaviour
         {
             if (isCheck)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0))
                 {
                     CupboardOpenAndClose();
                 }

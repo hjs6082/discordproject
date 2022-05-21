@@ -41,12 +41,12 @@ public class Locker : MonoBehaviour
             {
                 if (isClear)
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         DoorTween.instance.DoorMove();
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.E))
+                else if (Input.GetMouseButtonDown(0))
                 {
                     if(password == myPassword)
                     {

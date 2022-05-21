@@ -52,7 +52,7 @@ public class FirePuzzle : MonoBehaviour
                 isWoodCheck();
                 if (isMatches && isWood)
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Debug.Log("32");
                         if (!isOneClear)
@@ -71,7 +71,7 @@ public class FirePuzzle : MonoBehaviour
                 }
                 else if (isMatches)
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         if (!isOneClear)
                         {
@@ -96,7 +96,7 @@ public class FirePuzzle : MonoBehaviour
                 }
                 else if (isWood)
                 {
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         if (!isOneClear)
                         {
@@ -123,7 +123,7 @@ public class FirePuzzle : MonoBehaviour
                 {
                     if (!isFire)
                     {
-                        if (Input.GetKeyDown(KeyCode.E))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             fireObj.Play();
                             Destroy(this.gameObject.GetComponent<ObjScript>());
