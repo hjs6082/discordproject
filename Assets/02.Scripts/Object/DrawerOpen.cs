@@ -20,7 +20,7 @@ public class DrawerOpen : MonoBehaviour
     private void Awake()
     {
         startPosition = this.gameObject.transform.position;
-        goalPosition = new Vector3(startPosition.x + 0.95f, startPosition.y, startPosition.z);
+        goalPosition = new Vector3(startPosition.x + 0.4f, startPosition.y, startPosition.z);
         explaneText.text = "¿­±â";
     }
     private void OnMouseDown()
@@ -44,7 +44,7 @@ public class DrawerOpen : MonoBehaviour
         {
             if (isCheck)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0))
                 {
                     DrawerOpenAndClose();
                 }
@@ -56,12 +56,12 @@ public class DrawerOpen : MonoBehaviour
     {
         if (this.gameObject.transform.position.x == startPosition.x)
         {
-            this.gameObject.transform.DOMove(new Vector3(goalPosition.x, goalPosition.y, goalPosition.z), 1f, false).SetEase(Ease.InQuad);
+            this.gameObject.transform.DOMove(new Vector3(goalPosition.x, goalPosition.y, goalPosition.z), 0.6f, false);//.SetEase(Ease.InQuad);
             isEnd = true;
         }
         else if (this.gameObject.transform.position.x == goalPosition.x)
         {
-            this.gameObject.transform.DOMove(new Vector3(startPosition.x, startPosition.y, startPosition.z), 1f, false).SetEase(Ease.InQuad);
+            this.gameObject.transform.DOMove(new Vector3(startPosition.x, startPosition.y, startPosition.z), 0.6f, false);//.SetEase(Ease.InQuad);
             isEnd = false;
         }
         else

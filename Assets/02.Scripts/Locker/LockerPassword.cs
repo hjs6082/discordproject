@@ -41,7 +41,7 @@ public class LockerPassword : MonoBehaviour
         {
             if(isCheck)
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if(Input.GetMouseButtonDown(0))
                 {
                     number++;
                     if(number >= 10)

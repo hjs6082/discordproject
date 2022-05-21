@@ -50,7 +50,7 @@ namespace Suntail
 
         [Header("Keybinds")]
         [Tooltip("Interaction key")]
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
+        [SerializeField] private KeyCode interactionKey = KeyCode.Mouse0;
 
         [Header("Object Following")]
         [Tooltip("Minimum speed of the lifted object")]
@@ -185,7 +185,7 @@ namespace Suntail
                 else if(interactionHit.collider.CompareTag(pickUpItemTag))
                 {
                     _pickUpObj = interactionHit.collider.gameObject.GetComponent<MyData>().myData;
-                    if (Input.GetKeyDown(KeyCode.E))
+                    if (Input.GetMouseButtonDown(0))
                     {
                         Inventory.instance.AddItem(_pickUpObj);
                         Destroy(interactionHit.collider.gameObject);
@@ -229,7 +229,7 @@ namespace Suntail
                     if (!_chestObj.isOpen)
                     {
                         panelText.text = "열기";
-                        if (Input.GetKeyDown(KeyCode.E))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             _chestObj.ChestMove();
                         }
@@ -237,7 +237,7 @@ namespace Suntail
                     else if(_chestObj.isOpen)
                     {
                         panelText.text = "닫기";
-                        if (Input.GetKeyDown(KeyCode.E))
+                        if (Input.GetMouseButtonDown(0))
                         {
                             _chestObj.ChestClose(); 
                         }
@@ -286,7 +286,7 @@ namespace Suntail
                 // ObjScript.instance.isCheck = false;
             }
 
-            if (Input.GetKeyDown(interactionKey))
+            if (Input.GetMouseButtonDown(0))
             {
                 if (_currentlyPickedUpObject == null)
                 {

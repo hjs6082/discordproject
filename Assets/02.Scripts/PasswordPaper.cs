@@ -30,7 +30,7 @@ public class PasswordPaper : MonoBehaviour
         {
             if(isCheck)
             {
-                if(Input.GetKeyDown(KeyCode.E))
+                if(Input.GetMouseButtonDown(0))
                 {
                     paperPanel.SetActive(true);
                     Cursor.lockState = CursorLockMode.None;

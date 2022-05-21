@@ -31,7 +31,6 @@ public class ApplePuzzle : MonoBehaviour
     }
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -41,7 +40,7 @@ public class ApplePuzzle : MonoBehaviour
         {
             if(isCheck)
             {
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetMouseButtonDown(0))
                 {
                     AppleCheck();
                     if (isApple)
@@ -54,18 +53,18 @@ public class ApplePuzzle : MonoBehaviour
                                 greenApples[0].SetActive(true);
                                 appleCount++;
                             }
-                            else if (greenApples[0].activeSelf)
-                            {
-                                AppleDelete();
-                                greenApples[1].SetActive(true);
-                                appleCount++;
-                            }
                             else if (greenApples[0].activeSelf && greenApples[1].activeSelf)
                             {
                                 AppleDelete();
                                 greenApples[2].SetActive(true);
                                 appleCount++;
-                                
+
+                            }
+                            else if (greenApples[0].activeSelf)
+                            {
+                                AppleDelete();
+                                greenApples[1].SetActive(true);
+                                appleCount++;
                             }
                             isApple = false;
                         }
