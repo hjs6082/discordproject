@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace FPP_Wife
+namespace Wife_Scene
 {
     public class Album : MonoBehaviour
     {
@@ -15,11 +15,11 @@ namespace FPP_Wife
         private bool bWait = false;
         private bool bCursorChanged = false;
 
-        private FPP_ObjScript fpp_Obj = null;
+        private FPP_Outline fpp_Outline = null;
 
         private void Awake()
         {
-            fpp_Obj = GetComponent<FPP_ObjScript>();
+            fpp_Outline = GetComponent<FPP_Outline>();
 
             album_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.ALBUM_STRS);
         }
@@ -35,7 +35,7 @@ namespace FPP_Wife
             if(Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 2.0f && !FPP_Manager.Instance.GetMove().bObject)
             {
                 FindTalk();
-                GameManager.Instance.Book.checkList_List[0].GetComponent<Toggle>().isOn = true;
+                GameManager.Instance.book.GetComponent<Book_Main>().checkList_List[0].GetComponent<Toggle>().isOn = true;
                 FPP_Manager.Instance.houseKey.SetActive(true);
             }
         }
@@ -44,7 +44,7 @@ namespace FPP_Wife
         {
             if (Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 2.0f)
             {
-                fpp_Obj.OnOutline(eSight.MIDDLE);
+                fpp_Outline.OnOutline();
 
                 if (!bCursorChanged)
                 {
@@ -57,7 +57,7 @@ namespace FPP_Wife
 
         private void OnMouseExit()
         {
-            fpp_Obj.OffOutline();
+            fpp_Outline.OffOutline();
 
             bCursorChanged = false; 
             FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
@@ -153,7 +153,8 @@ namespace FPP_Wife
 
             FPP_Manager.Instance.GetMove().bObject = false;
             FPP_Manager.Instance.OnOffText(false);
-            GameManager.Instance.Book.gameObject.SetActive(true);
+            
+            GameManager.Instance.book.SetActive(true);
             this.gameObject.SetActive(false);
         }
     }

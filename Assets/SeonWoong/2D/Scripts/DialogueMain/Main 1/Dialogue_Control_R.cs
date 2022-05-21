@@ -6,7 +6,7 @@ namespace Dialogue_R
     {
         public void InputSpeech(ref bool _bWait)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetMouseButtonDown(0))
             {
                 _bWait = false;
 

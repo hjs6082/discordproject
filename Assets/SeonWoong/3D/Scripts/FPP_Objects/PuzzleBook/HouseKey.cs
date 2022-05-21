@@ -3,28 +3,42 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Photo : MonoBehaviour
+public class HouseKey : MonoBehaviour
 {
-    private List<string> photo_Strs_List;
+    private List<string> house_Key_Strs_List;
 
-    [SerializeField] private Sprite photo_Sprite = null;
-
+    private MyData myData = null;
     private bool bWait = false;
     private bool bCursorChanged = false;
-    private int  talkCount = 0;
+    private int talkCount = 0;
+
+    private FPP_Outline fpp_Outline = null;
 
     private void Awake()
     {
-        photo_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.PHOTO_STRS);
+        myData = GetComponent<MyData>();
+        fpp_Outline = GetComponent<FPP_Outline>();
+
+        house_Key_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.HOUSE_KEY_STRS);
     }
+
+    private void OnMouseDown()
+    {
+        Inventory.instance.AddItem(myData.myData);
+
+        FPP_Manager.Instance.OnOffText(true);
+        FindTalk();
+    }
+
 
     private void OnMouseEnter()
     {
+        if (Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 3.0f)
+            fpp_Outline.OnOutline();
+
         if(!bCursorChanged)
         {
             bCursorChanged = true;
-
-            
 
             FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[1]); // 손바닥
         }
@@ -32,25 +46,10 @@ public class Photo : MonoBehaviour
 
     private void OnMouseExit()
     {
+        fpp_Outline.OffOutline();
+
         bCursorChanged = false;
         FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
-    }
-
-    private void OnMouseDown()
-    {
-        FPP_Manager.Instance.OnOffText(true);
-
-        for(int i = 0; i < GameManager.Instance.Book.checkList_List.Count; i++)
-        {
-            string text = GameManager.Instance.Book.checkList_List[i].GetComponentInChildren<Text>().text;
-
-            if(text == "서랍에서 사진 찾기" || text == "서랍 열쇠 찾기")
-            {
-                GameManager.Instance.Book.checkList_List[i].GetComponent<Toggle>().isOn = true;
-            }
-        }
-
-        FindTalk();
     }
 
     private void FindTalk()
@@ -64,9 +63,8 @@ public class Photo : MonoBehaviour
         switch (talkCount)
         {
             case 0:
-            case 1:
                 {
-                    FPP_Manager.Instance.FindObjectTalk(photo_Strs_List[talkCount], () =>
+                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[0], () =>
                     {
                         StartCoroutine(NextTalk());
                     });
@@ -74,7 +72,11 @@ public class Photo : MonoBehaviour
                 break;
             default:
                 {
-                    StartCoroutine(NextGot());
+                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[1], () =>
+                    {
+
+                        StartCoroutine(NextGot());
+                    });
                 }
                 break;
         }
@@ -95,13 +97,6 @@ public class Photo : MonoBehaviour
         }
 
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
-
-        if(talkCount == 2)
-        {
-            GameManager.Instance.AddPhoto(photo_Sprite);
-            GameManager.Instance.BookCtrl(ePage.ALBUM);
-        }
-
         FindTalk();
     }
 
@@ -118,13 +113,18 @@ public class Photo : MonoBehaviour
             yield return new WaitUntil(() => true);
         }
 
-        GameManager.Instance.BookCtrl(ePage.ALBUM);
+        Book_Main bm = GameManager.Instance.book.GetComponent<Book_Main>();
 
-        CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[3]);
+        for(int i = 0; i < bm.checkList_List.Count; i++)
+        {
+            if(bm.checkList_List[i].GetComponentInChildren<Text>().text == CheckLists.FPP_CHECKLIST_STRS[2])
+            {
+                bm.checkList_List[i].GetComponent<Toggle>().isOn = true;
+            }
+        }
 
         FPP_Manager.Instance.GetMove().bObject = false;
         FPP_Manager.Instance.OnOffText(false);
-        this.gameObject.SetActive(false);
     }
 
     private IEnumerator FastTalk()

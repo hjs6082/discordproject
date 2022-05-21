@@ -27,14 +27,14 @@ public class FPP_Manager : MonoBehaviour
 
     public Texture2D[] cursor_Textures;
 
-    public  GameObject houseKey = null;
-    private Transform player    = null;
-    private Sequence  player_SQ = null;
+    public  GameObject houseKey  = null;
+    private Transform  player    = null;
+    private Sequence   player_SQ = null;
 
     private FPP_Move    fpp_Move = null;
     private FPP_Control fpp_Ctrl = null;
 
-    public Text fpp_Speech_Text = null;
+    public  Text fpp_Speech_Text = null;
     public  bool bUpDownBtn = false;
     private bool bWait  = false;
     private int  talkCount = 0;
@@ -46,9 +46,10 @@ public class FPP_Manager : MonoBehaviour
             instance = this;
         }
 
-        InitClass();
+        InitValue();
+
         OnOffText(false);
-        houseKey.SetActive(false);
+
     }
 
     private void Start()
@@ -57,9 +58,9 @@ public class FPP_Manager : MonoBehaviour
 
         curChapter = (int)GameManager.Instance.curChapter;
 
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = true;
-        
+
         FPP_MouseCursor.ChangeCursor(cursor_Textures[0], false);
     }
 
@@ -68,22 +69,16 @@ public class FPP_Manager : MonoBehaviour
 
     }
 
-    private void InitClass()
+    private void InitValue()
     {
         player = this.transform;
-        player_SQ = DOTween.Sequence();
-
-        player_SQ.Append(
-            player.DOMoveY(3.3f, 0.5f)
-            .SetEase(Ease.OutQuad));
-        player_SQ.Join(
-            player.DOMoveZ(4.0f, 0.5f)
-            .SetEase(Ease.InQuad));
-
+     
         fpp_Move = GetComponent<FPP_Move>();
         fpp_Ctrl = GetComponent<FPP_Control>();
 
         manage_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.FPP_MANAGER_STRS);
+
+        houseKey.SetActive(false);
     }
 
     private void InitPlayer()
@@ -97,6 +92,15 @@ public class FPP_Manager : MonoBehaviour
     private void StartMove()
     {
         fpp_Move.bObject = true;
+
+        player_SQ = DOTween.Sequence();
+
+        player_SQ.Append(
+            player.DOMoveY(3.3f, 0.5f)
+            .SetEase(Ease.OutQuad));
+        player_SQ.Join(
+            player.DOMoveZ(4.0f, 0.5f)
+            .SetEase(Ease.InQuad));
 
         player_SQ.Play()
         .SetDelay(0.5f)
@@ -129,7 +133,7 @@ public class FPP_Manager : MonoBehaviour
             }
         });
     }
-
+    
     public void EndMove(Action _callback = null)
     {
         player.DOMove(DEFAULT_PLAYER_POS, 0.5f)
@@ -142,11 +146,6 @@ public class FPP_Manager : MonoBehaviour
 
     public void FindObjectTalk(string _str, Action _callback = null, FontStyle _fontStyle = FontStyle.Normal)
     {
-        if(!fpp_Speech_Text.transform.parent.gameObject.activeSelf)
-        {
-            OnOffText(true);
-        }
-
         ClearText();
 
         fpp_Speech_Text.fontStyle = _fontStyle;
@@ -179,9 +178,22 @@ public class FPP_Manager : MonoBehaviour
         OnOffText(true);
         StartCoroutine(FastTalk());
 
-        FindObjectTalk(_str, () => 
+        FindObjectTalk(_str, () =>
         {
-            StartCoroutine(NextTalk());
+            StartCoroutine(NextTalk(() =>
+            {
+                if (talkCount < manage_Strs_List.Count - 1)
+                {
+                    talkCount++;
+                    StartTalk(manage_Strs_List[talkCount]);
+                }
+                else
+                {
+                    CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[0]);
+                    fpp_Move.bObject = false;
+                    OnOffText(false);
+                }
+            }));
         });
     }
 
@@ -189,39 +201,31 @@ public class FPP_Manager : MonoBehaviour
     {
         while(true)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetMouseButtonDown(0))
             {
                 Time.timeScale = 5.0f;
                 break;
             }
 
-            yield return new WaitUntil(() => true);
+            yield return null;
         }
     }
 
-    private IEnumerator NextTalk()
+    private IEnumerator NextTalk(Action _onComplete)
     {
         while(bWait)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
+            if(Input.GetMouseButtonDown(0))
             {
                 bWait = false;
+
                 Time.timeScale = 1.0f;
             }
 
-            yield return new WaitUntil(() => true);
+            yield return null;
         }
 
-        if(talkCount < manage_Strs_List.Count - 1)
-        {
-            talkCount++;
-            StartTalk(manage_Strs_List[talkCount]);
-        }
-        else
-        {
-            CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[0]);
-            fpp_Move.bObject = false;
-            OnOffText(false);
-        }
+        _onComplete?.Invoke();
+        
     }
 }

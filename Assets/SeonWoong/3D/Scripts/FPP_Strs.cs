@@ -22,6 +22,7 @@ public class FPP_Strs
     public static readonly string[] ALBUM_STRS = 
     {
         "...",
+        "...!",
         "이거 앨범인데\n내용이 왜 이러지",
         "원래 여기 사진이 있을텐데",
         "전에 이 방에서 봤던 사진이 있던건가",

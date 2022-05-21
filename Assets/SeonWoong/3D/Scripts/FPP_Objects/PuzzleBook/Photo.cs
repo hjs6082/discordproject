@@ -3,42 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HouseKey : MonoBehaviour
+public class Photo : MonoBehaviour
 {
-    private List<string> house_Key_Strs_List;
+    private List<string> photo_Strs_List;
 
-    private MyData myData = null;
+    [SerializeField] private Sprite photo_Sprite = null;
+
     private bool bWait = false;
     private bool bCursorChanged = false;
-    private int talkCount = 0;
-
-    private FPP_ObjScript fpp_Obj = null;
+    private int  talkCount = 0;
 
     private void Awake()
     {
-        myData = GetComponent<MyData>();
-        fpp_Obj = GetComponent<FPP_ObjScript>();
-
-        house_Key_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.HOUSE_KEY_STRS);
+        photo_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.PHOTO_STRS);
     }
-
-    private void OnMouseDown()
-    {
-        Inventory.instance.AddItem(myData.myData);
-
-        FPP_Manager.Instance.OnOffText(true);
-        FindTalk();
-    }
-
 
     private void OnMouseEnter()
     {
-        if (Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 3.0f)
-            fpp_Obj.OnOutline(eSight.DOWN);
-
         if(!bCursorChanged)
         {
             bCursorChanged = true;
+
+            
 
             FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[1]); // 손바닥
         }
@@ -46,10 +32,27 @@ public class HouseKey : MonoBehaviour
 
     private void OnMouseExit()
     {
-        fpp_Obj.OffOutline();
-
         bCursorChanged = false;
         FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
+    }
+
+    private void OnMouseDown()
+    {
+        Book_Main bm = GameManager.Instance.book.GetComponent<Book_Main>();
+
+        FPP_Manager.Instance.OnOffText(true);
+
+        for(int i = 0; i < bm.checkList_List.Count; i++)
+        {
+            string text = bm.checkList_List[i].GetComponentInChildren<Text>().text;
+
+            if(text == "서랍에서 사진 찾기" || text == "서랍 열쇠 찾기")
+            {
+                bm.checkList_List[i].GetComponent<Toggle>().isOn = true;
+            }
+        }
+
+        FindTalk();
     }
 
     private void FindTalk()
@@ -63,8 +66,9 @@ public class HouseKey : MonoBehaviour
         switch (talkCount)
         {
             case 0:
+            case 1:
                 {
-                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[0], () =>
+                    FPP_Manager.Instance.FindObjectTalk(photo_Strs_List[talkCount], () =>
                     {
                         StartCoroutine(NextTalk());
                     });
@@ -72,11 +76,7 @@ public class HouseKey : MonoBehaviour
                 break;
             default:
                 {
-                    FPP_Manager.Instance.FindObjectTalk(house_Key_Strs_List[1], () =>
-                    {
-
-                        StartCoroutine(NextGot());
-                    });
+                    StartCoroutine(NextGot());
                 }
                 break;
         }
@@ -97,6 +97,13 @@ public class HouseKey : MonoBehaviour
         }
 
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+        if(talkCount == 2)
+        {
+            GameManager.Instance.AddPhoto(photo_Sprite);
+            GameManager.Instance.BookCtrl(ePage.ALBUM);
+        }
+
         FindTalk();
     }
 
@@ -113,16 +120,13 @@ public class HouseKey : MonoBehaviour
             yield return new WaitUntil(() => true);
         }
 
-        for(int i = 0; i < GameManager.Instance.Book.checkList_List.Count; i++)
-        {
-            if(GameManager.Instance.Book.checkList_List[i].GetComponentInChildren<Text>().text == CheckLists.FPP_CHECKLIST_STRS[2])
-            {
-                GameManager.Instance.Book.checkList_List[i].GetComponent<Toggle>().isOn = true;
-            }
-        }
+        GameManager.Instance.BookCtrl(ePage.ALBUM);
+
+        CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[3]);
 
         FPP_Manager.Instance.GetMove().bObject = false;
         FPP_Manager.Instance.OnOffText(false);
+        this.gameObject.SetActive(false);
     }
 
     private IEnumerator FastTalk()

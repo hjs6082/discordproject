@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public bool isOnLoad;
 
     public  eChapter curChapter = eChapter.CHAPTER_1;
-    public  Book_Main Book    = null;
+    public  GameObject book = null;
     public  List<Image> album_Images = new List<Image>();
     private ePage     curPage = ePage.LIST;
     private Dictionary<KeyCode, ePage> page_Key_Dic = new Dictionary<KeyCode, ePage>()
@@ -138,13 +138,12 @@ public class GameManager : MonoBehaviour
         FadePanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
         FadePanel.SetActive(false);
 
-        Book = GetComponentInChildren<Book_Main>();
-        Book.gameObject.SetActive(false);
+        book.SetActive(false);
     }
 
     private void InputPause()
     {
-        if(!Book.gameObject.activeSelf)
+        if(!book.activeSelf)
         {
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -169,7 +168,7 @@ public class GameManager : MonoBehaviour
                             else
                             {
                                 curPage = page.Value;
-                                Book.FlipButton((int)curPage);
+                                book.GetComponent<Book_Main>().FlipButton((int)curPage);
                             }
                         }
                         else
@@ -219,9 +218,9 @@ public class GameManager : MonoBehaviour
     {
         bPause = !bPause;
 
-        Book.FlipButton((int)_page);
+        book.GetComponent<Book_Main>().FlipButton((int)_page);
         
-        Book.OnOffBook(bPause);
+        book.GetComponent<Book_Main>().OnOffBook(bPause);
     }
 
     public void Pause()

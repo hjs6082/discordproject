@@ -9,12 +9,15 @@ EditorBuildSettings:
     path: Assets/00.Scenes/MainScene.unity
     guid: 8fd79f957b965cb40b1b09c1c76d07fa
   - enabled: 1
-    path: Assets/SeonWoong/2D/Scenes/New_Dialog.unity
-    guid: 74d0cc7141c6b344ba1863c26c05ccc4
+    path: Assets/00.Scenes/MapJunseo.unity
+    guid: bdf3a45b06ce7c44189f0d21640548b5
+  - enabled: 1
+    path: Assets/SeonWoong/3D/Scenes/WifeScene_Seon.unity
+    guid: 60902c9d37e347e49949be4bc9fd466f
+  - enabled: 1
+    path: Assets/SeonWoong/2D/Scenes/ReNew_Dialogue.unity
+    guid: ca5a4b1dcb669bd479607becac84c4e6
   - enabled: 1
     path: Assets/00.Scenes/LoadingScene.unity
     guid: 71608d753c99b654f83769552a5ae5d6
-  - enabled: 1
-    path: Assets/00.Scenes/TestMap.unity
-    guid: 3dfcc67bc65ebe7409047264b4b0e8a6
   m_configObjects: {}

@@ -215,13 +215,14 @@ namespace Dialogue_R
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
+                    Time.timeScale = 5.0f;
+                    
                     break;
                 }
 
-                yield return new WaitUntil(() => true);
+                yield return null;
             }
 
-            Time.timeScale = 5.0f;
         }
 
         public void Download()

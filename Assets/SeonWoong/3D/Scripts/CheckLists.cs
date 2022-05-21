@@ -15,10 +15,10 @@ public class CheckLists : MonoBehaviour
 
     public static void AddCheckList(string _str)
     {
-        GameObject check = Instantiate(GameManager.Instance.check_Prefab, GameManager.Instance.Book.checkList_Parent);
+        GameObject check = Instantiate(GameManager.Instance.check_Prefab, GameManager.Instance.book.GetComponent<Book_Main>().checkList_Parent);
         check.GetComponentInChildren<Text>().text = _str;
         check.GetComponent<Toggle>().isOn = false;
 
-        GameManager.Instance.Book.checkList_List.Add(check);
+        GameManager.Instance.book.GetComponent<Book_Main>().checkList_List.Add(check);
     }
 }

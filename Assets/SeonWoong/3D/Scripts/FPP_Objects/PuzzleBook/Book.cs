@@ -13,18 +13,18 @@ namespace FPP_Wife
         private bool bCursorChanged = false;
 
         public eSight item_Sight = eSight.MIDDLE;
-        private FPP_ObjScript fpp_Obj = null;
+        private FPP_Outline fPP_Outline = null;
 
         private void Awake()
         {
-            fpp_Obj = GetComponent<FPP_ObjScript>();
+            fPP_Outline = GetComponent<FPP_Outline>();
 
             book_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.BOOK_STRS);
         }
 
         private void OnMouseDown()
         {
-            if (item_Sight == FPP_Manager.Instance.GetMove().curSight && Vector3.Distance(transform.position, Camera.main.transform.position) <= 2.0f && !FPP_Manager.Instance.GetMove().bObject)
+            if (Vector3.Distance(transform.position, Camera.main.transform.position) <= 2.0f && !FPP_Manager.Instance.GetMove().bObject)
             {
                 FindTalk();
             }
@@ -34,7 +34,7 @@ namespace FPP_Wife
         {
             if (Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 2.0f)
             {
-                fpp_Obj.OnOutline(item_Sight);
+                fPP_Outline.OnOutline();
 
                 if (!bCursorChanged)
                 {
@@ -47,7 +47,7 @@ namespace FPP_Wife
 
         private void OnMouseExit()
         {
-            fpp_Obj.OffOutline();
+            fPP_Outline.OffOutline();
 
             bCursorChanged = false;
             FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥

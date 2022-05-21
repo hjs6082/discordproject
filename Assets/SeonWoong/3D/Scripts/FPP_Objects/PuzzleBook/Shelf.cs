@@ -17,18 +17,20 @@ public class Shelf : MonoBehaviour
     private bool bCursorChanged = false;
     private bool bWait = false;
 
-    private FPP_ObjScript fpp_Obj = null;
+    private FPP_Outline fpp_Outline = null;
+    private Book_Main book_Main = null;
 
     private void Awake()
     {
-        fpp_Obj = GetComponent<FPP_ObjScript>();
+        fpp_Outline = GetComponent<FPP_Outline>();
+        book_Main = GameManager.Instance.book.GetComponent<Book_Main>();
 
         shelf_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.SHELF_STRS);
     }
 
     private void OnMouseDown()
     {
-        if (item_Sight == FPP_Manager.Instance.GetMove().curSight && GameManager.Instance.Book.gameObject.activeSelf)
+        if (book_Main.gameObject.activeSelf)
         {
             if (isLocked && Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 1.0f)
             {
@@ -65,10 +67,9 @@ public class Shelf : MonoBehaviour
 
     private void OnMouseEnter()
     {
-
-        if (Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 1.0f && GameManager.Instance.Book.gameObject.activeSelf)
+        if (Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position) <= 1.0f && GameManager.Instance.book.activeSelf)
         {
-            fpp_Obj.OnOutline(item_Sight);
+            fpp_Outline.OnOutline();
 
             if (!bCursorChanged)
             {
@@ -81,7 +82,7 @@ public class Shelf : MonoBehaviour
 
     private void OnMouseExit()
     {
-        fpp_Obj.OffOutline();
+        fpp_Outline.OffOutline();
 
         bCursorChanged = false;
         FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
@@ -112,9 +113,9 @@ public class Shelf : MonoBehaviour
 
             bool check = false;
             string str = CheckLists.FPP_CHECKLIST_STRS[2];
-            for(int i = 0; i < GameManager.Instance.Book.checkList_List.Count; i++)
+            for(int i = 0; i < book_Main.checkList_List.Count; i++)
             {
-                if(GameManager.Instance.Book.checkList_List[i].GetComponentInChildren<Text>().text == str) check = true;
+                if(book_Main.checkList_List[i].GetComponentInChildren<Text>().text == str) check = true;
             }
 
             if(!check)
