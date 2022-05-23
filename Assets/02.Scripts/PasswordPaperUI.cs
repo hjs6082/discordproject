@@ -14,6 +14,18 @@ public class PasswordPaperUI : MonoBehaviour, IPointerClickHandler
         blurPanel.SetActive(true);
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+            this.gameObject.SetActive(false);
+            blurPanel.SetActive(false);
+            player.GetComponent<Suntail.PlayerController>().enabled = true;
+        }
+    }
+
 
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -22,6 +34,7 @@ public class PasswordPaperUI : MonoBehaviour, IPointerClickHandler
         this.gameObject.SetActive(false);
         blurPanel.SetActive(false);
         player.GetComponent<Suntail.PlayerController>().enabled = true;
+
     }
 
 
