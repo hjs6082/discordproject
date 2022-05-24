@@ -513,7 +513,7 @@ namespace Suntail
         {
             uiPanel.gameObject.SetActive(true);
 
-            panelText.text = "보기";
+            panelText.text = "힌트 보기";
         }
 
         private void LockerButtonUI()
