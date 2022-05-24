@@ -13,6 +13,8 @@ public class Locker : MonoBehaviour
 
     public bool isPuzzleOn;
 
+    public GameObject plr;
+
     private bool isOn;
 
     private string password = "2134";
@@ -55,6 +57,7 @@ public class Locker : MonoBehaviour
                         CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;
+                        plr.GetComponent<Suntail.PlayerController>().enabled = true;
                         Suntail.PlayerInteractions.instance.point.SetActive(true);
                         isPuzzleOn = false;
                         isOn = true;
@@ -69,9 +72,10 @@ public class Locker : MonoBehaviour
                     if (!isPuzzleOn && !isClear)
                     {
                         CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.lockerPuzzleCam);
-                        Cursor.lockState = CursorLockMode.None;
                         Cursor.visible = true;
+                        Cursor.lockState = CursorLockMode.None;
                         Suntail.PlayerInteractions.instance.point.SetActive(false);
+                        plr.GetComponent<Suntail.PlayerController>().enabled = false;
                         isPuzzleOn = true;
                     }
                     else if(password != myPassword)
@@ -92,6 +96,7 @@ public class Locker : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Suntail.PlayerInteractions.instance.point.SetActive(true);
+                plr.GetComponent<Suntail.PlayerController>().enabled = true;
                 isPuzzleOn = false;
             }
         }

@@ -11,6 +11,7 @@ public class EnglishPuzzle : MonoBehaviour
     public bool isPuzzleOn;
     public bool isPuzzleClear;
     private bool isOn;
+    public GameObject plr;
 
     private void OnMouseEnter()
     {
@@ -40,6 +41,7 @@ public class EnglishPuzzle : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Suntail.PlayerInteractions.instance.point.SetActive(true);
+                plr.GetComponent<Suntail.PlayerController>().enabled = true;
                 isPuzzleOn = false;
                 greenApple.SetActive(true);
                 isOn = false;
@@ -59,6 +61,7 @@ public class EnglishPuzzle : MonoBehaviour
                             Cursor.lockState = CursorLockMode.None;
                             Cursor.visible = true;
                             Suntail.PlayerInteractions.instance.point.SetActive(false);
+                            plr.GetComponent<Suntail.PlayerController>().enabled = false;
                         }
                         isPuzzleOn = true;
                     }
@@ -91,6 +94,7 @@ public class EnglishPuzzle : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Suntail.PlayerInteractions.instance.point.SetActive(true);
+                plr.GetComponent<Suntail.PlayerController>().enabled = true;
                 isPuzzleOn = false;
             }
         }
