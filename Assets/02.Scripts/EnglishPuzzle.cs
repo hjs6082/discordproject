@@ -8,6 +8,9 @@ public class EnglishPuzzle : MonoBehaviour
     public bool isCheck;
     public bool isWrong;
     public GameObject greenApple;
+    public bool isPuzzleOn;
+    public bool isPuzzleClear;
+    private bool isOn;
 
     private void OnMouseEnter()
     {
@@ -24,23 +27,71 @@ public class EnglishPuzzle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(EnglishPassword.instance.isClear)
+        {
+            if (!isOn)
+            {
+                isPuzzleClear = true;
+                if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam))
+                {
+                    CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                }
+
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Suntail.PlayerInteractions.instance.point.SetActive(true);
+                isPuzzleOn = false;
+                greenApple.SetActive(true);
+                isOn = false;
+            }
+        }
         if(isEnter)
         {
             if(isCheck)
             {
                 if(Input.GetMouseButtonDown(0))
                 {
-                    if(EnglishPassword.instance.isClear)
+                    if (!isPuzzleOn)
+                    {
+                        if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.firstPersonCam))
+                        {
+                            CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam);
+                            Cursor.lockState = CursorLockMode.None;
+                            Cursor.visible = true;
+                            Suntail.PlayerInteractions.instance.point.SetActive(false);
+                        }
+                        isPuzzleOn = true;
+                    }
+
+                    if (EnglishPassword.instance.isClear)
                     {
                         EnglishPassword.instance.DoorOpen();
-                        greenApple.SetActive(true);
+
                     }
                     else
                     {
-                        isWrong = true;
-                        StartCoroutine(WrongStart());
+                        if (isPuzzleOn)
+                        {
+                            isWrong = true;
+                            StartCoroutine(WrongStart());
+                        }
                     }
                 }
+            }
+        }
+        if(isPuzzleOn)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam))
+                {
+                    CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                }
+                
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Suntail.PlayerInteractions.instance.point.SetActive(true);
+                isPuzzleOn = false;
             }
         }
     }

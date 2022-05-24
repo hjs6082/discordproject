@@ -1,12 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using Cinemachine;
 
 //Interacting with objects and doors
 namespace Suntail
 {
     public class PlayerInteractions : MonoBehaviour
     {
+        public static PlayerInteractions instance;
+        public CinemachineVirtualCamera firstPersonCam; 
+        public CinemachineVirtualCamera passwordPuzzleCam;
+        public CinemachineVirtualCamera lockerPuzzleCam;
+
+        private void OnEnable()
+        {
+            instance = this;
+            CameraSwitcher.Register(firstPersonCam);
+            CameraSwitcher.Register(passwordPuzzleCam);
+            CameraSwitcher.Register(lockerPuzzleCam);
+            CameraSwitcher.SwitchCamera(firstPersonCam);
+        }
+
+        private void OnDisable()
+        {
+            CameraSwitcher.Unregister(firstPersonCam);
+            CameraSwitcher.Unregister(passwordPuzzleCam);
+            CameraSwitcher.Unregister(lockerPuzzleCam);
+        }
+
         [Header("Interaction variables")]
         [Tooltip("Layer mask for interactive objects")]
         [SerializeField] private LayerMask interactionLayer;
@@ -82,6 +104,8 @@ namespace Suntail
         [SerializeField] private GameObject blueKey;
         [SerializeField] private GameObject player;
         [SerializeField] private GameObject passwordPaper;
+
+        public GameObject point;
 
         //Private variables.
         private PhysicsObject _physicsObject;
@@ -257,19 +281,23 @@ namespace Suntail
                     _englishButtonObj = interactionHit.collider.gameObject.GetComponent<EnglishButton>();
                     _englishButtonObj.isCheck = true;
                     uiPanel.gameObject.SetActive(true);
-                    panelText.text = "누르기";
+ /*                   if (_englishDoorObj.isPuzzleOn)
+                    {
+                        panelText.text = "누르기";
+                    }*/
                 }
                 else if(interactionHit.collider.gameObject.CompareTag(englishDoorTag))
                 {
                     _englishDoorObj = interactionHit.collider.gameObject.GetComponent<EnglishPuzzle>();
                     _englishDoorObj.isCheck = true;
                     uiPanel.gameObject.SetActive(true);
+                    panelText.text = "퍼즐 조사하기";
 
-                    if(_englishDoorObj.isWrong)
+                    if (_englishDoorObj.isPuzzleOn)
                     {
-                        panelText.text = "틀렸습니다.";
+                        panelText.text = "";
                     }
-                    else if(!_englishDoorObj.isWrong)
+                    if(_englishDoorObj.isPuzzleClear)
                     {
                         panelText.text = "열기";
                     }
@@ -471,11 +499,11 @@ namespace Suntail
             uiPanel.gameObject.SetActive(true);
             if(!_keyDoorObj.isKey)
             {
-                panelText.text = _keyDoorObj.keyText + " 0/1";
+                panelText.text = _keyDoorObj.keyText + "\n0/1";
             }
             if(_keyDoorObj.isKey)
             {
-                panelText.text = _keyDoorObj.keyText + " 1/1";
+                panelText.text = _keyDoorObj.keyText + "\n1/1";
             }
         }
 
@@ -520,7 +548,7 @@ namespace Suntail
         {
             uiPanel.gameObject.SetActive(true);
 
-            panelText.text = "누르기";
+           /* panelText.text = "누르기";*/
         }
 
         private void FirePuzzleUI()
@@ -574,13 +602,10 @@ namespace Suntail
         {
             uiPanel.gameObject.SetActive(true);
 
-            if(!_lockerObj.isClear)
+            panelText.text = "퍼즐 조사하기";
+            if(_lockerObj.isPuzzleOn)
             {
-                panelText.text = "열기";
-            }
-            if(_lockerObj.isAnswerCheck)
-            {
-                panelText.text = "틀렸습니다.";
+                panelText.text = "";
             }
             if(_lockerObj.isClear)
             {

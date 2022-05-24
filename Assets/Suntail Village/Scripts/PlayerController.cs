@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 /*Simple player movement controller, based on character controller component, 
 with footstep system based on check the current texture of the component*/
@@ -31,7 +32,7 @@ namespace Suntail
         [SerializeField] private float gravity = -9.81f;
 
         [Header("Mouse Look")] 
-        [SerializeField] private Camera playerCamera;
+        [SerializeField] private  CinemachineVirtualCamera playerCamera;
         [SerializeField] private float mouseSensivity;
         [SerializeField] private float mouseVerticalClamp;
 

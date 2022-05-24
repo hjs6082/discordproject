@@ -18,6 +18,7 @@ public class LockerPassword : MonoBehaviour
     private bool isEnter;
     private int number = 0;
     public bool isCheck;
+    public GameObject lockerObj;
 
     private void Start()
     {
@@ -39,30 +40,33 @@ public class LockerPassword : MonoBehaviour
     {
         if(isEnter)
         {
-            if(isCheck)
+            if(lockerObj.GetComponent<Locker>().isPuzzleOn)
             {
                 if(Input.GetMouseButtonDown(0))
                 {
-                    number++;
-                    if(number >= 10)
+                    if(!lockerObj.GetComponent<Locker>().isClear)
                     {
-                        number = 0;
-                    }
-                    lockerText.text = number.ToString();
-                    switch (ButtonType)
-                    {
-                        case type.RedButton:
-                            Locker.instance.redPassword = number.ToString();
-                            break;
-                        case type.BlueButton:
-                            Locker.instance.bluePassword = number.ToString();
-                            break;
-                        case type.GreenButton:
-                            Locker.instance.greenPassword = number.ToString();
-                            break;
-                        case type.YellowButton:
-                            Locker.instance.yellowPassword = number.ToString();
-                            break;
+                        number++;
+                        if (number >= 10)
+                        {
+                            number = 0;
+                        }
+                        lockerText.text = number.ToString();
+                        switch (ButtonType)
+                        {
+                            case type.RedButton:
+                                Locker.instance.redPassword = number.ToString();
+                                break;
+                            case type.BlueButton:
+                                Locker.instance.bluePassword = number.ToString();
+                                break;
+                            case type.GreenButton:
+                                Locker.instance.greenPassword = number.ToString();
+                                break;
+                            case type.YellowButton:
+                                Locker.instance.yellowPassword = number.ToString();
+                                break;
+                        }
                     }
                 }
             }

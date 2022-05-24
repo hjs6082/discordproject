@@ -11,6 +11,10 @@ public class Locker : MonoBehaviour
     public bool isClear;
     public bool isAnswerCheck;
 
+    public bool isPuzzleOn;
+
+    private bool isOn;
+
     private string password = "2134";
     public static string myPassword;
     public string redPassword;
@@ -35,12 +39,26 @@ public class Locker : MonoBehaviour
     {
         myPassword = redPassword + bluePassword     + yellowPassword + greenPassword;
 
+        if (password == myPassword)
+        {
+            isClear = true;
+
+        }
         if (isEnter)
         {
             if(isCheck)
             {
                 if (isClear)
                 {
+                    if (!isOn)
+                    {
+                        CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                        Suntail.PlayerInteractions.instance.point.SetActive(true);
+                        isPuzzleOn = false;
+                        isOn = true;
+                    }
                     if (Input.GetMouseButtonDown(0))
                     {
                         DoorTween.instance.DoorMove();
@@ -48,10 +66,13 @@ public class Locker : MonoBehaviour
                 }
                 else if (Input.GetMouseButtonDown(0))
                 {
-                    if(password == myPassword)
+                    if (!isPuzzleOn && !isClear)
                     {
-                        isClear = true;
-
+                        CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.lockerPuzzleCam);
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                        Suntail.PlayerInteractions.instance.point.SetActive(false);
+                        isPuzzleOn = true;
                     }
                     else if(password != myPassword)
                     {
@@ -61,6 +82,18 @@ public class Locker : MonoBehaviour
                 }
             }
 
+        }
+
+        if(isPuzzleOn)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Suntail.PlayerInteractions.instance.point.SetActive(true);
+                isPuzzleOn = false;
+            }
         }
     }
 

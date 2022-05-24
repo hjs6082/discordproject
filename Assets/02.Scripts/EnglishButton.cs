@@ -8,6 +8,7 @@ public class EnglishButton : MonoBehaviour
     public bool isEnter;
     public bool isCheck;
     public TextMeshProUGUI myPassword;
+    public GameObject puzzleObj;
 
     private void OnMouseEnter()
     {
@@ -30,7 +31,7 @@ public class EnglishButton : MonoBehaviour
     {
         if(isEnter)
         {
-            if(isCheck)
+            if(puzzleObj.GetComponent<EnglishPuzzle>().isPuzzleOn)
             {
                 if(Input.GetMouseButtonDown(0))
                 {
