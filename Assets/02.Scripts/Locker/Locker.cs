@@ -53,7 +53,7 @@ public class Locker : MonoBehaviour
                 if (isClear)
                 {
                     if (!isOn)
-                    {
+                    { 
                         CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;
@@ -71,8 +71,8 @@ public class Locker : MonoBehaviour
                 {
                     if (!isPuzzleOn && !isClear)
                     {
-                        CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.lockerPuzzleCam);
                         Cursor.visible = true;
+                        CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.lockerPuzzleCam);
                         Cursor.lockState = CursorLockMode.None;
                         Suntail.PlayerInteractions.instance.point.SetActive(false);
                         plr.GetComponent<Suntail.PlayerController>().enabled = false;

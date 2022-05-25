@@ -30,21 +30,24 @@ public class EnglishPuzzle : MonoBehaviour
     {
         if(EnglishPassword.instance.isClear)
         {
-            if (!isOn)
+            if (!isPuzzleClear)
             {
-                isPuzzleClear = true;
-                if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam))
+                if (!isOn)
                 {
-                    CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
-                }
+                    if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam))
+                    {
+                        CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                    }
 
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                Suntail.PlayerInteractions.instance.point.SetActive(true);
-                plr.GetComponent<Suntail.PlayerController>().enabled = true;
-                isPuzzleOn = false;
-                greenApple.SetActive(true);
-                isOn = false;
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                    Suntail.PlayerInteractions.instance.point.SetActive(true);
+                    plr.GetComponent<Suntail.PlayerController>().enabled = true;
+                    isPuzzleOn = false;
+                    greenApple.SetActive(true);
+                    isOn = false;
+                    isPuzzleClear = true;
+                }
             }
         }
         if(isEnter)
