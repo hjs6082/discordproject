@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class Dialogue_Cursor_R : MonoBehaviour
 {
-    private static readonly Vector3 cursor_EndVal = new Vector3(490.0f, -100.0f, 0.0f);
+    private static readonly Vector3 cursor_EndVal = new Vector3(230.0f, -48.3f, 0.0f);
 
     public Sprite cursor_Image = null;
     private Image cursor = null;
