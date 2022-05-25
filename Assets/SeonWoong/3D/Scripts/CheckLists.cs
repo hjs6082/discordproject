@@ -9,7 +9,7 @@ public class CheckLists : MonoBehaviour
     
     public static void AddCheckList(string _str)
     {
-        GameManager.instance.book.SetActive(true);
+        GameManager.Instance.book.SetActive(true);
 
         GameObject check = Instantiate(GameManager.Instance.check_Prefab, GameManager.Instance.book.GetComponent<Book_Main>().checkList_Parent);
         check.GetComponent<TextMeshProUGUI>().text = _str;
@@ -17,6 +17,6 @@ public class CheckLists : MonoBehaviour
 
         GameManager.Instance.book.GetComponent<Book_Main>().checkList_List.Add(check);
 
-        GameManager.instance.book.SetActive(false);
+        GameManager.Instance.book.SetActive(false);
     }
 }
