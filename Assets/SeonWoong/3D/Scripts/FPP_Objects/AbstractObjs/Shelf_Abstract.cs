@@ -20,6 +20,7 @@ namespace Wife_Scene
 
         public  bool isLocked = false;
         private bool isOpen   = false;
+        private bool isAdded  = false;
   
         protected override void Awake()
         {
@@ -74,6 +75,12 @@ namespace Wife_Scene
                         FPP_Manager.Instance.GetMove().bObject = false;
                         FPP_Manager.Instance.OnOffText(false);
 
+                        if(!isAdded)
+                        {
+                            CheckLists.AddCheckList(FPP_Manager.FPP_CHECKLIST_STRS[2]);
+                            isAdded = true;
+                        }
+
                         talkCount = 0;
                     }));
                 });
@@ -85,7 +92,7 @@ namespace Wife_Scene
             bool _canTouch = false;
             float _distance = Vector3.Distance(transform.position, FPP_Manager.Instance.GetMove().player.position);
 
-            _canTouch = _distance <= 1.0f && !FPP_Manager.Instance.GetMove().bObject;
+            _canTouch = _distance <= 1.5f && !FPP_Manager.Instance.GetMove().bObject;
 
             return _canTouch;
         }
@@ -122,6 +129,7 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OnOutline();
+                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[3]);
             }
         }
 
@@ -130,6 +138,7 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OffOutline();
+                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false);
             }
         }
 
@@ -146,10 +155,9 @@ namespace Wife_Scene
         private void MoveShelf(float _offset)
         {
             isOpen = !isOpen;
-            FPP_Manager.Instance.GetMove().bObject = true;
+            //FPP_Manager.Instance.GetMove().bObject = true;
             transform.DOLocalMoveZ(_offset, 0.5f)
-            .SetEase(Ease.OutQuad)
-            .OnComplete(() => { FPP_Manager.Instance.GetMove().bObject = false; });
+            .SetEase(Ease.OutQuad);
         }
     }
 }

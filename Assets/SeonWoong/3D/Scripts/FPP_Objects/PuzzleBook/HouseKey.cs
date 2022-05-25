@@ -115,14 +115,6 @@ public class HouseKey : MonoBehaviour
 
         Book_Main bm = GameManager.Instance.book.GetComponent<Book_Main>();
 
-        for(int i = 0; i < bm.checkList_List.Count; i++)
-        {
-            if(bm.checkList_List[i].GetComponentInChildren<Text>().text == CheckLists.FPP_CHECKLIST_STRS[2])
-            {
-                bm.checkList_List[i].GetComponent<Toggle>().isOn = true;
-            }
-        }
-
         FPP_Manager.Instance.GetMove().bObject = false;
         FPP_Manager.Instance.OnOffText(false);
     }

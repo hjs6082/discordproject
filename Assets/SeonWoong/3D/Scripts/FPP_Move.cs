@@ -16,8 +16,6 @@ public class FPP_Move : MonoBehaviour
     public  Transform player     { get; private set; }
     public BoxCollider playerCol = null;
     private Camera mainCam = null;
-
-    private float cameraPosZ = 0.0f;
     private float moveX   = 0.0f;
     private float moveZ   = 0.0f;
     private float curRotateX = 0.0f;
@@ -27,9 +25,10 @@ public class FPP_Move : MonoBehaviour
 
     public bool bObject  = false;
     public bool bSit = false;
-    private bool isRotate = false;
 
     public float moveDisOffset = 0.0f;
+
+    public Transform[] walls;
 
     private void Awake()
     {
@@ -43,10 +42,9 @@ public class FPP_Move : MonoBehaviour
         //     FollowRotate();
         // }
 
-        if(!bObject)
+        if(!bObject && !GameManager.Instance.bPause)
         {
             FPP_Control.inputAct?.Invoke();
-
             rotateAct?.Invoke();
         }
     }
@@ -84,7 +82,7 @@ public class FPP_Move : MonoBehaviour
 
             curRotateY = Mathf.Clamp(curRotateY, -LOOK_X_LIMIT, LOOK_X_LIMIT);
 
-            Debug.Log(curRotateX);
+            //Debug.Log(curRotateX);
 
             mainCam.transform.localRotation = Quaternion.Euler(curRotateY, 0.0f, 0.0f);
             player.localRotation = Quaternion.Euler(0.0f, curRotateX, 0.0f);
@@ -108,6 +106,18 @@ public class FPP_Move : MonoBehaviour
         {
             Vector3 moveOffset = ((player.forward * moveX) + (player.right * moveZ)) * Time.deltaTime;
             moveOffset.y = 0.0f;
+
+            if(player.position.x + moveOffset.x + 0.5f > walls[0].position.x || 
+            player.position.x + moveOffset.x - 0.5f < walls[1].position.x)
+            {
+                moveOffset.x = 0;
+            }
+
+            if(player.position.z + moveOffset.z + 0.5f > walls[2].position.z || 
+            player.position.z + moveOffset.z - 0.5f < walls[3].position.z)
+            {
+                moveOffset.z = 0;
+            }
 
             player.position += moveOffset;
 

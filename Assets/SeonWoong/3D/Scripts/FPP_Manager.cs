@@ -18,6 +18,14 @@ public class FPP_Manager : MonoBehaviour
     private static FPP_Manager instance = null;
     #endregion
 
+    public static readonly string[] FPP_CHECKLIST_STRS = 
+    {
+        "책들 중 앨범 찾기",
+        "서랍에서 사진 찾기",
+        "서랍 열쇠 찾기",
+        "컴퓨터로 다시 돌아가기"
+    };
+
     private static readonly Vector3 DEFAULT_PLAYER_POS = new Vector3(10.0f, 3.1f, 3.5f);
     private static readonly Vector3 DEFAULT_PLAYER_ROTATE = new Vector3(0.0f, 180.0f, 0.0f);
 
@@ -49,7 +57,6 @@ public class FPP_Manager : MonoBehaviour
         InitValue();
 
         OnOffText(false);
-
     }
 
     private void Start()
@@ -79,6 +86,10 @@ public class FPP_Manager : MonoBehaviour
         manage_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.FPP_MANAGER_STRS);
 
         houseKey.SetActive(false);
+
+        GameManager.Instance.book.SetActive(true);
+        CheckLists.AddCheckList(FPP_CHECKLIST_STRS[0]);
+        GameManager.Instance.book.SetActive(false);
     }
 
     private void InitPlayer()
@@ -189,7 +200,6 @@ public class FPP_Manager : MonoBehaviour
                 }
                 else
                 {
-                    CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[0]);
                     fpp_Move.bObject = false;
                     OnOffText(false);
                 }

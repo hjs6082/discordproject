@@ -149,12 +149,11 @@ namespace Wife_Scene
 
             Time.timeScale = 1.0f;
 
-            CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[1]);
-
             FPP_Manager.Instance.GetMove().bObject = false;
             FPP_Manager.Instance.OnOffText(false);
             
-            GameManager.Instance.book.SetActive(true);
+            GameManager.Instance.book
+            .SetActive(true);
             this.gameObject.SetActive(false);
         }
     }

@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     public bool bPause   = false;
     public bool isPuzzle = false;
+    public bool isHint = false;
 
     public  AudioClip    explosion_AD;
     public  AudioClip[]  BGM_Arr;
@@ -164,6 +165,7 @@ public class GameManager : MonoBehaviour
                             if(page.Value == curPage)
                             {
                                 BookCtrl(page.Value);
+                                Cursor.lockState = CursorLockMode.Locked;
                             }
                             else
                             {
@@ -225,37 +227,39 @@ public class GameManager : MonoBehaviour
 
     public void Pause()
     {
-        bPause = !bPause;
-
-        if (PlayerObject != null) {  curPlayerRotate = PlayerObject.transform.rotation.eulerAngles; }
-
-        if (bPause)
+        if (!isHint)
         {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
+            bPause = !bPause;
 
-            audioManager?.BGM_Source.Pause();
-            audioManager?.EFFECT_Source.Pause();
+            if (PlayerObject != null) { curPlayerRotate = PlayerObject.transform.rotation.eulerAngles; }
 
-            if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.Pause(); }
+            if (bPause)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
 
-            if (PlayerObject != null) { PlayerObject.transform.rotation = Quaternion.Euler(curPlayerRotate); }
+                audioManager?.BGM_Source.Pause();
+                audioManager?.EFFECT_Source.Pause();
+
+                if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.Pause(); }
+
+                if (PlayerObject != null) { PlayerObject.transform.rotation = Quaternion.Euler(curPlayerRotate); }
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = true;
+
+                audioManager?.BGM_Source.UnPause();
+                audioManager?.EFFECT_Source.UnPause();
+
+                if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.UnPause(); }
+            }
+
+            PauseCanvas.SetActive(bPause);
+            InitPanel();
+            PausePanel.SetActive(bPause);
         }
-        else
-        {
-            if(SceneManager.GetActiveScene().name != "WifeScene_Seon")
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            audioManager?.BGM_Source.UnPause();
-            audioManager?.EFFECT_Source.UnPause();
-
-            if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.UnPause(); }
-        }
-
-        PauseCanvas.SetActive(bPause);
-        InitPanel();
-        PausePanel.SetActive(bPause);
     }
 
     private void ChangeTimeScale()
@@ -376,6 +380,11 @@ public class GameManager : MonoBehaviour
                 FadePanel.SetActive(false);
             });
         });
+    }
+
+    public Book_Main GetBook_Main()
+    {
+        return book.GetComponent<Book_Main>();
     }
 
     public void AddPhoto(Sprite _photo)

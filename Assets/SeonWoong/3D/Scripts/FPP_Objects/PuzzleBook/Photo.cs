@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Photo : MonoBehaviour
 {
@@ -42,13 +43,12 @@ public class Photo : MonoBehaviour
 
         FPP_Manager.Instance.OnOffText(true);
 
-        for(int i = 0; i < bm.checkList_List.Count; i++)
+        for (int i = 0; i < GameManager.Instance.GetBook_Main().checkList_List.Count; i++)
         {
-            string text = bm.checkList_List[i].GetComponentInChildren<Text>().text;
-
-            if(text == "서랍에서 사진 찾기" || text == "서랍 열쇠 찾기")
+            GameObject checkList = GameManager.Instance.GetBook_Main().checkList_List[i];
+            if (checkList.GetComponent<TextMeshProUGUI>().text == FPP_Manager.FPP_CHECKLIST_STRS[1])
             {
-                bm.checkList_List[i].GetComponent<Toggle>().isOn = true;
+                checkList.GetComponentInChildren<Toggle>().isOn = true;
             }
         }
 
@@ -121,9 +121,7 @@ public class Photo : MonoBehaviour
         }
 
         GameManager.Instance.BookCtrl(ePage.ALBUM);
-
-        CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[3]);
-
+        
         FPP_Manager.Instance.GetMove().bObject = false;
         FPP_Manager.Instance.OnOffText(false);
         this.gameObject.SetActive(false);

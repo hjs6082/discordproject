@@ -213,7 +213,7 @@ namespace Dialogue_R
         {
             while (true)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetMouseButtonDown(0))
                 {
                     Time.timeScale = 5.0f;
                     
@@ -237,7 +237,7 @@ namespace Dialogue_R
             );
 
             Vector3 curScale = Dialogue_Manager_R.Instance.Get_PC_View().localScale;
-            Vector3 scaleOffset = new Vector3(0.1f, 0.1f, 0.0f);
+            Vector3 scaleOffset = new Vector3(0.3f, 0.3f, 0.0f);
 
             seq.Join(
                 Dialogue_Manager_R.Instance.Get_PC_View().DOScale(curScale + scaleOffset, 0.2f)

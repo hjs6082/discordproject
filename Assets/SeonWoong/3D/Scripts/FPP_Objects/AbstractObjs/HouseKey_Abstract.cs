@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Wife_Scene
 {
@@ -76,6 +77,9 @@ namespace Wife_Scene
                         FPP_Manager.Instance.GetMove().bObject = false;
                         FPP_Manager.Instance.OnOffText(false);
 
+                        CheckLists.AddCheckList(FPP_Manager.FPP_CHECKLIST_STRS[3]);
+                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false);
+
                         Destroy(this.gameObject);
                     }));
                 });
@@ -104,6 +108,15 @@ namespace Wife_Scene
                 itemCollider.enabled = false;   
 
                 Talk();
+
+                for(int i = 0; i < GameManager.Instance.GetBook_Main().checkList_List.Count; i++)
+                {
+                    GameObject checkList = GameManager.Instance.GetBook_Main().checkList_List[i];
+                    if(checkList.GetComponent<TextMeshProUGUI>().text == FPP_Manager.FPP_CHECKLIST_STRS[2])
+                    {
+                        checkList.GetComponentInChildren<Toggle>().isOn = true;
+                    }
+                }
             }
         }
 
@@ -112,6 +125,7 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OnOutline();
+                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[2]);
             }
         }
 
@@ -120,6 +134,7 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OffOutline();
+                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false);
             }
         }
 

@@ -110,16 +110,6 @@ public class Shelf : MonoBehaviour
 
             Time.timeScale = 1.0f;
             FPP_Manager.Instance.OnOffText(false);
-
-            bool check = false;
-            string str = CheckLists.FPP_CHECKLIST_STRS[2];
-            for(int i = 0; i < book_Main.checkList_List.Count; i++)
-            {
-                if(book_Main.checkList_List[i].GetComponentInChildren<Text>().text == str) check = true;
-            }
-
-            if(!check)
-            CheckLists.AddCheckList(CheckLists.FPP_CHECKLIST_STRS[2]);
         }
 
         private IEnumerator FastTalk()
