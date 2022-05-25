@@ -9,6 +9,7 @@ public class PasswordPaperUI : MonoBehaviour, IPointerClickHandler
     public GameObject player;
     public GameObject blurPanel;
 
+
     private void OnEnable()
     {
         blurPanel.SetActive(true);
@@ -20,6 +21,10 @@ public class PasswordPaperUI : MonoBehaviour, IPointerClickHandler
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+            if (GameManager.Instance.isHint == true)
+            {
+                GameManager.Instance.isHint = false;
+            }
             this.gameObject.SetActive(false);
             blurPanel.SetActive(false);
             player.GetComponent<Suntail.PlayerController>().enabled = true;
@@ -29,6 +34,10 @@ public class PasswordPaperUI : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
+        if (GameManager.Instance.isHint == true)
+        {
+            GameManager.Instance.isHint = false;
+        }
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         this.gameObject.SetActive(false);

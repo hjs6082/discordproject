@@ -55,11 +55,15 @@ public class Locker : MonoBehaviour
                     if (!isOn)
                     { 
                         CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                        if (GameManager.Instance.isHint == true)
+                        {
+                            GameManager.Instance.isHint = false;
+                        }
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;
                         plr.GetComponent<Suntail.PlayerController>().enabled = true;
                         Suntail.PlayerInteractions.instance.point.SetActive(true);
-                        isPuzzleOn = false;
+                        isPuzzleOn = false; 
                         isOn = true;
                     }
                     if (Input.GetMouseButtonDown(0))
@@ -72,7 +76,12 @@ public class Locker : MonoBehaviour
                     if (!isPuzzleOn && !isClear)
                     {
                         Cursor.visible = true;
+                        GameManager.Instance.bPause = true;
                         CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.lockerPuzzleCam);
+                        if (GameManager.Instance.isHint == false)
+                        {
+                            GameManager.Instance.isHint = true;
+                        }
                         Cursor.lockState = CursorLockMode.None;
                         Suntail.PlayerInteractions.instance.point.SetActive(false);
                         plr.GetComponent<Suntail.PlayerController>().enabled = false;
@@ -97,6 +106,7 @@ public class Locker : MonoBehaviour
                 Cursor.visible = false;
                 Suntail.PlayerInteractions.instance.point.SetActive(true);
                 plr.GetComponent<Suntail.PlayerController>().enabled = true;
+                GameManager.Instance.isHint = false;
                 isPuzzleOn = false;
             }
         }
@@ -108,5 +118,6 @@ public class Locker : MonoBehaviour
         yield return new WaitForSeconds(1f);
         isAnswerCheck = false;
     }
+
 
 }

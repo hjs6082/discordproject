@@ -41,6 +41,10 @@ public class EnglishPuzzle : MonoBehaviour
 
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
+                    if (GameManager.Instance.isHint == true)
+                    {
+                        GameManager.Instance.isHint = false;
+                    }
                     Suntail.PlayerInteractions.instance.point.SetActive(true);
                     plr.GetComponent<Suntail.PlayerController>().enabled = true;
                     isPuzzleOn = false;
@@ -58,14 +62,16 @@ public class EnglishPuzzle : MonoBehaviour
                 {
                     if (!isPuzzleOn)
                     {
+                            GameManager.Instance.isHint = true;
                         if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.firstPersonCam))
                         {
                             CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam);
+                        }
                             Cursor.lockState = CursorLockMode.None;
                             Cursor.visible = true;
                             Suntail.PlayerInteractions.instance.point.SetActive(false);
                             plr.GetComponent<Suntail.PlayerController>().enabled = false;
-                        }
+                        
                         isPuzzleOn = true;
                     }
 
@@ -88,17 +94,17 @@ public class EnglishPuzzle : MonoBehaviour
         if(isPuzzleOn)
         {
             if(Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam))
-                {
-                    CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
-                }
-                
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
+            { 
+                    if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.passwordPuzzleCam))
+                    {
+                        CameraSwitcher.SwitchCamera(Suntail.PlayerInteractions.instance.firstPersonCam);
+                    }
+                    Cursor.lockState = CursorLockMode.Locked;
+                    Cursor.visible = false;
+                GameManager.Instance.isHint = false;
                 Suntail.PlayerInteractions.instance.point.SetActive(true);
-                plr.GetComponent<Suntail.PlayerController>().enabled = true;
-                isPuzzleOn = false;
+                    plr.GetComponent<Suntail.PlayerController>().enabled = true;
+                    isPuzzleOn = false;
             }
         }
     }

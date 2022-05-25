@@ -33,6 +33,10 @@ public class PasswordPaper : MonoBehaviour
                 if(Input.GetMouseButtonDown(0))
                 {
                     paperPanel.SetActive(true);
+                    if (GameManager.Instance.isHint == false)
+                    {
+                        GameManager.Instance.isHint = true;
+                    }
                     Cursor.lockState = CursorLockMode.None;
                     Cursor.visible = true;
                     isPaper = true;
