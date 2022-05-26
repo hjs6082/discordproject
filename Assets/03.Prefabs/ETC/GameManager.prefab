@@ -2331,9 +2331,9 @@ MonoBehaviour:
   isHint: 0
   explosion_AD: {fileID: 0}
   BGM_Arr:
-  - {fileID: 8300000, guid: 4e9b402752f82c3478eaf5262eff04d2, type: 3}
   - {fileID: 0}
-  - {fileID: 8300000, guid: b89016778962ae5479a3673ef50a37a4, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   effectAudio: {fileID: 0}
   bChessClear: 0
   bMovePuzzleClear: 0
