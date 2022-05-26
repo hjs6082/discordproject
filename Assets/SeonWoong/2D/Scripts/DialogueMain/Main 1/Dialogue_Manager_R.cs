@@ -41,6 +41,7 @@ namespace Dialogue_R
 
         [SerializeField] private RectTransform wife_View = null;
         [SerializeField] private RectTransform pc_View   = null;
+        public RectTransform pc_RectTrm = null;
 
         public Image download_Guage = null;
 

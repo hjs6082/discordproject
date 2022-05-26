@@ -146,7 +146,7 @@ namespace Dialogue_R
                                 GameManager.Instance.Fade_OutIn(0.5f, () =>
                                 {
 
-                                    Dialogue_Manager_R.Instance.Get_PC_View().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                                    Dialogue_Manager_R.Instance.pc_RectTrm.localScale = new Vector3(1.0f, 1.0f, 1.0f);
                                     PC_View_Talk();
                                     Dialogue_Manager_R.Instance.game_Info_Text.text = string.Empty;
                                     Dialogue_Manager_R.Instance.game_Info_Text.DOText(Dialogue_Strs.GAME_INFO_STRS[1], 3.0f, true, ScrambleMode.Numerals)
@@ -236,11 +236,11 @@ namespace Dialogue_R
                 .SetEase(Ease.OutQuad)
             );
 
-            Vector3 curScale = Dialogue_Manager_R.Instance.Get_PC_View().localScale;
+            Vector3 curScale = Dialogue_Manager_R.Instance.pc_RectTrm.localScale;
             Vector3 scaleOffset = new Vector3(0.3f, 0.3f, 0.0f);
 
             seq.Join(
-                Dialogue_Manager_R.Instance.Get_PC_View().DOScale(curScale + scaleOffset, 0.2f)
+                Dialogue_Manager_R.Instance.pc_RectTrm.DOScale(curScale + scaleOffset, 0.2f)
                 .SetEase(Ease.OutCubic)
             );
         }
