@@ -109,6 +109,8 @@ namespace Dialogue_R
 
                 InitName(pcView_Strs);
 
+                arrow_Image.DOKill();
+
                 Dialogue_Manager_R.Instance.ChangeView(() =>
                 {
                     PC_View_Talk();
@@ -183,9 +185,11 @@ namespace Dialogue_R
                                 {
                                     GameManager.Instance.Fade_Out(0.5f, () =>
                                     {
+                                        
                                         Time.timeScale = 1.0f;
                                         Cursor.visible = true;
                                         LoadScene.LoadingScene("MapJunseo");
+
                                     }, Ease.Linear, Color.white);
                                 });
                             }

@@ -10,6 +10,7 @@ public class LoadScene : MonoBehaviour
     public static void LoadingScene(string sceneName)
     {
         //DOTween.KillAll();
+        DOTween.PauseAll();
         DOTween.Clear(true);
     
         LoadingSceneManager.LoadScene(sceneName);
@@ -18,6 +19,7 @@ public class LoadScene : MonoBehaviour
     public static void LoadingScene_MainToDialogue()
     {
         //DOTween.KillAll();
+        DOTween.PauseAll();
         DOTween.Clear(true);
      
         SceneManager.LoadScene("ReNew_Dialogue");

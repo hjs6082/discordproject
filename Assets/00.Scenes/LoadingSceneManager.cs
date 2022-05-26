@@ -1,12 +1,8 @@
 using System.Collections;
-
 using UnityEngine;
-
 using UnityEngine.UI;
-
 using UnityEngine.SceneManagement;
-
-
+using DG.Tweening;
 
 public class LoadingSceneManager : MonoBehaviour
 
@@ -73,7 +69,15 @@ public class LoadingSceneManager : MonoBehaviour
             else
             {
                 progressBar.fillAmount = Mathf.Lerp(progressBar.fillAmount, 1f, timer);
-                if (progressBar.fillAmount == 1.0f) { op.allowSceneActivation = true; yield break; }
+                if (progressBar.fillAmount == 1.0f)
+                {
+                    op.allowSceneActivation = true;
+
+                    DOTween.PauseAll();
+                    DOTween.Clear(true);
+                    
+                    yield break;
+                }
             }
         }
 
