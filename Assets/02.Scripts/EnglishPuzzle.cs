@@ -60,7 +60,7 @@ public class EnglishPuzzle : MonoBehaviour
             {
                 if(Input.GetMouseButtonDown(0))
                 {
-                    if (!isPuzzleOn)
+                    if (!isPuzzleOn && !isPuzzleClear)
                     {
                             GameManager.Instance.isHint = true;
                         if (CameraSwitcher.IsActiveCamera(Suntail.PlayerInteractions.instance.firstPersonCam))
