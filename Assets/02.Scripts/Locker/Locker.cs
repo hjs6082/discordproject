@@ -59,6 +59,7 @@ public class Locker : MonoBehaviour
                         {
                             GameManager.Instance.isHint = false;
                         }
+                        GameManager.Instance.bPause = false;
                         Cursor.lockState = CursorLockMode.Locked;
                         Cursor.visible = false;
                         plr.GetComponent<Suntail.PlayerController>().enabled = true;
