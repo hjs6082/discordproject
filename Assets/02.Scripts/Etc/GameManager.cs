@@ -42,16 +42,16 @@ public class GameManager : MonoBehaviour
     public GameObject FadePanel = null;
     public bool isOnLoad;
 
-    public  eChapter curChapter = eChapter.CHAPTER_1;
-    public  GameObject book = null;
+    public  eChapter    curChapter   = eChapter.CHAPTER_1;
+    public  GameObject  book         = null;
     public  List<Image> album_Images = new List<Image>();
-    private ePage     curPage = ePage.LIST;
+    private ePage       curPage      = ePage.LIST;
     private Dictionary<KeyCode, ePage> page_Key_Dic = new Dictionary<KeyCode, ePage>()
     {
-        {KeyCode.L,      ePage.LIST  },
-        {KeyCode.P,      ePage.ALBUM },
-        {KeyCode.M,      ePage.MAP   },
-        {KeyCode.Escape, ePage.OPTION}
+        { KeyCode.L,      ePage.LIST   },
+        { KeyCode.P,      ePage.ALBUM  },
+        { KeyCode.M,      ePage.MAP    },
+        { KeyCode.Escape, ePage.OPTION }
     };
 
     public Vector3    curPlayerRotate     = new Vector3(0.0f, 0.0f, 0.0f);
@@ -65,13 +65,13 @@ public class GameManager : MonoBehaviour
 
     public bool bPause   = false;
     public bool isPuzzle = false;
-    public bool isHint = false;
+    public bool isHint   = false;
 
-    public  AudioClip    explosion_AD;
-    public  AudioClip[]  BGM_Arr;
-    public  AudioSource  effectAudio;
-    private AudioSource  bgmAudio;
-    private AudioManager audioManager;
+    // public  AudioClip    explosion_AD;
+    // public  AudioClip[]  BGM_Arr;
+    // public  AudioSource  effectAudio;
+    // private AudioSource  bgmAudio;
+    //private AudioManager audioManager;
 
     public bool bChessClear      = false;
     public bool bMovePuzzleClear = false;
@@ -97,8 +97,8 @@ public class GameManager : MonoBehaviour
         #endregion
 
         //curPlayerPos = new Vector3(-25f, 16f, 10f);
-        audioManager = GetComponentInChildren<AudioManager>();
-        audioManager?.InitVolumeSettings();
+        //audioManager = GetComponentInChildren<AudioManager>();
+        //audiomManager?.InitVolumeSettings();
         
         InitObject();        
 
@@ -165,12 +165,17 @@ public class GameManager : MonoBehaviour
                             if(page.Value == curPage)
                             {
                                 BookCtrl(page.Value);
+
                                 Cursor.lockState = CursorLockMode.Locked;
+                                Cursor.visible = false;
                             }
                             else
                             {
                                 curPage = page.Value;
                                 book.GetComponent<Book_Main>().FlipButton((int)curPage);
+
+                                Cursor.lockState = CursorLockMode.None;
+                                Cursor.visible = true;
                             }
                         }
                         else
@@ -201,13 +206,13 @@ public class GameManager : MonoBehaviour
         SaveSystem.Save(savePuzzle, fileName);
     }
 
-    public void ResetVolumeController()
-    {
-        audioManager.BGM_Volume = OptionBGM_Volume;
-        audioManager.EFFECT_Volume = OptionEFFECT_Volume;
+    // public void ResetVolumeController()
+    // {
+    //     audioManager.BGM_Volume = OptionBGM_Volume;
+    //     audioManager.EFFECT_Volume = OptionEFFECT_Volume;
 
-        audioManager.InitVolumeSettings();
-    }
+    //     audioManager.InitVolumeSettings();
+    // }
 
     private void InitPanel()
     {
@@ -238,22 +243,22 @@ public class GameManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
 
-                audioManager?.BGM_Source.Pause();
-                audioManager?.EFFECT_Source.Pause();
+                // audioManager?.BGM_Source.Pause();
+                // audioManager?.EFFECT_Source.Pause();
 
-                if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.Pause(); }
+                //if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.Pause(); }
 
                 if (PlayerObject != null) { PlayerObject.transform.rotation = Quaternion.Euler(curPlayerRotate); }
             }
             else
             {
                 Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = true;
+                Cursor.visible = false;
 
-                audioManager?.BGM_Source.UnPause();
-                audioManager?.EFFECT_Source.UnPause();
+                // audioManager?.BGM_Source.UnPause();
+                // audioManager?.EFFECT_Source.UnPause();
 
-                if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.UnPause(); }
+                //if (CharacterVoice.Instance != null) { CharacterVoice.Instance.audioSource.UnPause(); }
             }
 
             PauseCanvas.SetActive(bPause);
@@ -281,8 +286,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeBGM(eScene scene)
     {
-        if (BGM_Arr[(int)scene] != null)
-            audioManager?.ChangeBGM(BGM_Arr[(int)scene]);
+        ///if (BGM_Arr[(int)scene] != null)
+            // audioManager?.ChangeBGM(BGM_Arr[(int)scene]);
     }
 
     public void Clear()

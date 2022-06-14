@@ -50,7 +50,6 @@ namespace Wife_Scene
                 {
                     bCursorChanged = true;
 
-                    FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[3]); // 손바닥
                 }
             }
         }
@@ -60,7 +59,7 @@ namespace Wife_Scene
             fpp_Outline.OffOutline();
 
             bCursorChanged = false; 
-            FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
+            FPP_MouseCursor.InitCursor();
         }
 
         private void FindTalk()

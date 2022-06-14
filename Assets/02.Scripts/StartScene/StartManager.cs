@@ -98,11 +98,11 @@ public class StartManager : MonoBehaviour
         {
             GameManager.Instance.Fade_In();
 
-            AudioManager.Instance?.TeleportSound();
+            //AudioManager.Instance?.TeleportSound();
             GameManager.Instance.ManName = (ManInput.text != "") ? ManInput.text : "남편";
             GameManager.Instance.WomanName = (WomanInput.text != "") ? WomanInput.text : "아내";
 
-            GameManager.Instance.ResetVolumeController();
+            //GameManager.Instance.ResetVolumeController();
             GameManager.Instance.ChangeBGM(GameManager.eScene.DIALOG);
             LoadScene.LoadingScene_MainToDialogue();
         });

@@ -83,8 +83,6 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OnOutline();
-
-                
             }
         }
 

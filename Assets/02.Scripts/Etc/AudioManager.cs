@@ -64,14 +64,11 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        if(false)
-        {
-        if (BGM_Slider.value != BGM_Source.volume) { BGM_Source.volume = BGM_Slider.value; }
-        if (BGM_Toggle.isOn != BGM_Source.mute) { BGM_Source.mute = BGM_Toggle.isOn; }
+        // if (BGM_Slider.value != BGM_Source.volume) { BGM_Source.volume = BGM_Slider.value; }
+        // if (BGM_Toggle.isOn != BGM_Source.mute) { BGM_Source.mute = BGM_Toggle.isOn; }
 
-        if (EFFECT_Slider.value != EFFECT_Source.volume) { EFFECT_Source.volume = EFFECT_Slider.value; }
-        if (EFFECT_Toggle.isOn != EFFECT_Source.mute) { EFFECT_Source.mute = EFFECT_Toggle.isOn; }
-        }
+        // if (EFFECT_Slider.value != EFFECT_Source.volume) { EFFECT_Source.volume = EFFECT_Slider.value; }
+        // if (EFFECT_Toggle.isOn != EFFECT_Source.mute) { EFFECT_Source.mute = EFFECT_Toggle.isOn; }
     }
 
     private void ChangeSound(AudioClip clip)

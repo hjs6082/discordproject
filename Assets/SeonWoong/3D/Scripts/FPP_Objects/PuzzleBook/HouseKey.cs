@@ -40,7 +40,6 @@ public class HouseKey : MonoBehaviour
         {
             bCursorChanged = true;
 
-            FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[1]); // 손바닥
         }
     }
 
@@ -49,7 +48,6 @@ public class HouseKey : MonoBehaviour
         fpp_Outline.OffOutline();
 
         bCursorChanged = false;
-        FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
     }
 
     private void FindTalk()

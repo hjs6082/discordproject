@@ -77,8 +77,9 @@ namespace Wife_Scene
                         FPP_Manager.Instance.GetMove().bObject = false;
                         FPP_Manager.Instance.OnOffText(false);
 
+                        FPP_MouseCursor.ChangeCursor(eCursor.NORMAL);
+
                         CheckLists.AddCheckList(FPP_Manager.FPP_CHECKLIST_STRS[3]);
-                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false);
 
                         Destroy(this.gameObject);
                     }));
@@ -125,7 +126,8 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OnOutline();
-                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[2]);
+
+                FPP_MouseCursor.ChangeCursor(eCursor.HAND);
             }
         }
 
@@ -134,7 +136,8 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OffOutline();
-                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false);
+
+                FPP_MouseCursor.ChangeCursor(eCursor.NORMAL);
             }
         }
 

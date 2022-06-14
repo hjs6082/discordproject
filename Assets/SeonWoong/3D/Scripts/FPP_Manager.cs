@@ -5,6 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
+public enum eCursor
+{
+    NORMAL,
+    BOOK,
+    HAND,
+    SHELF
+};
+
 public class FPP_Manager : MonoBehaviour
 {
     #region 싱글톤
@@ -33,7 +41,10 @@ public class FPP_Manager : MonoBehaviour
 
     private int curChapter = 0;
 
-    public Texture2D[] cursor_Textures;
+    public Sprite[] cursor_Textures;
+
+    public Image cursor_Image = null;
+    public Image loadingGuage_Image = null;
 
     public  GameObject houseKey  = null;
     private Transform  player    = null;
@@ -66,9 +77,9 @@ public class FPP_Manager : MonoBehaviour
         curChapter = (int)GameManager.Instance.curChapter;
 
         Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = true;
+        Cursor.visible = false;
 
-        FPP_MouseCursor.ChangeCursor(cursor_Textures[0], false);
+        FPP_MouseCursor.InitCursor();
     }
 
     private void Update()
@@ -86,6 +97,9 @@ public class FPP_Manager : MonoBehaviour
         manage_Strs_List = FPP_Strs.GetStringArrToList(FPP_Strs.FPP_MANAGER_STRS);
 
         houseKey.SetActive(false);
+
+        GameManager.Instance.isHint = false;
+        GameManager.Instance.bPause = false;
 
         GameManager.Instance.book.SetActive(true);
         CheckLists.AddCheckList(FPP_CHECKLIST_STRS[0]);

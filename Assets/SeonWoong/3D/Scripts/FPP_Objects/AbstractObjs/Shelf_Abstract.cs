@@ -129,7 +129,8 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OnOutline();
-                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[3]);
+
+                FPP_MouseCursor.ChangeCursor(eCursor.SHELF);
             }
         }
 
@@ -138,7 +139,8 @@ namespace Wife_Scene
             if (CanTouch())
             {
                 fpp_Outline.OffOutline();
-                FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false);
+
+                FPP_MouseCursor.ChangeCursor(eCursor.NORMAL);
             }
         }
 

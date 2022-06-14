@@ -39,15 +39,7 @@ public class Book_Main : MonoBehaviour
         InitBook();
     }
 
-    private void Start()
-    {
-
-    }
-
-    private void OnEnable()
-    {
-        //GameManager.Instance.Book = GetComponent<Book_Main>();
-    }
+    private void Start() {}
 
     private void InitButton()
     {
@@ -71,35 +63,8 @@ public class Book_Main : MonoBehaviour
     {
         ChangePage((ePage)(_idx));
         InitBtnSize(_idx);
-        //Debug.Log((ePage)((_idx + 1) * 2));
-        //InitBtnSize(_idx);
 
         NextPage();
-                
-        // int pageCount = (int)oldPage - (int)curPage;
-        // //Debug.Log(pageCount);
-
-        // if(pageCount != 0 && !isFlipping)
-        // {
-        //     isFlipping = true;
-
-        //     if (pageCount > 0)
-        //     {
-        //         // 왼쪽으로 flipk
-        //     }
-        //     else
-        //     {
-        //         // 오른쪽으로 flip
-        //     }
-
-        //     Debug.Log(book_Flip.controledBook.currentPage);
-
-        //     NextPage();
-        // }
-        // else
-        // {
-        //     Debug.Log("응애");
-        // }
     }
 
     private void InitBtnSize(int _idx)
@@ -123,11 +88,10 @@ public class Book_Main : MonoBehaviour
         int page = (int)curPage;
         bool active = false;
 
-// 고쳐야함
         for(int i = 0; i < book_Page_Arr.Length; i++)
         {
             active = (i == page) ? true : false;
-            //Debug.Log(active);
+
             book_Page_Arr[i].SetActive(active);
         }
     }
@@ -146,7 +110,7 @@ public class Book_Main : MonoBehaviour
         bookTrm.DOAnchorPosY(endValue, 0.5f)
         .OnComplete(() => 
         {
-            Debug.Log("Rmx");
+            Debug.Log("끝");
         })
         );
 

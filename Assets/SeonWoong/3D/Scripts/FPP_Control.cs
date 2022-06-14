@@ -19,7 +19,7 @@ public class FPP_Control : MonoBehaviour
             FPP_Move.moveAct?.Invoke();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             FPP_Manager.Instance.GetMove().SitUpDown();
         }

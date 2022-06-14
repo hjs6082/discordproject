@@ -27,14 +27,13 @@ public class Photo : MonoBehaviour
 
             
 
-            FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[1]); // 손바닥
         }
     }
 
     private void OnMouseExit()
     {
         bCursorChanged = false;
-        FPP_MouseCursor.ChangeCursor(FPP_Manager.Instance.cursor_Textures[0], false); // 손바닥
+        FPP_MouseCursor.InitCursor();
     }
 
     private void OnMouseDown()

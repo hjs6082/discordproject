@@ -71,8 +71,8 @@ public class PlayerMove : MonoBehaviour
         isMove = true;
         dur = (int)rotateEndVal / 90;
 
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.MoveSound();
+        //if (AudioManager.Instance != null)
+        //    AudioManager.Instance.MoveSound();
 
         switch (dur)
         {

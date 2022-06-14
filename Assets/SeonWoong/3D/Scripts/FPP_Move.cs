@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class FPP_Move : MonoBehaviour
 {
-    private const float MOVE_SPEED = 3.0f;
+    private const float MOVE_SPEED = 2.0f;
     private const float LOOK_SPEED = 2.0f;
     private const float LOOK_X_LIMIT = 70.0f;
 
@@ -20,6 +20,7 @@ public class FPP_Move : MonoBehaviour
     private float moveZ   = 0.0f;
     private float curRotateX = 0.0f;
     private float curRotateY = 0.0f;
+    private RaycastHit hit;
 
     private bool canSit = true;
 
@@ -37,11 +38,6 @@ public class FPP_Move : MonoBehaviour
 
     private void Update()
     {
-        // if (isRotate)
-        // {
-        //     FollowRotate();
-        // }
-
         if(!bObject && !GameManager.Instance.bPause)
         {
             FPP_Control.inputAct?.Invoke();
@@ -89,34 +85,26 @@ public class FPP_Move : MonoBehaviour
             
             return;
         }
-        
-
-        // if(isRotate)
-        // {
-        //     isRotate = false;
-        // }
     }
 
     public void MovePlayer()
     {
-        moveX = Input.GetAxis("Vertical") * MOVE_SPEED;
-        moveZ = Input.GetAxis("Horizontal") * MOVE_SPEED;
+        moveX = Input.GetAxis("Horizontal") * MOVE_SPEED;
+        moveZ = Input.GetAxis("Vertical") * MOVE_SPEED;
 
         if(moveX != 0.0f || moveZ != 0.0f)
         {
-            Vector3 moveOffset = ((player.forward * moveX) + (player.right * moveZ)) * Time.deltaTime;
+            Vector3 moveOffset = ((player.forward * moveZ) + (player.right * moveX)) * Time.deltaTime;
             moveOffset.y = 0.0f;
+            
+            Vector3 rayOrigin = player.position;
+            bool isHit = Physics.Raycast(rayOrigin, moveOffset, out hit, 0.5f);
+            Debug.DrawRay(rayOrigin, moveOffset, Color.magenta, 1.0f);
 
-            if(player.position.x + moveOffset.x + 0.5f > walls[0].position.x || 
-            player.position.x + moveOffset.x - 0.5f < walls[1].position.x)
+            if(isHit)
             {
-                moveOffset.x = 0;
-            }
-
-            if(player.position.z + moveOffset.z + 0.5f > walls[2].position.z || 
-            player.position.z + moveOffset.z - 0.5f < walls[3].position.z)
-            {
-                moveOffset.z = 0;
+                Debug.Log(hit.distance);
+                
             }
 
             player.position += moveOffset;
